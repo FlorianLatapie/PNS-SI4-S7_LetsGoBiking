@@ -20,7 +20,9 @@ namespace RoutingServer
         public string GetItinerary(string origin, string destination)
         {
             var contracts = proxy.contracts();
-            return "Routing server : not yet implemented !" + "\n" + origin + "\n" + destination + "\n" + contracts[0].name;
+            var res = "Routing server : " + "\n" + origin + "\n" + destination + "\n" + contracts[0].name;
+
+            return res;
         }
     }
 }
