@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using System.ServiceModel;
 using System.ServiceModel.Description;
 
-namespace ConsoleApp_for_Self_Hosted_WS
+namespace ProxyServer
 {
     class Program
     {
@@ -41,6 +41,7 @@ namespace ConsoleApp_for_Self_Hosted_WS
             //Start the Service
             host.Open();
 
+            Console.WriteLine("PROXY SERVER");
             Console.WriteLine("Service is host at " + DateTime.Now.ToString());
             Console.WriteLine("Host is running... Press <Enter> key to stop");
             Console.ReadLine();
