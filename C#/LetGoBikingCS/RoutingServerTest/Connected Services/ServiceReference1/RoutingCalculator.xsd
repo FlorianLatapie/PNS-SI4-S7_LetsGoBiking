@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://tempuri.org/" elementFormDefault="qualified" targetNamespace="http://tempuri.org/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import schemaLocation="http://localhost:8090/MyService/RoutingCalculator?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/RoutingServer" />
+  <xs:element name="GetItinerary">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="origin" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="destination" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetItineraryResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q1="http://schemas.datacontract.org/2004/07/RoutingServer" minOccurs="0" name="GetItineraryResult" nillable="true" type="q1:Converter.ReturnItem" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>
