@@ -12,49 +12,49 @@ namespace RoutingServerTest.ServiceReference1 {
     
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    [System.ServiceModel.ServiceContractAttribute(ConfigurationName="ServiceReference1.ISimpleCalculator")]
-    public interface ISimpleCalculator {
+    [System.ServiceModel.ServiceContractAttribute(ConfigurationName="ServiceReference1.IRoutingCalculator")]
+    public interface IRoutingCalculator {
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ISimpleCalculator/Add", ReplyAction="http://tempuri.org/ISimpleCalculator/AddResponse")]
-        int Add(int num1, int num2);
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IRoutingCalculator/GetItinerary", ReplyAction="http://tempuri.org/IRoutingCalculator/GetItineraryResponse")]
+        string GetItinerary(string origin, string destination);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ISimpleCalculator/Add", ReplyAction="http://tempuri.org/ISimpleCalculator/AddResponse")]
-        System.Threading.Tasks.Task<int> AddAsync(int num1, int num2);
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IRoutingCalculator/GetItinerary", ReplyAction="http://tempuri.org/IRoutingCalculator/GetItineraryResponse")]
+        System.Threading.Tasks.Task<string> GetItineraryAsync(string origin, string destination);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    public interface ISimpleCalculatorChannel : RoutingServerTest.ServiceReference1.ISimpleCalculator, System.ServiceModel.IClientChannel {
+    public interface IRoutingCalculatorChannel : RoutingServerTest.ServiceReference1.IRoutingCalculator, System.ServiceModel.IClientChannel {
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    public partial class SimpleCalculatorClient : System.ServiceModel.ClientBase<RoutingServerTest.ServiceReference1.ISimpleCalculator>, RoutingServerTest.ServiceReference1.ISimpleCalculator {
+    public partial class RoutingCalculatorClient : System.ServiceModel.ClientBase<RoutingServerTest.ServiceReference1.IRoutingCalculator>, RoutingServerTest.ServiceReference1.IRoutingCalculator {
         
-        public SimpleCalculatorClient() {
+        public RoutingCalculatorClient() {
         }
         
-        public SimpleCalculatorClient(string endpointConfigurationName) : 
+        public RoutingCalculatorClient(string endpointConfigurationName) : 
                 base(endpointConfigurationName) {
         }
         
-        public SimpleCalculatorClient(string endpointConfigurationName, string remoteAddress) : 
+        public RoutingCalculatorClient(string endpointConfigurationName, string remoteAddress) : 
                 base(endpointConfigurationName, remoteAddress) {
         }
         
-        public SimpleCalculatorClient(string endpointConfigurationName, System.ServiceModel.EndpointAddress remoteAddress) : 
+        public RoutingCalculatorClient(string endpointConfigurationName, System.ServiceModel.EndpointAddress remoteAddress) : 
                 base(endpointConfigurationName, remoteAddress) {
         }
         
-        public SimpleCalculatorClient(System.ServiceModel.Channels.Binding binding, System.ServiceModel.EndpointAddress remoteAddress) : 
+        public RoutingCalculatorClient(System.ServiceModel.Channels.Binding binding, System.ServiceModel.EndpointAddress remoteAddress) : 
                 base(binding, remoteAddress) {
         }
         
-        public int Add(int num1, int num2) {
-            return base.Channel.Add(num1, num2);
+        public string GetItinerary(string origin, string destination) {
+            return base.Channel.GetItinerary(origin, destination);
         }
         
-        public System.Threading.Tasks.Task<int> AddAsync(int num1, int num2) {
-            return base.Channel.AddAsync(num1, num2);
+        public System.Threading.Tasks.Task<string> GetItineraryAsync(string origin, string destination) {
+            return base.Channel.GetItineraryAsync(origin, destination);
         }
     }
 }

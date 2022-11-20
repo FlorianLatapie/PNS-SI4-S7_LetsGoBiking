@@ -18,20 +18,20 @@ namespace RoutingServer
             //Create a URI to serve as the base address
             //Be careful to run Visual Studio as Admistrator or to allow VS to open new port netsh command. 
             // Example : netsh http add urlacl url=http://+:80/MyUri user=DOMAIN\user
-            Uri httpUrl = new Uri("http://localhost:8090/MyService/SimpleCalculator");
+            Uri httpUrl = new Uri("http://localhost:8090/MyService/RoutingCalculator");
 
             //Create ServiceHost
-            ServiceHost host = new ServiceHost(typeof(SimpleCalculator), httpUrl);
+            ServiceHost host = new ServiceHost(typeof(RoutingCalculator), httpUrl);
 
             // Multiple end points can be added to the Service using AddServiceEndpoint() method.
             // Host.Open() will run the service, so that it can be used by any client.
 
             // Example adding :
-            // Uri tcpUrl = new Uri("net.tcp://localhost:8090/MyService/SimpleCalculator");
-            // ServiceHost host = new ServiceHost(typeof(MyCalculatorService.SimpleCalculator), httpUrl, tcpUrl);
+            // Uri tcpUrl = new Uri("net.tcp://localhost:8090/MyService/RoutingCalculator");
+            // ServiceHost host = new ServiceHost(typeof(MyCalculatorService.RoutingCalculator), httpUrl, tcpUrl);
 
             //Add a service endpoint
-            host.AddServiceEndpoint(typeof(ISimpleCalculator), new WSHttpBinding(), ""); 
+            host.AddServiceEndpoint(typeof(IRoutingCalculator), new WSHttpBinding(), ""); 
 
             //Enable metadata exchange
             ServiceMetadataBehavior smb = new ServiceMetadataBehavior();

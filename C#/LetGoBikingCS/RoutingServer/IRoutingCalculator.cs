@@ -9,9 +9,9 @@ using System.ServiceModel;
 namespace RoutingServer
 {
     [ServiceContract()]
-    public interface ISimpleCalculator
+    public interface IRoutingCalculator
     {
         [OperationContract()]
-        int Add(int num1, int num2);
+        string GetItinerary(string origin, string destination);
     }
 }

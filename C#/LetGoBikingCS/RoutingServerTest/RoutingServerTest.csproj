@@ -55,11 +55,11 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <None Include="Connected Services\ServiceReference1\SimpleCalculator.wsdl" />
-    <None Include="Connected Services\ServiceReference1\SimpleCalculator.xsd">
+    <None Include="Connected Services\ServiceReference1\RoutingCalculator.wsdl" />
+    <None Include="Connected Services\ServiceReference1\RoutingCalculator.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Connected Services\ServiceReference1\SimpleCalculator1.xsd">
+    <None Include="Connected Services\ServiceReference1\RoutingCalculator1.xsd">
       <SubType>Designer</SubType>
     </None>
   </ItemGroup>

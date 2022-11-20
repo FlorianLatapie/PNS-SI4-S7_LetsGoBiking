@@ -11,8 +11,8 @@ namespace RoutingServerTest
     {
         static void Main(string[] args)
         {
-            var test = new SimpleCalculatorClient();
-            Console.WriteLine(test.Add(1, 2));
+            var test = new RoutingCalculatorClient();
+            Console.WriteLine(test.GetItinerary("a", "b"));
             Console.ReadLine();
         }
     }

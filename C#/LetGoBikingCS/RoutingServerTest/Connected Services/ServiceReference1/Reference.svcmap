@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ReferenceGroup xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ID="d276e24b-b212-4cff-832f-0cbfce0faf84" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+<ReferenceGroup xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ID="1439e054-7078-411b-a196-5d5a58c9f8da" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
   <ClientOptions>
     <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
     <GenerateTaskBasedAsynchronousMethod>true</GenerateTaskBasedAsynchronousMethod>
@@ -19,12 +19,12 @@
     <ServiceContractMappings />
   </ClientOptions>
   <MetadataSources>
-    <MetadataSource Address="http://localhost:8090/MyService/SimpleCalculator?wsdl" Protocol="http" SourceId="1" />
+    <MetadataSource Address="http://localhost:8090/MyService/RoutingCalculator?wsdl" Protocol="http" SourceId="1" />
   </MetadataSources>
   <Metadata>
-    <MetadataFile FileName="SimpleCalculator.wsdl" MetadataType="Wsdl" ID="2a07c635-7a0a-4eed-a352-7888d07c5fb1" SourceId="1" SourceUrl="http://localhost:8090/MyService/SimpleCalculator?wsdl" />
-    <MetadataFile FileName="SimpleCalculator.xsd" MetadataType="Schema" ID="3991aa56-852a-4c63-9a73-45f5dc4034bb" SourceId="1" SourceUrl="http://localhost:8090/MyService/SimpleCalculator?xsd=xsd0" />
-    <MetadataFile FileName="SimpleCalculator1.xsd" MetadataType="Schema" ID="9124a83d-8079-408f-8d3b-1f90b0eb8ed8" SourceId="1" SourceUrl="http://localhost:8090/MyService/SimpleCalculator?xsd=xsd1" />
+    <MetadataFile FileName="RoutingCalculator.xsd" MetadataType="Schema" ID="557d377f-1b71-46de-b430-634d9eefccec" SourceId="1" SourceUrl="http://localhost:8090/MyService/RoutingCalculator?xsd=xsd0" />
+    <MetadataFile FileName="RoutingCalculator1.xsd" MetadataType="Schema" ID="d62ad5f1-850f-4d89-a284-0a0eec8351fe" SourceId="1" SourceUrl="http://localhost:8090/MyService/RoutingCalculator?xsd=xsd1" />
+    <MetadataFile FileName="RoutingCalculator.wsdl" MetadataType="Wsdl" ID="6dcc5d96-db2f-4454-9087-2faf7f3c8e32" SourceId="1" SourceUrl="http://localhost:8090/MyService/RoutingCalculator?wsdl" />
   </Metadata>
   <Extensions>
     <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
