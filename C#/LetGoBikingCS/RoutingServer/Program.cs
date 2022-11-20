@@ -27,7 +27,7 @@ namespace RoutingServer
             // ServiceHost host = new ServiceHost(typeof(MyCalculatorService.RoutingCalculator), httpUrl, tcpUrl);
 
             //Add a service endpoint
-            host.AddServiceEndpoint(typeof(IRoutingCalculator), new WSHttpBinding(), ""); 
+            host.AddServiceEndpoint(typeof(IRoutingCalculator), new WSHttpBinding(), "");
 
             //Enable metadata exchange
             var smb = new ServiceMetadataBehavior
@@ -35,7 +35,7 @@ namespace RoutingServer
                 HttpGetEnabled = true
             };
             host.Description.Behaviors.Add(smb);
-            
+
             //Start the Service
             host.Open();
 

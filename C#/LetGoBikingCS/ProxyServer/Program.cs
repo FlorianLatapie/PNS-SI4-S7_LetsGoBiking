@@ -27,7 +27,7 @@ namespace ProxyServer
             // ServiceHost host = new ServiceHost(typeof(MyCalculatorService.APIJCDecauxProxy), httpUrl, tcpUrl);
 
             //Add a service endpoint
-            host.AddServiceEndpoint(typeof(IAPIJCDecauxProxy), new WSHttpBinding(), ""); 
+            host.AddServiceEndpoint(typeof(IAPIJCDecauxProxy), new WSHttpBinding(), "");
 
             //Enable metadata exchange
             var smb = new ServiceMetadataBehavior
@@ -35,7 +35,7 @@ namespace ProxyServer
                 HttpGetEnabled = true
             };
             host.Description.Behaviors.Add(smb);
-            
+
             //Start the Service
             host.Open();
 

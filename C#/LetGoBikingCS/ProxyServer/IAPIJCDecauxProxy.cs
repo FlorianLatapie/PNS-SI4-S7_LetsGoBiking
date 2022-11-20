@@ -4,7 +4,6 @@ using System.ServiceModel;
 
 namespace ProxyServer
 {
-
     [ServiceContract]
     public interface IAPIJCDecauxProxy
     {
@@ -17,6 +16,4 @@ namespace ProxyServer
         [OperationContract]
         Station StationOfContract(string contractName, int stationNumber);
     }
-
-
 }
