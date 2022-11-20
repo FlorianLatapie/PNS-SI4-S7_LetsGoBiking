@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ReferenceGroup xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ID="02d98ed2-2acc-48ac-ba85-c6cd2243e277" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+  <ClientOptions>
+    <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
+    <GenerateTaskBasedAsynchronousMethod>true</GenerateTaskBasedAsynchronousMethod>
+    <EnableDataBinding>true</EnableDataBinding>
+    <ExcludedTypes />
+    <ImportXmlTypes>false</ImportXmlTypes>
+    <GenerateInternalTypes>false</GenerateInternalTypes>
+    <GenerateMessageContracts>false</GenerateMessageContracts>
+    <NamespaceMappings />
+    <CollectionMappings />
+    <GenerateSerializableTypes>true</GenerateSerializableTypes>
+    <Serializer>Auto</Serializer>
+    <UseSerializerForFaults>true</UseSerializerForFaults>
+    <ReferenceAllAssemblies>true</ReferenceAllAssemblies>
+    <ReferencedAssemblies />
+    <ReferencedDataContractTypes />
+    <ServiceContractMappings />
+  </ClientOptions>
+  <MetadataSources>
+    <MetadataSource Address="http://localhost:8090/MyService/APIJCDecauxProxy?wsdl" Protocol="http" SourceId="1" />
+  </MetadataSources>
+  <Metadata>
+    <MetadataFile FileName="APIJCDecauxProxy.xsd" MetadataType="Schema" ID="9709924c-ddb0-423b-9a72-ec6e4ec34187" SourceId="1" SourceUrl="http://localhost:8090/MyService/APIJCDecauxProxy?xsd=xsd3" />
+    <MetadataFile FileName="APIJCDecauxProxy1.xsd" MetadataType="Schema" ID="ca938069-dc55-4955-8862-e3309fcae459" SourceId="1" SourceUrl="http://localhost:8090/MyService/APIJCDecauxProxy?xsd=xsd2" />
+    <MetadataFile FileName="APIJCDecauxProxy2.xsd" MetadataType="Schema" ID="32fe8773-cdfc-4d09-8638-b5c29702afa6" SourceId="1" SourceUrl="http://localhost:8090/MyService/APIJCDecauxProxy?xsd=xsd1" />
+    <MetadataFile FileName="APIJCDecauxProxy3.xsd" MetadataType="Schema" ID="610c3319-292e-4015-8c51-f7dfbb5ffff3" SourceId="1" SourceUrl="http://localhost:8090/MyService/APIJCDecauxProxy?xsd=xsd0" />
+    <MetadataFile FileName="APIJCDecauxProxy.wsdl" MetadataType="Wsdl" ID="056eb492-965f-4016-93c8-f9fbae1faed7" SourceId="1" SourceUrl="http://localhost:8090/MyService/APIJCDecauxProxy?wsdl" />
+  </Metadata>
+  <Extensions>
+    <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
+    <ExtensionFile FileName="configuration.svcinfo" Name="configuration.svcinfo" />
+  </Extensions>
+</ReferenceGroup>

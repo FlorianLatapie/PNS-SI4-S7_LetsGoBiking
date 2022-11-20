@@ -10,17 +10,19 @@ namespace ProxyServer
     {
         public List<Contract> contracts()
         {
-            throw new NotImplementedException();
+            // return list with one contract for test
+            return new List<Contract>() { new Contract() { name = "Paris", commercial_name = "Paris", country_code = "FR" } };
         }
 
         public Station stationOfContract(string contractName, int stationNumber)
         {
-            throw new NotImplementedException();
+            // return station for the test 
+            return new Station();
         }
 
         public List<Station> stationsOfContract(string contractName)
         {
-            throw new NotImplementedException();
+            return new List<Station>() { new Station() };
         }
     }
 }
