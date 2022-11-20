@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+using System.Globalization;
 
 // add the WCF ServiceModel namespace 
 using System.ServiceModel;
@@ -11,17 +7,17 @@ using System.ServiceModel.Description;
 
 namespace RoutingServer
 {
-    class Program
+    internal static class Program
     {
         static void Main(string[] args)
         {
             //Create a URI to serve as the base address
             //Be careful to run Visual Studio as Admistrator or to allow VS to open new port netsh command. 
             // Example : netsh http add urlacl url=http://+:80/MyUri user=DOMAIN\user
-            Uri httpUrl = new Uri("http://localhost:8090/MyService/RoutingCalculator");
+            var httpUrl = new Uri("http://localhost:8090/MyService/RoutingCalculator");
 
             //Create ServiceHost
-            ServiceHost host = new ServiceHost(typeof(RoutingCalculator), httpUrl);
+            var host = new ServiceHost(typeof(RoutingCalculator), httpUrl);
 
             // Multiple end points can be added to the Service using AddServiceEndpoint() method.
             // Host.Open() will run the service, so that it can be used by any client.
@@ -34,15 +30,17 @@ namespace RoutingServer
             host.AddServiceEndpoint(typeof(IRoutingCalculator), new WSHttpBinding(), ""); 
 
             //Enable metadata exchange
-            ServiceMetadataBehavior smb = new ServiceMetadataBehavior();
-            smb.HttpGetEnabled = true;
+            var smb = new ServiceMetadataBehavior
+            {
+                HttpGetEnabled = true
+            };
             host.Description.Behaviors.Add(smb);
             
             //Start the Service
             host.Open();
 
             Console.WriteLine("ROUTING SERVER");
-            Console.WriteLine("Service is host at " + DateTime.Now.ToString());
+            Console.WriteLine("Service is host at " + DateTime.Now.ToString(CultureInfo.InvariantCulture));
             Console.WriteLine("Host is running... Press <Enter> key to stop");
             Console.ReadLine();
         }

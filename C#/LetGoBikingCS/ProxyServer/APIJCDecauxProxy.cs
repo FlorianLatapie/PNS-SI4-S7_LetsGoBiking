@@ -4,26 +4,26 @@ using System.Text.Json;
 
 namespace ProxyServer
 {
-    class APIJCDecauxProxy : IAPIJCDecauxProxy
+    internal class ApijcDecauxProxy : IAPIJCDecauxProxy
     {
-        private static readonly string apiKey = "b695836afb4b0f2d7df5b107c46f4c2f190fcffc";
-        private static readonly string keyURI = $"?apiKey={apiKey}";
-        private static readonly string baseURI = "https://api.jcdecaux.com/vls/v3/";
-        
-        static readonly HttpClient client = new HttpClient();
+        private const string ApiKey = "b695836afb4b0f2d7df5b107c46f4c2f190fcffc";
+        private static readonly string KeyUri = $"?apiKey={ApiKey}";
+        private const string BaseUri = "https://api.jcdecaux.com/vls/v3/";
 
-        public List<Contract> contracts()
+        private static readonly HttpClient Client = new HttpClient();
+
+        public List<Contract> Contracts()
         {
-            var JCDecauxResponseBody = client.GetStringAsync(baseURI + "contracts" + keyURI);
-            return JsonSerializer.Deserialize<List<Contract>>(JCDecauxResponseBody.Result);
+            var jcDecauxResponseBody = Client.GetStringAsync(BaseUri + "contracts" + KeyUri);
+            return JsonSerializer.Deserialize<List<Contract>>(jcDecauxResponseBody.Result);
         }
 
-        public Station stationOfContract(string contractName, int stationNumber)
+        public Station StationOfContract(string contractName, int stationNumber)
         {
             return new Station();
         }
 
-        public List<Station> stationsOfContract(string contractName)
+        public List<Station> StationsOfContract(string contractName)
         {
             return new List<Station>() { new Station() };
         }

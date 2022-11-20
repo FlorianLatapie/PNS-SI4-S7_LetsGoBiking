@@ -1,25 +1,20 @@
 ﻿using RoutingServer.ServiceReference1;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace RoutingServer
 {
-    class RoutingCalculator : IRoutingCalculator
+    internal class RoutingCalculator : IRoutingCalculator
     {
-        private APIJCDecauxProxyClient proxy;
+        private APIJCDecauxProxyClient _proxy;
 
         public RoutingCalculator()
         {
-            proxy = new APIJCDecauxProxyClient();
+            _proxy = new APIJCDecauxProxyClient();
         }
 
 
         public string GetItinerary(string origin, string destination)
         {
-            var contracts = proxy.contracts();
+            var contracts = _proxy.Contracts();
             var res = "Routing server : " + "\n" + origin + "\n" + destination + "\n" + contracts[0].name;
 
             return res;

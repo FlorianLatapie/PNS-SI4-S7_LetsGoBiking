@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+using System.Globalization;
 
 // add the WCF ServiceModel namespace 
 using System.ServiceModel;
@@ -11,17 +7,17 @@ using System.ServiceModel.Description;
 
 namespace ProxyServer
 {
-    class Program
+    internal static class Program
     {
         static void Main(string[] args)
         {
             //Create a URI to serve as the base address
-            //Be careful to run Visual Studio as Admistrator or to allow VS to open new port netsh command. 
+            //Be careful to run Visual Studio as Administrator or to allow VS to open new port netsh command. 
             // Example : netsh http add urlacl url=http://+:80/MyUri user=DOMAIN\user
-            Uri httpUrl = new Uri("http://localhost:8090/MyService/APIJCDecauxProxy");
+            var httpUrl = new Uri("http://localhost:8090/MyService/APIJCDecauxProxy");
 
             //Create ServiceHost
-            ServiceHost host = new ServiceHost(typeof(APIJCDecauxProxy), httpUrl);
+            var host = new ServiceHost(typeof(ApijcDecauxProxy), httpUrl);
 
             // Multiple end points can be added to the Service using AddServiceEndpoint() method.
             // Host.Open() will run the service, so that it can be used by any client.
@@ -34,15 +30,17 @@ namespace ProxyServer
             host.AddServiceEndpoint(typeof(IAPIJCDecauxProxy), new WSHttpBinding(), ""); 
 
             //Enable metadata exchange
-            ServiceMetadataBehavior smb = new ServiceMetadataBehavior();
-            smb.HttpGetEnabled = true;
+            var smb = new ServiceMetadataBehavior
+            {
+                HttpGetEnabled = true
+            };
             host.Description.Behaviors.Add(smb);
             
             //Start the Service
             host.Open();
 
             Console.WriteLine("PROXY SERVER");
-            Console.WriteLine("Service is host at " + DateTime.Now.ToString());
+            Console.WriteLine("Service is host at " + DateTime.Now.ToString(CultureInfo.InvariantCulture));
             Console.WriteLine("Host is running... Press <Enter> key to stop");
             Console.ReadLine();
         }

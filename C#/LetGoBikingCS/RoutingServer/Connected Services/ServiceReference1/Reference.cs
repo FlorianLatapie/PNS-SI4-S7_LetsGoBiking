@@ -695,23 +695,23 @@ namespace RoutingServer.ServiceReference1 {
     [System.ServiceModel.ServiceContractAttribute(ConfigurationName="ServiceReference1.IAPIJCDecauxProxy")]
     public interface IAPIJCDecauxProxy {
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAPIJCDecauxProxy/contracts", ReplyAction="http://tempuri.org/IAPIJCDecauxProxy/contractsResponse")]
-        RoutingServer.ServiceReference1.Contract[] contracts();
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAPIJCDecauxProxy/Contracts", ReplyAction="http://tempuri.org/IAPIJCDecauxProxy/ContractsResponse")]
+        RoutingServer.ServiceReference1.Contract[] Contracts();
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAPIJCDecauxProxy/contracts", ReplyAction="http://tempuri.org/IAPIJCDecauxProxy/contractsResponse")]
-        System.Threading.Tasks.Task<RoutingServer.ServiceReference1.Contract[]> contractsAsync();
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAPIJCDecauxProxy/Contracts", ReplyAction="http://tempuri.org/IAPIJCDecauxProxy/ContractsResponse")]
+        System.Threading.Tasks.Task<RoutingServer.ServiceReference1.Contract[]> ContractsAsync();
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAPIJCDecauxProxy/stationsOfContract", ReplyAction="http://tempuri.org/IAPIJCDecauxProxy/stationsOfContractResponse")]
-        RoutingServer.ServiceReference1.Station[] stationsOfContract(string contractName);
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAPIJCDecauxProxy/StationsOfContract", ReplyAction="http://tempuri.org/IAPIJCDecauxProxy/StationsOfContractResponse")]
+        RoutingServer.ServiceReference1.Station[] StationsOfContract(string contractName);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAPIJCDecauxProxy/stationsOfContract", ReplyAction="http://tempuri.org/IAPIJCDecauxProxy/stationsOfContractResponse")]
-        System.Threading.Tasks.Task<RoutingServer.ServiceReference1.Station[]> stationsOfContractAsync(string contractName);
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAPIJCDecauxProxy/StationsOfContract", ReplyAction="http://tempuri.org/IAPIJCDecauxProxy/StationsOfContractResponse")]
+        System.Threading.Tasks.Task<RoutingServer.ServiceReference1.Station[]> StationsOfContractAsync(string contractName);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAPIJCDecauxProxy/stationOfContract", ReplyAction="http://tempuri.org/IAPIJCDecauxProxy/stationOfContractResponse")]
-        RoutingServer.ServiceReference1.Station stationOfContract(string contractName, int stationNumber);
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAPIJCDecauxProxy/StationOfContract", ReplyAction="http://tempuri.org/IAPIJCDecauxProxy/StationOfContractResponse")]
+        RoutingServer.ServiceReference1.Station StationOfContract(string contractName, int stationNumber);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAPIJCDecauxProxy/stationOfContract", ReplyAction="http://tempuri.org/IAPIJCDecauxProxy/stationOfContractResponse")]
-        System.Threading.Tasks.Task<RoutingServer.ServiceReference1.Station> stationOfContractAsync(string contractName, int stationNumber);
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAPIJCDecauxProxy/StationOfContract", ReplyAction="http://tempuri.org/IAPIJCDecauxProxy/StationOfContractResponse")]
+        System.Threading.Tasks.Task<RoutingServer.ServiceReference1.Station> StationOfContractAsync(string contractName, int stationNumber);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -741,28 +741,28 @@ namespace RoutingServer.ServiceReference1 {
                 base(binding, remoteAddress) {
         }
         
-        public RoutingServer.ServiceReference1.Contract[] contracts() {
-            return base.Channel.contracts();
+        public RoutingServer.ServiceReference1.Contract[] Contracts() {
+            return base.Channel.Contracts();
         }
         
-        public System.Threading.Tasks.Task<RoutingServer.ServiceReference1.Contract[]> contractsAsync() {
-            return base.Channel.contractsAsync();
+        public System.Threading.Tasks.Task<RoutingServer.ServiceReference1.Contract[]> ContractsAsync() {
+            return base.Channel.ContractsAsync();
         }
         
-        public RoutingServer.ServiceReference1.Station[] stationsOfContract(string contractName) {
-            return base.Channel.stationsOfContract(contractName);
+        public RoutingServer.ServiceReference1.Station[] StationsOfContract(string contractName) {
+            return base.Channel.StationsOfContract(contractName);
         }
         
-        public System.Threading.Tasks.Task<RoutingServer.ServiceReference1.Station[]> stationsOfContractAsync(string contractName) {
-            return base.Channel.stationsOfContractAsync(contractName);
+        public System.Threading.Tasks.Task<RoutingServer.ServiceReference1.Station[]> StationsOfContractAsync(string contractName) {
+            return base.Channel.StationsOfContractAsync(contractName);
         }
         
-        public RoutingServer.ServiceReference1.Station stationOfContract(string contractName, int stationNumber) {
-            return base.Channel.stationOfContract(contractName, stationNumber);
+        public RoutingServer.ServiceReference1.Station StationOfContract(string contractName, int stationNumber) {
+            return base.Channel.StationOfContract(contractName, stationNumber);
         }
         
-        public System.Threading.Tasks.Task<RoutingServer.ServiceReference1.Station> stationOfContractAsync(string contractName, int stationNumber) {
-            return base.Channel.stationOfContractAsync(contractName, stationNumber);
+        public System.Threading.Tasks.Task<RoutingServer.ServiceReference1.Station> StationOfContractAsync(string contractName, int stationNumber) {
+            return base.Channel.StationOfContractAsync(contractName, stationNumber);
         }
     }
 }

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<wsdl:definitions xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:wsx="http://schemas.xmlsoap.org/ws/2004/09/mex" xmlns:wsap="http://schemas.xmlsoap.org/ws/2004/08/addressing/policy" xmlns:msc="http://schemas.microsoft.com/ws/2005/12/wsdl/contract" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tns="http://tempuri.org/" xmlns:wsa10="http://www.w3.org/2005/08/addressing" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing" name="APIJCDecauxProxy" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+<wsdl:definitions xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:wsx="http://schemas.xmlsoap.org/ws/2004/09/mex" xmlns:wsap="http://schemas.xmlsoap.org/ws/2004/08/addressing/policy" xmlns:msc="http://schemas.microsoft.com/ws/2005/12/wsdl/contract" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tns="http://tempuri.org/" xmlns:wsa10="http://www.w3.org/2005/08/addressing" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing" name="ApijcDecauxProxy" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
   <wsp:Policy wsu:Id="WSHttpBinding_IAPIJCDecauxProxy_policy">
     <wsp:ExactlyOne>
       <wsp:All>
@@ -96,7 +96,7 @@
       </wsp:All>
     </wsp:ExactlyOne>
   </wsp:Policy>
-  <wsp:Policy wsu:Id="WSHttpBinding_IAPIJCDecauxProxy_contracts_Input_policy">
+  <wsp:Policy wsu:Id="WSHttpBinding_IAPIJCDecauxProxy_Contracts_Input_policy">
     <wsp:ExactlyOne>
       <wsp:All>
         <sp:SignedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
@@ -115,7 +115,7 @@
       </wsp:All>
     </wsp:ExactlyOne>
   </wsp:Policy>
-  <wsp:Policy wsu:Id="WSHttpBinding_IAPIJCDecauxProxy_contracts_output_policy">
+  <wsp:Policy wsu:Id="WSHttpBinding_IAPIJCDecauxProxy_Contracts_output_policy">
     <wsp:ExactlyOne>
       <wsp:All>
         <sp:SignedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
@@ -134,7 +134,7 @@
       </wsp:All>
     </wsp:ExactlyOne>
   </wsp:Policy>
-  <wsp:Policy wsu:Id="WSHttpBinding_IAPIJCDecauxProxy_stationsOfContract_Input_policy">
+  <wsp:Policy wsu:Id="WSHttpBinding_IAPIJCDecauxProxy_StationsOfContract_Input_policy">
     <wsp:ExactlyOne>
       <wsp:All>
         <sp:SignedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
@@ -153,7 +153,7 @@
       </wsp:All>
     </wsp:ExactlyOne>
   </wsp:Policy>
-  <wsp:Policy wsu:Id="WSHttpBinding_IAPIJCDecauxProxy_stationsOfContract_output_policy">
+  <wsp:Policy wsu:Id="WSHttpBinding_IAPIJCDecauxProxy_StationsOfContract_output_policy">
     <wsp:ExactlyOne>
       <wsp:All>
         <sp:SignedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
@@ -172,7 +172,7 @@
       </wsp:All>
     </wsp:ExactlyOne>
   </wsp:Policy>
-  <wsp:Policy wsu:Id="WSHttpBinding_IAPIJCDecauxProxy_stationOfContract_Input_policy">
+  <wsp:Policy wsu:Id="WSHttpBinding_IAPIJCDecauxProxy_StationOfContract_Input_policy">
     <wsp:ExactlyOne>
       <wsp:All>
         <sp:SignedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
@@ -191,7 +191,7 @@
       </wsp:All>
     </wsp:ExactlyOne>
   </wsp:Policy>
-  <wsp:Policy wsu:Id="WSHttpBinding_IAPIJCDecauxProxy_stationOfContract_output_policy">
+  <wsp:Policy wsu:Id="WSHttpBinding_IAPIJCDecauxProxy_StationOfContract_output_policy">
     <wsp:ExactlyOne>
       <wsp:All>
         <sp:SignedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
@@ -218,76 +218,76 @@
       <xsd:import schemaLocation="http://localhost:8090/MyService/APIJCDecauxProxy?xsd=xsd3" namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
     </xsd:schema>
   </wsdl:types>
-  <wsdl:message name="IAPIJCDecauxProxy_contracts_InputMessage">
-    <wsdl:part name="parameters" element="tns:contracts" />
+  <wsdl:message name="IAPIJCDecauxProxy_Contracts_InputMessage">
+    <wsdl:part name="parameters" element="tns:Contracts" />
   </wsdl:message>
-  <wsdl:message name="IAPIJCDecauxProxy_contracts_OutputMessage">
-    <wsdl:part name="parameters" element="tns:contractsResponse" />
+  <wsdl:message name="IAPIJCDecauxProxy_Contracts_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ContractsResponse" />
   </wsdl:message>
-  <wsdl:message name="IAPIJCDecauxProxy_stationsOfContract_InputMessage">
-    <wsdl:part name="parameters" element="tns:stationsOfContract" />
+  <wsdl:message name="IAPIJCDecauxProxy_StationsOfContract_InputMessage">
+    <wsdl:part name="parameters" element="tns:StationsOfContract" />
   </wsdl:message>
-  <wsdl:message name="IAPIJCDecauxProxy_stationsOfContract_OutputMessage">
-    <wsdl:part name="parameters" element="tns:stationsOfContractResponse" />
+  <wsdl:message name="IAPIJCDecauxProxy_StationsOfContract_OutputMessage">
+    <wsdl:part name="parameters" element="tns:StationsOfContractResponse" />
   </wsdl:message>
-  <wsdl:message name="IAPIJCDecauxProxy_stationOfContract_InputMessage">
-    <wsdl:part name="parameters" element="tns:stationOfContract" />
+  <wsdl:message name="IAPIJCDecauxProxy_StationOfContract_InputMessage">
+    <wsdl:part name="parameters" element="tns:StationOfContract" />
   </wsdl:message>
-  <wsdl:message name="IAPIJCDecauxProxy_stationOfContract_OutputMessage">
-    <wsdl:part name="parameters" element="tns:stationOfContractResponse" />
+  <wsdl:message name="IAPIJCDecauxProxy_StationOfContract_OutputMessage">
+    <wsdl:part name="parameters" element="tns:StationOfContractResponse" />
   </wsdl:message>
   <wsdl:portType name="IAPIJCDecauxProxy">
-    <wsdl:operation name="contracts">
-      <wsdl:input wsaw:Action="http://tempuri.org/IAPIJCDecauxProxy/contracts" message="tns:IAPIJCDecauxProxy_contracts_InputMessage" />
-      <wsdl:output wsaw:Action="http://tempuri.org/IAPIJCDecauxProxy/contractsResponse" message="tns:IAPIJCDecauxProxy_contracts_OutputMessage" />
+    <wsdl:operation name="Contracts">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAPIJCDecauxProxy/Contracts" message="tns:IAPIJCDecauxProxy_Contracts_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAPIJCDecauxProxy/ContractsResponse" message="tns:IAPIJCDecauxProxy_Contracts_OutputMessage" />
     </wsdl:operation>
-    <wsdl:operation name="stationsOfContract">
-      <wsdl:input wsaw:Action="http://tempuri.org/IAPIJCDecauxProxy/stationsOfContract" message="tns:IAPIJCDecauxProxy_stationsOfContract_InputMessage" />
-      <wsdl:output wsaw:Action="http://tempuri.org/IAPIJCDecauxProxy/stationsOfContractResponse" message="tns:IAPIJCDecauxProxy_stationsOfContract_OutputMessage" />
+    <wsdl:operation name="StationsOfContract">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAPIJCDecauxProxy/StationsOfContract" message="tns:IAPIJCDecauxProxy_StationsOfContract_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAPIJCDecauxProxy/StationsOfContractResponse" message="tns:IAPIJCDecauxProxy_StationsOfContract_OutputMessage" />
     </wsdl:operation>
-    <wsdl:operation name="stationOfContract">
-      <wsdl:input wsaw:Action="http://tempuri.org/IAPIJCDecauxProxy/stationOfContract" message="tns:IAPIJCDecauxProxy_stationOfContract_InputMessage" />
-      <wsdl:output wsaw:Action="http://tempuri.org/IAPIJCDecauxProxy/stationOfContractResponse" message="tns:IAPIJCDecauxProxy_stationOfContract_OutputMessage" />
+    <wsdl:operation name="StationOfContract">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAPIJCDecauxProxy/StationOfContract" message="tns:IAPIJCDecauxProxy_StationOfContract_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAPIJCDecauxProxy/StationOfContractResponse" message="tns:IAPIJCDecauxProxy_StationOfContract_OutputMessage" />
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="WSHttpBinding_IAPIJCDecauxProxy" type="tns:IAPIJCDecauxProxy">
     <wsp:PolicyReference URI="#WSHttpBinding_IAPIJCDecauxProxy_policy" />
     <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
-    <wsdl:operation name="contracts">
-      <soap12:operation soapAction="http://tempuri.org/IAPIJCDecauxProxy/contracts" style="document" />
+    <wsdl:operation name="Contracts">
+      <soap12:operation soapAction="http://tempuri.org/IAPIJCDecauxProxy/Contracts" style="document" />
       <wsdl:input>
-        <wsp:PolicyReference URI="#WSHttpBinding_IAPIJCDecauxProxy_contracts_Input_policy" />
+        <wsp:PolicyReference URI="#WSHttpBinding_IAPIJCDecauxProxy_Contracts_Input_policy" />
         <soap12:body use="literal" />
       </wsdl:input>
       <wsdl:output>
-        <wsp:PolicyReference URI="#WSHttpBinding_IAPIJCDecauxProxy_contracts_output_policy" />
+        <wsp:PolicyReference URI="#WSHttpBinding_IAPIJCDecauxProxy_Contracts_output_policy" />
         <soap12:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="stationsOfContract">
-      <soap12:operation soapAction="http://tempuri.org/IAPIJCDecauxProxy/stationsOfContract" style="document" />
+    <wsdl:operation name="StationsOfContract">
+      <soap12:operation soapAction="http://tempuri.org/IAPIJCDecauxProxy/StationsOfContract" style="document" />
       <wsdl:input>
-        <wsp:PolicyReference URI="#WSHttpBinding_IAPIJCDecauxProxy_stationsOfContract_Input_policy" />
+        <wsp:PolicyReference URI="#WSHttpBinding_IAPIJCDecauxProxy_StationsOfContract_Input_policy" />
         <soap12:body use="literal" />
       </wsdl:input>
       <wsdl:output>
-        <wsp:PolicyReference URI="#WSHttpBinding_IAPIJCDecauxProxy_stationsOfContract_output_policy" />
+        <wsp:PolicyReference URI="#WSHttpBinding_IAPIJCDecauxProxy_StationsOfContract_output_policy" />
         <soap12:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="stationOfContract">
-      <soap12:operation soapAction="http://tempuri.org/IAPIJCDecauxProxy/stationOfContract" style="document" />
+    <wsdl:operation name="StationOfContract">
+      <soap12:operation soapAction="http://tempuri.org/IAPIJCDecauxProxy/StationOfContract" style="document" />
       <wsdl:input>
-        <wsp:PolicyReference URI="#WSHttpBinding_IAPIJCDecauxProxy_stationOfContract_Input_policy" />
+        <wsp:PolicyReference URI="#WSHttpBinding_IAPIJCDecauxProxy_StationOfContract_Input_policy" />
         <soap12:body use="literal" />
       </wsdl:input>
       <wsdl:output>
-        <wsp:PolicyReference URI="#WSHttpBinding_IAPIJCDecauxProxy_stationOfContract_output_policy" />
+        <wsp:PolicyReference URI="#WSHttpBinding_IAPIJCDecauxProxy_StationOfContract_output_policy" />
         <soap12:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
   </wsdl:binding>
-  <wsdl:service name="APIJCDecauxProxy">
+  <wsdl:service name="ApijcDecauxProxy">
     <wsdl:port name="WSHttpBinding_IAPIJCDecauxProxy" binding="tns:WSHttpBinding_IAPIJCDecauxProxy">
       <soap12:address location="http://localhost:8090/MyService/APIJCDecauxProxy" />
       <wsa10:EndpointReference>

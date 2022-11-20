@@ -57,7 +57,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <None Include="Connected Services\ServiceReference1\APIJCDecauxProxy.wsdl" />
+    <None Include="Connected Services\ServiceReference1\ApijcDecauxProxy.wsdl" />
     <None Include="Connected Services\ServiceReference1\APIJCDecauxProxy.xsd">
       <SubType>Designer</SubType>
     </None>
