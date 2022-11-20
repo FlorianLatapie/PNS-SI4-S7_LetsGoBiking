@@ -3,24 +3,24 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-// add assembly System.ServiceModel  and using for the corresponding model
-using System.ServiceModel;
 
 namespace ProxyServer
 {
-
-    [ServiceContract()]
-    public interface IAPIJCDecauxProxy
+    class APIJCDecauxProxy : IAPIJCDecauxProxy
     {
-        [OperationContract()]
-        List<Contract> contracts();
+        public List<Contract> contracts()
+        {
+            throw new NotImplementedException();
+        }
 
-        [OperationContract()]
-        List<Station> stationsOfContract(string contractName);
+        public Station stationOfContract(string contractName, int stationNumber)
+        {
+            throw new NotImplementedException();
+        }
 
-        [OperationContract()]
-        Station stationOfContract(string contractName, int stationNumber);
+        public List<Station> stationsOfContract(string contractName)
+        {
+            throw new NotImplementedException();
+        }
     }
-
-
 }
