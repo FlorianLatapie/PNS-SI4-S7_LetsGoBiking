@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RoutingServer", "RoutingSer
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RoutingServerTest", "RoutingServerTest\RoutingServerTest.csproj", "{91E5E3D2-D02A-4269-8794-1800736E1DA4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleApp_for_Self_Hosted_WS", "ConsoleApp_for_Self_Hosted_WS\ConsoleApp_for_Self_Hosted_WS.csproj", "{6D5CACBC-BA0F-461F-8798-92455AB3B346}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{91E5E3D2-D02A-4269-8794-1800736E1DA4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{91E5E3D2-D02A-4269-8794-1800736E1DA4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{91E5E3D2-D02A-4269-8794-1800736E1DA4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6D5CACBC-BA0F-461F-8798-92455AB3B346}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6D5CACBC-BA0F-461F-8798-92455AB3B346}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6D5CACBC-BA0F-461F-8798-92455AB3B346}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6D5CACBC-BA0F-461F-8798-92455AB3B346}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
