@@ -45,6 +45,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="IMyCalculatorService.cs" />
+    <Compile Include="JCDecauxClasses.cs" />
     <Compile Include="MyCalculatorService.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
