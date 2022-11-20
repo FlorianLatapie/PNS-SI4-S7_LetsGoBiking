@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ReferenceGroup xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ID="d276e24b-b212-4cff-832f-0cbfce0faf84" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+  <ClientOptions>
+    <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
+    <GenerateTaskBasedAsynchronousMethod>true</GenerateTaskBasedAsynchronousMethod>
+    <EnableDataBinding>true</EnableDataBinding>
+    <ExcludedTypes />
+    <ImportXmlTypes>false</ImportXmlTypes>
+    <GenerateInternalTypes>false</GenerateInternalTypes>
+    <GenerateMessageContracts>false</GenerateMessageContracts>
+    <NamespaceMappings />
+    <CollectionMappings />
+    <GenerateSerializableTypes>true</GenerateSerializableTypes>
+    <Serializer>Auto</Serializer>
+    <UseSerializerForFaults>true</UseSerializerForFaults>
+    <ReferenceAllAssemblies>true</ReferenceAllAssemblies>
+    <ReferencedAssemblies />
+    <ReferencedDataContractTypes />
+    <ServiceContractMappings />
+  </ClientOptions>
+  <MetadataSources>
+    <MetadataSource Address="http://localhost:8090/MyService/SimpleCalculator?wsdl" Protocol="http" SourceId="1" />
+  </MetadataSources>
+  <Metadata>
+    <MetadataFile FileName="SimpleCalculator.wsdl" MetadataType="Wsdl" ID="2a07c635-7a0a-4eed-a352-7888d07c5fb1" SourceId="1" SourceUrl="http://localhost:8090/MyService/SimpleCalculator?wsdl" />
+    <MetadataFile FileName="SimpleCalculator.xsd" MetadataType="Schema" ID="3991aa56-852a-4c63-9a73-45f5dc4034bb" SourceId="1" SourceUrl="http://localhost:8090/MyService/SimpleCalculator?xsd=xsd0" />
+    <MetadataFile FileName="SimpleCalculator1.xsd" MetadataType="Schema" ID="9124a83d-8079-408f-8d3b-1f90b0eb8ed8" SourceId="1" SourceUrl="http://localhost:8090/MyService/SimpleCalculator?xsd=xsd1" />
+  </Metadata>
+  <Extensions>
+    <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
+    <ExtensionFile FileName="configuration.svcinfo" Name="configuration.svcinfo" />
+  </Extensions>
+</ReferenceGroup>
