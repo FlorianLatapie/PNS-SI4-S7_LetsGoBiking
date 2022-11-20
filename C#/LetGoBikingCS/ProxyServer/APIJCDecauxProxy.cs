@@ -10,10 +10,16 @@ namespace ProxyServer
 {
 
     [ServiceContract()]
-    public interface ISimpleCalculator
+    public interface IAPIJCDecauxProxy
     {
         [OperationContract()]
-        int Add(int num1, int num2);
+        List<Contract> contracts();
+
+        [OperationContract()]
+        List<Station> stationsOfContract(string contractName);
+
+        [OperationContract()]
+        Station stationOfContract(string contractName, int stationNumber);
     }
 
 

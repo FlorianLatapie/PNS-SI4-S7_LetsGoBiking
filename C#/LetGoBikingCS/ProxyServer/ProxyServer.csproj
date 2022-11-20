@@ -44,9 +44,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="IMyCalculatorService.cs" />
+    <Compile Include="APIJCDecauxProxy.cs" />
     <Compile Include="JCDecauxClasses.cs" />
-    <Compile Include="MyCalculatorService.cs" />
+    <Compile Include="IAPIJCDecauxProxy.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
