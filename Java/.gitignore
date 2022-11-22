@@ -128,3 +128,5 @@ modules.xml
 .idea/codestream.xml
 
 **/target
+
+*/.idea/**
