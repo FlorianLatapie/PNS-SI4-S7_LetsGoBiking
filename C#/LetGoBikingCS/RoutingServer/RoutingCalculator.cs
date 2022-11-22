@@ -24,7 +24,9 @@ namespace RoutingServer
                 "1 - contracts : " + contracts + "\n" +
                 "2 - stations : " + stationsOfFirstContract + "\n" +
                 "2 - stations[0] : " + stationsOfFirstContract[0] + "\n" +
-                "3 - one station : " + firstStation.ToString() + "\n";
+                "3 - one station : " + firstStation.ToString() + "\n" + 
+                "contracts[0].ToString() : " + contracts[0].ToString() + "\n" +
+                "contracts[0] : " + contracts[0] + "\n";
             return res;
         }
     }
