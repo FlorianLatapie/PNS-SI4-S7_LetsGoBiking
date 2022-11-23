@@ -47,12 +47,6 @@ namespace ProxyServer
             return Get(cacheItemName, _dtDefaultDateTimeOffset);
         }
 
-        public void Put(string cacheItemName, T item, DateTimeOffset dt)
-        {
-            UpdateCache();
-            _cache[cacheItemName] = new Tuple<T, DateTimeOffset>(item, dt);
-        }
-
         private void UpdateCache()
         {
             //remove all expired items from the cache
