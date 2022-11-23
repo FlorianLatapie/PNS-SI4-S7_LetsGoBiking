@@ -12,23 +12,24 @@ namespace RoutingServer
     {
         private readonly APIJCDecauxProxyClient _proxy = new APIJCDecauxProxyClient();
         private readonly Converter _converter = new Converter();
-        
+
         private static GeoCoordinate ClosestContract(GeoCoordinate origin, GeoCoordinate destination,
             Contract[] contracts)
         {
-            return null; 
+            return null;
         }
+
         public string GetItinerary(string origin, string destination)
         {
-            var tmp = prepareInput(origin, destination);
-            var originCoord = tmp.Item1;
-            var destinationCoord = tmp.Item2; 
-            var originAddressInfo = tmp.Item3;
-            var destinationAddressInfo = tmp.Item4;
-            
+            var preparedInputs = prepareInput(origin, destination);
+            var originCoord = preparedInputs.Item1;
+            var destinationCoord = preparedInputs.Item2;
+            var originAddressInfo = preparedInputs.Item3;
+            var destinationAddressInfo = preparedInputs.Item4;
+
             Console.WriteLine($"Origin address info : {Util.ToString(originAddressInfo.address)}");
             Console.WriteLine($"Destination address info : {Util.ToString(destinationAddressInfo.address)}");
-            
+
 
             /* Find the JC Decaux contract associated with the given origin/destination.
             Retrieve all stations of this/those contract(s).
@@ -38,22 +39,24 @@ namespace RoutingServer
             Compute itineraries by calling an external REST API.
             Return the instructions to the client.
             */
-            
-            
+
+
             return "terminé";
         }
-        
-        private Tuple<GeoCoordinate, GeoCoordinate,OpenStreetMapCoordInfo,OpenStreetMapCoordInfo> prepareInput(string origin, string destination)
+
+        private Tuple<GeoCoordinate, GeoCoordinate, OpenStreetMapCoordInfo, OpenStreetMapCoordInfo> prepareInput(
+            string origin, string destination)
         {
             var tupleCoord = processInput(origin, destination);
             var originCoord = tupleCoord.Item1;
             var destinationCoord = tupleCoord.Item2;
-            
+
             var tupleOpenStreetMapAdressInfo = processCoords(originCoord, destinationCoord);
             var originAddressInfo = tupleOpenStreetMapAdressInfo.Item1;
             var destinationAddressInfo = tupleOpenStreetMapAdressInfo.Item2;
-            
-            return new Tuple<GeoCoordinate, GeoCoordinate, OpenStreetMapCoordInfo, OpenStreetMapCoordInfo>(originCoord, destinationCoord, originAddressInfo, destinationAddressInfo);
+
+            return new Tuple<GeoCoordinate, GeoCoordinate, OpenStreetMapCoordInfo, OpenStreetMapCoordInfo>(originCoord,
+                destinationCoord, originAddressInfo, destinationAddressInfo);
         }
 
         private Tuple<GeoCoordinate, GeoCoordinate> processInput(string origin, string destination)
@@ -64,7 +67,9 @@ namespace RoutingServer
             if (origin.StartsWith("addr:"))
             {
                 // api call to OpenStreetMap
-                originCoord = Converter.OpenStreetMapAdressInfoToGeoCoordinate(_converter.OpenStreetMapAddressInfoFromAddress_api(origin));
+                originCoord =
+                    Converter.OpenStreetMapAdressInfoToGeoCoordinate(
+                        _converter.OpenStreetMapAddressInfoFromAddress_api(origin));
             }
             else if (origin.StartsWith("coord:"))
             {
@@ -79,7 +84,9 @@ namespace RoutingServer
             if (destination.StartsWith("addr:"))
             {
                 // api call to OpenStreetMap
-                destinationCoord =  Converter.OpenStreetMapAdressInfoToGeoCoordinate(_converter.OpenStreetMapAddressInfoFromAddress_api(destination));
+                destinationCoord =
+                    Converter.OpenStreetMapAdressInfoToGeoCoordinate(
+                        _converter.OpenStreetMapAddressInfoFromAddress_api(destination));
             }
             else if (destination.StartsWith("coord:"))
             {
@@ -94,7 +101,8 @@ namespace RoutingServer
             return new Tuple<GeoCoordinate, GeoCoordinate>(originCoord, destinationCoord);
         }
 
-        private Tuple<OpenStreetMapCoordInfo, OpenStreetMapCoordInfo> processCoords(GeoCoordinate origin, GeoCoordinate destination)
+        private Tuple<OpenStreetMapCoordInfo, OpenStreetMapCoordInfo> processCoords(GeoCoordinate origin,
+            GeoCoordinate destination)
         {
             // api call to OpenStreetMap
             var originAddressInfo = _converter.OpenStreetMapAddressCoordInfoFromCoord_api(origin);

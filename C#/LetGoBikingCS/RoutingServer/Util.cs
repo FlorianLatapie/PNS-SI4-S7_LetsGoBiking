@@ -44,10 +44,10 @@ namespace RoutingServer
         public Converter()
         {
             Client.DefaultRequestHeaders.Add("User-Agent", "RoutingServer");
-
         }
+
         public OpenStreetMapAdressInfo OpenStreetMapAddressInfoFromAddress_api(string address)
-        {    
+        {
             // format : "addr:1 rue de la paix, 75000 Paris"
             address = address.Replace("addr:", "");
             address = address.Replace(" ", "+");
@@ -58,20 +58,21 @@ namespace RoutingServer
             var OpenStreetMapResponseBody = Client.GetStringAsync(requestUrl).Result;
             return JsonSerializer.Deserialize<OpenStreetMapAdressInfo[]>(OpenStreetMapResponseBody)[0];
         }
-        
+
         public OpenStreetMapCoordInfo OpenStreetMapAddressCoordInfoFromCoord_api(GeoCoordinate coord)
         {
             // format : "coord:X.X;Y.Y" 
-            
+
             var latitude = coord.Latitude.ToString().Replace(",", ".");
             var longitude = coord.Longitude.ToString().Replace(",", ".");
-            
-            var requestUrl = $"https://nominatim.openstreetmap.org/reverse.php?lat={latitude}&lon={longitude}&format=jsonv2";
-            
+
+            var requestUrl =
+                $"https://nominatim.openstreetmap.org/reverse.php?lat={latitude}&lon={longitude}&format=jsonv2";
+
             var OpenStreetMapResponseBody = Client.GetStringAsync(requestUrl).Result;
             return JsonSerializer.Deserialize<OpenStreetMapCoordInfo>(OpenStreetMapResponseBody);
         }
-        
+
         public static GeoCoordinate OpenStreetMapAdressInfoToGeoCoordinate(
             OpenStreetMapAdressInfo openStreetMapAdressInfo)
         {
@@ -80,17 +81,17 @@ namespace RoutingServer
 
             return new GeoCoordinate(latitude, longitude);
         }
-        
+
         public static GeoCoordinate GeoCoordinateFromStringCoord(string coord)
         {
             // format : "coord:X.X;Y.Y" 
-            
+
             var coordSplitted = coord.Split(':');
             var coordValues = coordSplitted[1].Split(';');
-            
+
             var latitude = double.Parse(coordValues[0].Replace(".", ","));
             var longitude = double.Parse(coordValues[1].Replace(".", ","));
-            
+
             return new GeoCoordinate(latitude, longitude);
         }
     }

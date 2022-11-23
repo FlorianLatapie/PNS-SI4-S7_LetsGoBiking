@@ -42,7 +42,9 @@ namespace RoutingServer
     {
         public int place_id { get; set; }
         public string licence { get; set; }
+
         public string osm_type { get; set; }
+
         //public int osm_id { get; set; }
         public string lat { get; set; }
         public string lon { get; set; }
