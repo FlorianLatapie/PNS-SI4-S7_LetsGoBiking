@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Globalization;
-
-// add the WCF ServiceModel namespace 
 using System.ServiceModel;
 using System.ServiceModel.Description;
+// add the WCF ServiceModel namespace 
 
 namespace RoutingServer
 {

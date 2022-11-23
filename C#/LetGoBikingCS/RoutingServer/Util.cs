@@ -1,9 +1,8 @@
 ﻿using System;
-using RoutingServer.ServiceReference1;
 using System.ComponentModel;
-using System.Text;
 using System.Device.Location;
 using System.Net.Http;
+using System.Text;
 using System.Text.Json;
 
 namespace RoutingServer
@@ -23,7 +22,7 @@ namespace RoutingServer
                 else if (pd.GetValue(myObject).GetType().IsArray)
                 {
                     builder.Append($"{pd.Name} : ");
-                    Array.ForEach((object[])pd.GetValue(myObject), item => builder.Append($"{item.ToString()} "));
+                    Array.ForEach((object[])pd.GetValue(myObject), item => builder.Append($"{item} "));
                 }
                 else
                 {

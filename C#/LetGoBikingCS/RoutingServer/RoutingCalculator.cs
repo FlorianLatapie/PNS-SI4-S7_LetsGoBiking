@@ -1,23 +1,13 @@
 ﻿using System;
-using RoutingServer.ServiceReference1;
-using System.ComponentModel;
-using System.Text;
 using System.Device.Location;
-using System.Net.Http;
-using System.Text.Json;
+using RoutingServer.ServiceReference1;
 
 namespace RoutingServer
 {
     internal class RoutingCalculator : IRoutingCalculator
     {
-        private readonly APIJCDecauxProxyClient _proxy = new APIJCDecauxProxyClient();
         private readonly Converter _converter = new Converter();
-
-        private static GeoCoordinate ClosestContract(GeoCoordinate origin, GeoCoordinate destination,
-            Contract[] contracts)
-        {
-            return null;
-        }
+        private readonly APIJCDecauxProxyClient _proxy = new APIJCDecauxProxyClient();
 
         public string GetItinerary(string origin, string destination)
         {
@@ -44,6 +34,12 @@ namespace RoutingServer
             return "terminé";
         }
 
+        private static GeoCoordinate ClosestContract(GeoCoordinate origin, GeoCoordinate destination,
+            Contract[] contracts)
+        {
+            return null;
+        }
+
         private Tuple<GeoCoordinate, GeoCoordinate, OpenStreetMapCoordInfo, OpenStreetMapCoordInfo> prepareInput(
             string origin, string destination)
         {
@@ -65,38 +61,26 @@ namespace RoutingServer
             GeoCoordinate destinationCoord;
 
             if (origin.StartsWith("addr:"))
-            {
                 // api call to OpenStreetMap
                 originCoord =
                     Converter.OpenStreetMapAdressInfoToGeoCoordinate(
                         _converter.OpenStreetMapAddressInfoFromAddress_api(origin));
-            }
             else if (origin.StartsWith("coord:"))
-            {
                 originCoord = Converter.GeoCoordinateFromStringCoord(origin);
-            }
             else
-            {
                 throw new Exception($"Unknown origin format : {origin}" + Environment.NewLine +
                                     "Please use either 'addr:<address>' or 'coord:<X.X>,<Y.Y>'");
-            }
 
             if (destination.StartsWith("addr:"))
-            {
                 // api call to OpenStreetMap
                 destinationCoord =
                     Converter.OpenStreetMapAdressInfoToGeoCoordinate(
                         _converter.OpenStreetMapAddressInfoFromAddress_api(destination));
-            }
             else if (destination.StartsWith("coord:"))
-            {
                 destinationCoord = Converter.GeoCoordinateFromStringCoord(destination);
-            }
             else
-            {
                 throw new Exception($"Unknown destination format : {destination}" + Environment.NewLine +
                                     "Please use either 'addr:<address>' or 'coord:<X.X>,<Y.Y>'");
-            }
 
             return new Tuple<GeoCoordinate, GeoCoordinate>(originCoord, destinationCoord);
         }

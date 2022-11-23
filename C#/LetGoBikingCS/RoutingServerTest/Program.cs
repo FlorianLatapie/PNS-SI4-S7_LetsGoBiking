@@ -1,5 +1,6 @@
-﻿using RoutingServerTest.ServiceReference1;
-using System;
+﻿using System;
+using System.Diagnostics;
+using RoutingServerTest.ServiceReference1;
 
 namespace RoutingServerTest
 {
@@ -7,7 +8,7 @@ namespace RoutingServerTest
     {
         private static void Main(string[] args)
         {
-            var watch = System.Diagnostics.Stopwatch.StartNew();
+            var watch = Stopwatch.StartNew();
 
             var test = new RoutingCalculatorClient();
             Console.WriteLine(test.GetItinerary("addr:chemin des caillades", "coord:48.1;2.2"));

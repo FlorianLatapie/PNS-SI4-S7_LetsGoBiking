@@ -9,12 +9,11 @@ namespace ProxyServer
 {
     public class GenericProxyCache<T> where T : class
     {
+        private static readonly HttpClient Client = new HttpClient();
         private readonly DateTimeOffset _dtDefaultDateTimeOffset = ObjectCache.InfiniteAbsoluteExpiration;
 
         private Dictionary<string, Tuple<T, DateTimeOffset>>
             _cache = new Dictionary<string, Tuple<T, DateTimeOffset>>();
-
-        private static readonly HttpClient Client = new HttpClient();
 
 
         public T Get(string cacheItemName, DateTimeOffset dt)
