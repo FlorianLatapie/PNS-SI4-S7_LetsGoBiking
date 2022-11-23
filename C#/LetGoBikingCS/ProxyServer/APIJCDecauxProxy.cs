@@ -11,29 +11,28 @@ namespace ProxyServer
         private static readonly string KeyUri = $"apiKey={ApiKey}";
         private const string BaseUri = "https://api.jcdecaux.com/vls/v3/";
 
+        private GenericProxyCache<List<Contract>> _contractsCache = new GenericProxyCache<List<Contract>>();
+        private GenericProxyCache<List<Station>> _stationsCache = new GenericProxyCache<List<Station>>();
+        private GenericProxyCache<Station> _stationCache = new GenericProxyCache<Station>();
+
         private static readonly HttpClient Client = new HttpClient();
 
         public List<Contract> Contracts()
-        {
-            var reqString = BaseUri + "contracts" + "&" + KeyUri;
-            Console.WriteLine(reqString);
-            var jcDecauxResponseBody = Client.GetStringAsync(BaseUri + "contracts" + "?" + KeyUri);
-            return JsonSerializer.Deserialize<List<Contract>>(jcDecauxResponseBody.Result);
+        {   
+            var reqString = BaseUri + "contracts" + "?" + KeyUri;
+            return _contractsCache.Get(reqString);
         }
 
         public Station StationOfContract(string contractName, int stationNumber)
         {
             var reqString = BaseUri + "stations/" + stationNumber + "?contract=" + contractName + "&" + KeyUri;
-            Console.WriteLine(reqString);
-            var jcDecauxResponseBody = Client.GetStringAsync(reqString);
-            return JsonSerializer.Deserialize<Station>(jcDecauxResponseBody.Result);
+            return _stationCache.Get(reqString);
         }
 
         public List<Station> StationsOfContract(string contractName)
         {
             var reqString = BaseUri + "stations?contract=" + contractName + "&" +KeyUri;
-            Console.WriteLine(reqString);
-            return JsonSerializer.Deserialize<List<Station>>(Client.GetStringAsync(reqString).Result);
+            return _stationsCache.Get(reqString);
         }
     }
 }

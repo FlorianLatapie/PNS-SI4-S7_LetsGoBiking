@@ -33,8 +33,10 @@ namespace RoutingServer
                 {
                     builder.Append($"{pd.Name} : {pd.GetValue(obj)}");
                 }
+
                 builder.Append(Environment.NewLine);
             }
+
             return builder.ToString();
         }
 
@@ -47,11 +49,20 @@ namespace RoutingServer
                 "Routing server : \n" +
                 "origin : " + origin + "\n" +
                 "destination : " + destination + "\n" +
-                "1 - contracts : " + ToString(contracts) + "\n" +
-                "2 - stations : " + ToString(stationsOfFirstContract) + "\n" +
-                "2 - stations[0] : " + ToString(stationsOfFirstContract[0]) + "\n" +
-                "3 - one station : " + ToString(firstStation) + "\n" +
-                "contracts[0].ToString() : " + ToString(contracts[0]) + "\n";
+                "1 - contracts : ";
+            Array.ForEach(contracts, contract => res += contract.name + " ");
+            res += "\n" +
+                   "2 - stations : ";
+            Array.ForEach(stationsOfFirstContract, station => res += station.name + " ");
+            res += "\n" +
+                   "2 - stations[0] : " + ToString(stationsOfFirstContract[0]) + "\n" +
+                   "3 - one station : " + ToString(firstStation) + "\n" +
+                   "contracts[0].ToString() : " + ToString(contracts[0]) + "\n";
+            
+            var contracts2 = _proxy.Contracts();
+            res += "\n contracts from cache : "; 
+            Array.ForEach(contracts2, contract => res += contract.name + " ");
+
             return res;
         }
     }
