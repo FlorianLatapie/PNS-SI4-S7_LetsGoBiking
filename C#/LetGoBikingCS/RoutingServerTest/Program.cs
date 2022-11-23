@@ -5,7 +5,7 @@ namespace RoutingServerTest
 {
     internal class Program
     {
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
             var watch = System.Diagnostics.Stopwatch.StartNew();
 

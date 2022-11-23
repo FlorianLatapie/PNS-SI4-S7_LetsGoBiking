@@ -9,7 +9,7 @@ namespace ProxyServer
 {
     internal static class Program
     {
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
             //Create a URI to serve as the base address
             //Be careful to run Visual Studio as Administrator or to allow VS to open new port netsh command. 

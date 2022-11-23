@@ -50,7 +50,7 @@ namespace ProxyServer
         private void UpdateCache()
         {
             //remove all expired items from the cache
-            _cache = this._cache
+            _cache = _cache
                 .Where(x => x.Value.Item2 > DateTime.Now)
                 .ToDictionary(x => x.Key, x => x.Value);
         }

@@ -12,8 +12,8 @@ namespace RoutingServer
     {
         public static string ToString(object myObject)
         {
-            PropertyDescriptorCollection coll = TypeDescriptor.GetProperties(myObject);
-            StringBuilder builder = new StringBuilder();
+            var coll = TypeDescriptor.GetProperties(myObject);
+            var builder = new StringBuilder();
             foreach (PropertyDescriptor pd in coll)
             {
                 if (pd.GetValue(myObject) == null)
