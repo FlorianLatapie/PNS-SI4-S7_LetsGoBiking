@@ -13,14 +13,6 @@ namespace RoutingServer
         private readonly APIJCDecauxProxyClient _proxy = new APIJCDecauxProxyClient();
         private readonly Converter _converter = new Converter();
         
-        private static readonly HttpClient Client = new HttpClient();
-        
-        public RoutingCalculator()
-        {
-            // add user agent to http client
-            Client.DefaultRequestHeaders.Add("User-Agent", "RoutingServer");
-        }
-
         private static GeoCoordinate ClosestContract(GeoCoordinate origin, GeoCoordinate destination,
             Contract[] contracts)
         {
@@ -80,7 +72,8 @@ namespace RoutingServer
             }
             else
             {
-                throw new Exception($"Unknown origin format : {origin}");
+                throw new Exception($"Unknown origin format : {origin}" + Environment.NewLine +
+                                    "Please use either 'addr:<address>' or 'coord:<X.X>,<Y.Y>'");
             }
 
             if (destination.StartsWith("addr:"))
@@ -94,7 +87,8 @@ namespace RoutingServer
             }
             else
             {
-                throw new Exception($"Unknown destination format : {destination}");
+                throw new Exception($"Unknown destination format : {destination}" + Environment.NewLine +
+                                    "Please use either 'addr:<address>' or 'coord:<X.X>,<Y.Y>'");
             }
 
             return new Tuple<GeoCoordinate, GeoCoordinate>(originCoord, destinationCoord);
