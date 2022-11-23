@@ -46,20 +46,38 @@ namespace RoutingServer
             return builder.ToString();
         }
 
-        private static GeoCoordinate GetGeoCoordinateFromAddress(string address)
+        private static OpenStreetMapAdressInfo OpenStreetMapAddressInfoFromAddress(string address)
         {    
             // format : "addr:1 rue de la paix, 75000 Paris"
             address = address.Replace("addr:", "");
             address = address.Replace(" ", "+");
 
             var requestUrl = $"https://nominatim.openstreetmap.org/search.php?q={address}&format=jsonv2";
+            Console.WriteLine($"Api call to OpenStreetMap {requestUrl}");
 
             var OpenStreetMapResponseBody = Client.GetStringAsync(requestUrl).Result;
-            var openStreetMapAdressInfo = JsonSerializer.Deserialize<OpenStreetMapAdressInfo[]>(OpenStreetMapResponseBody);
+            return JsonSerializer.Deserialize<OpenStreetMapAdressInfo[]>(OpenStreetMapResponseBody)[0];
+        }
 
-            var latitude = double.Parse(openStreetMapAdressInfo[0].lat.Replace(".", ","));
-            var longitude = double.Parse(openStreetMapAdressInfo[0].lon.Replace(".", ","));
-                
+        private static OpenStreetMapCoordInfo OpenStreetMapAddressCoordInfoFromCoord(GeoCoordinate coord)
+        {
+            // format : "coord:X.X;Y.Y" 
+            
+            var latitude = coord.Latitude.ToString().Replace(",", ".");
+            var longitude = coord.Longitude.ToString().Replace(",", ".");
+            
+            var requestUrl = $"https://nominatim.openstreetmap.org/reverse.php?lat={latitude}&lon={longitude}&format=jsonv2";
+            
+            var OpenStreetMapResponseBody = Client.GetStringAsync(requestUrl).Result;
+            return JsonSerializer.Deserialize<OpenStreetMapCoordInfo>(OpenStreetMapResponseBody);
+        }
+
+        private static GeoCoordinate OpenStreetMapAdressInfoToGeoCoordinate(
+            OpenStreetMapAdressInfo openStreetMapAdressInfo)
+        {
+            var latitude = double.Parse(openStreetMapAdressInfo.lat.Replace(".", ","));
+            var longitude = double.Parse(openStreetMapAdressInfo.lon.Replace(".", ","));
+
             return new GeoCoordinate(latitude, longitude);
         }
 
@@ -73,16 +91,42 @@ namespace RoutingServer
             return new GeoCoordinate(latitude, longitude);
         }
 
+        private static GeoCoordinate ClosestContract(GeoCoordinate origin, GeoCoordinate destination,
+            Contract[] contracts)
+        {
+            return null; 
+        }
         public string GetItinerary(string origin, string destination)
         {
             var tupleCoord = processInput(origin, destination);
             
             GeoCoordinate originCoord = tupleCoord.Item1;
             GeoCoordinate destinationCoord = tupleCoord.Item2;
-            
-            var res = originCoord.Latitude.ToString() + " " + originCoord.Longitude.ToString() + "\n"
-                  + destinationCoord.Latitude.ToString() + " " + destinationCoord.Longitude.ToString();
 
+            
+            var tupleOpenStreetMapAdressInfo = processCoords(originCoord, destinationCoord);
+            var originAddressInfo = tupleOpenStreetMapAdressInfo.Item1;
+            var destinationAddressInfo = tupleOpenStreetMapAdressInfo.Item2;
+            
+            Console.WriteLine($"Origin address info : {ToString(originAddressInfo.address)}");
+            Console.WriteLine($"Destination address info : {ToString(destinationAddressInfo.address)}");
+            
+
+            /* Find the JC Decaux contract associated with the given origin/destination.
+            Retrieve all stations of this/those contract(s).
+            Compute the closest from the origin with available bikes.
+            Compute the closest from the destination with available spots to drop bikes.
+            Check if the closest available stations are close enough so that it is worth to use them compared to directly go on foot from the origin to the destination.
+            Compute itineraries by calling an external REST API.
+            Return the instructions to the client.
+            */
+            
+            //var contracts = _proxy.Contracts();
+            //var closestContract = ClosestContract(originCoord, destinationCoord, contracts);
+
+            /*var res = originCoord.Latitude.ToString() + " " + originCoord.Longitude.ToString() + "\n"
+                  + destinationCoord.Latitude.ToString() + " " + destinationCoord.Longitude.ToString();
+            */
             /*var contracts = _proxy.Contracts();
             var stationsOfFirstContract = _proxy.StationsOfContract(contracts[0].name);
             var firstStation = _proxy.StationOfContract(contracts[0].name, stationsOfFirstContract[0].number);
@@ -104,7 +148,7 @@ namespace RoutingServer
             res += "\n contracts from cache : "; 
             Array.ForEach(contracts2, contract => res += contract.name + " ");*/
 
-            return res;
+            return "terminé";
         }
 
         private Tuple<GeoCoordinate, GeoCoordinate> processInput(string origin, string destination)
@@ -114,7 +158,8 @@ namespace RoutingServer
 
             if (origin.StartsWith("addr:"))
             {
-                originCoord = GetGeoCoordinateFromAddress(origin);
+                // api call to OpenStreetMap
+                originCoord = OpenStreetMapAdressInfoToGeoCoordinate(OpenStreetMapAddressInfoFromAddress(origin));
             }
             else if (origin.StartsWith("coord:"))
             {
@@ -127,7 +172,8 @@ namespace RoutingServer
 
             if (destination.StartsWith("addr:"))
             {
-                destinationCoord = GetGeoCoordinateFromAddress(destination);
+                // api call to OpenStreetMap
+                destinationCoord =  OpenStreetMapAdressInfoToGeoCoordinate(OpenStreetMapAddressInfoFromAddress(destination));
             }
             else if (destination.StartsWith("coord:"))
             {
@@ -140,5 +186,15 @@ namespace RoutingServer
 
             return new Tuple<GeoCoordinate, GeoCoordinate>(originCoord, destinationCoord);
         }
+
+        private Tuple<OpenStreetMapCoordInfo, OpenStreetMapCoordInfo> processCoords(GeoCoordinate origin, GeoCoordinate destination)
+        {
+            var originAddressInfo = OpenStreetMapAddressCoordInfoFromCoord(origin);
+            var destinationAddressInfo = OpenStreetMapAddressCoordInfoFromCoord(destination);
+            return new Tuple<OpenStreetMapCoordInfo, OpenStreetMapCoordInfo>(originAddressInfo, destinationAddressInfo);
+        }
+    
     }
+    
+    
 }
