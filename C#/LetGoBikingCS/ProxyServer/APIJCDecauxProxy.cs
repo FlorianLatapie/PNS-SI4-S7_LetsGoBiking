@@ -14,9 +14,7 @@ namespace ProxyServer
         private GenericProxyCache<List<Contract>> _contractsCache = new GenericProxyCache<List<Contract>>();
         private GenericProxyCache<List<Station>> _stationsCache = new GenericProxyCache<List<Station>>();
         private GenericProxyCache<Station> _stationCache = new GenericProxyCache<Station>();
-
-        private static readonly HttpClient Client = new HttpClient();
-
+        
         public List<Contract> Contracts()
         {   
             var reqString = BaseUri + "contracts" + "?" + KeyUri;
@@ -26,13 +24,13 @@ namespace ProxyServer
         public Station StationOfContract(string contractName, int stationNumber)
         {
             var reqString = BaseUri + "stations/" + stationNumber + "?contract=" + contractName + "&" + KeyUri;
-            return _stationCache.Get(reqString);
+            return _stationCache.Get(reqString, 1*60);
         }
 
         public List<Station> StationsOfContract(string contractName)
         {
             var reqString = BaseUri + "stations?contract=" + contractName + "&" +KeyUri;
-            return _stationsCache.Get(reqString);
+            return _stationsCache.Get(reqString, 5*60);
         }
     }
 }
