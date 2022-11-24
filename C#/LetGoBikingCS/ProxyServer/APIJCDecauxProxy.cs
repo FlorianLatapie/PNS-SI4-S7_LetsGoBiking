@@ -15,7 +15,9 @@ namespace ProxyServer
         public List<Contract> Contracts()
         {
             var reqString = BaseUri + "contracts" + "?" + KeyUri;
-            return _contractsCache.Get(reqString);
+            var res = _contractsCache.Get(reqString);
+            res.RemoveAll(x => x.cities == null);
+            return res;
         }
 
         public Station StationOfContract(string contractName, int stationNumber)
