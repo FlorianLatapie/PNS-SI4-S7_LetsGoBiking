@@ -18,7 +18,7 @@ namespace RoutingServer
         public RoutingCalculator()
         {
             var contracts = _proxy.Contracts();
-            citiesContracts = _converter.ListStringCitiesFromContracts(contracts);
+            citiesContracts = Converter.ListStringCitiesFromContracts(contracts);
         }
         
         public bool areInSameContract(OpenStreetMapCoordInfo city1, OpenStreetMapCoordInfo city2)

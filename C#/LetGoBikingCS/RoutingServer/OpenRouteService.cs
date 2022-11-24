@@ -14,37 +14,27 @@ namespace RoutingServer
         private const string Cycling = "cycling-regular/";
         private const string Walking = "foot-walking/";
         private const string ApiKey = "?api_key=5b3ce3597851110001cf62485ee6e70b50c0487cbe89c8f67d924fd6";
-
-        public OpenRouteServiceRoot DirectionsCycling(GeoCoordinate origin, GeoCoordinate destination)
+        
+        private OpenRouteServiceRoot Directions(string type, GeoCoordinate origin, GeoCoordinate destination)
         {
-            //https://api.openrouteservice.org/v2/directions/cycling-regular?api_key=5b3ce3597851110001cf62485ee6e70b50c0487cbe89c8f67d924fd6&start=1.09826633821911,49.4425055864419&end=1.10085228191065,49.4381121113679
-
-            var originLatitute = origin.Latitude.ToString(CultureInfo.InvariantCulture).Replace(",", ".");
-            var originLongitude = origin.Longitude.ToString(CultureInfo.InvariantCulture).Replace(",", ".");
-            var destinationLatitute = destination.Latitude.ToString(CultureInfo.InvariantCulture).Replace(",", ".");
-            var destinationLongitude = destination.Longitude.ToString(CultureInfo.InvariantCulture).Replace(",", ".");
+            var originStr = Converter.TupleStrFromGeoCoordinate(origin);
+            var destinationStr = Converter.TupleStrFromGeoCoordinate(destination);
             
-            var requestUrl = ApiUrl + Cycling + ApiKey + "&start=" + originLongitude + "," + originLatitute + "&end=" + destinationLongitude + "," + destinationLatitute;
+            var requestUrl = ApiUrl + type + ApiKey + "&start=" + originStr.Item2 + "," + originStr.Item1 + "&end=" + destinationStr.Item2 + "," + destinationStr.Item1;
             Console.WriteLine($"Api call to OpenRouteService {requestUrl}");
 
             var openRouteServiceResponseBody = Client.GetStringAsync(requestUrl).Result;
             return JsonSerializer.Deserialize<OpenRouteServiceRoot>(openRouteServiceResponseBody);
         }
-
+        
         public OpenRouteServiceRoot DirectionsWalking(GeoCoordinate originCoord, GeoCoordinate destinationCoord)
         {
-            // https://api.openrouteservice.org/v2/directions/foot-walking?api_key=5b3ce3597851110001cf62485ee6e70b50c0487cbe89c8f67d924fd6&start=1.1000770874326418,49.443361100000004&end=1.098266338219107,49.44250558644192
-            
-            var originLatitute = originCoord.Latitude.ToString(CultureInfo.InvariantCulture).Replace(",", ".");
-            var originLongitude = originCoord.Longitude.ToString(CultureInfo.InvariantCulture).Replace(",", ".");
-            var destinationLatitute = destinationCoord.Latitude.ToString(CultureInfo.InvariantCulture).Replace(",", ".");
-            var destinationLongitude = destinationCoord.Longitude.ToString(CultureInfo.InvariantCulture).Replace(",", ".");
-            
-            var requestUrl = ApiUrl + Walking + ApiKey + "&start=" + originLongitude + "," + originLatitute + "&end=" + destinationLongitude + "," + destinationLatitute;
-            Console.WriteLine($"Api call to OpenRouteService {requestUrl}");
-            
-            var openRouteServiceResponseBody = Client.GetStringAsync(requestUrl).Result;
-            return JsonSerializer.Deserialize<OpenRouteServiceRoot>(openRouteServiceResponseBody);
+            return Directions(Walking, originCoord, destinationCoord); 
+        }
+        
+        public OpenRouteServiceRoot DirectionsCycling(GeoCoordinate originCoord, GeoCoordinate destinationCoord)
+        {
+            return Directions(Cycling, originCoord, destinationCoord); 
         }
     }
     

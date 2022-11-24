@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Device.Location;
+using System.Globalization;
 using System.Net.Http;
 using System.Text;
 using System.Text.Json;
@@ -96,7 +97,7 @@ namespace RoutingServer
             return new GeoCoordinate(latitude, longitude);
         }
 
-        public Dictionary<string,Contract> ListStringCitiesFromContracts(Contract[] contracts)
+        public static Dictionary<string,Contract> ListStringCitiesFromContracts(Contract[] contracts)
         {
             var dict = new Dictionary<string, Contract>();
             
@@ -109,6 +110,13 @@ namespace RoutingServer
             }
             
             return dict;
+        }
+        
+        public static Tuple<string, string> TupleStrFromGeoCoordinate(GeoCoordinate geoCoordinate)
+        {
+            var latitude = geoCoordinate.Latitude.ToString(CultureInfo.InvariantCulture).Replace(",", ".");
+            var longitude = geoCoordinate.Longitude.ToString(CultureInfo.InvariantCulture).Replace(",", ".");
+            return new Tuple<string, string>(latitude, longitude);
         }
     }
 }
