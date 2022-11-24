@@ -143,5 +143,10 @@ namespace RoutingServer
             var longitude = geoCoordinate.Longitude.ToString(CultureInfo.InvariantCulture).Replace(",", ".");
             return new Tuple<string, string>(latitude, longitude);
         }
+
+        public static GeoCoordinate CoordFromStation(Station station)
+        {
+            return new GeoCoordinate(station.position.latitude, station.position.longitude);
+        }
     }
 }

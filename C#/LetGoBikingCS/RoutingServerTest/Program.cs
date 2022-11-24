@@ -9,6 +9,7 @@ namespace RoutingServerTest
         private static void Main(string[] args)
         {
             var watch = Stopwatch.StartNew();
+            Console.WriteLine($"Start !");
 
             var test = new RoutingCalculatorClient();
             Console.WriteLine(test.GetItinerary("addr:place du général de gaulle rouen",

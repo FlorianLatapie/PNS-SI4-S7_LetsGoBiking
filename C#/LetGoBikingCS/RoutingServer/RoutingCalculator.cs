@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Device.Location;
+using System.Linq;
 using RoutingServer.ServiceReference1;
 
 namespace RoutingServer
@@ -41,9 +42,11 @@ namespace RoutingServer
 
             // Compute the closest from the origin with available bike
             var closestStationFromOrigin = ClosestStation(originCoord, stations);
+            var originStationCoord = Converter.CoordFromStation(closestStationFromOrigin);
 
             // Compute the closest from the destination with available spots to drop bikes.
             var closestStationFromDestination = ClosestStation(destinationCoord, stations);
+            var destinationStationCoord = Converter.CoordFromStation(closestStationFromDestination);
 
             // Compute itineraries by calling an external REST API.
 
@@ -52,34 +55,35 @@ namespace RoutingServer
 
             // 2. try by bike + foot
             // 2.1 get all itineraries necessary 
-            //var walkToBikeItinerary = // todo
-
-            var geoCoordinateOriginStation = new GeoCoordinate(closestStationFromOrigin.position.latitude,
-                closestStationFromOrigin.position.longitude);
-            var geoCoordinateDestinationStation = new GeoCoordinate(closestStationFromDestination.position.latitude,
-                closestStationFromDestination.position.longitude);
+            var closestStationFromOriginCoord = Converter.CoordFromStation(closestStationFromOrigin);
+            var walkToBikeItinerary = _openRouteService.DirectionsWalking(originCoord, originStationCoord); 
+            
             var bikeItinerary =
-                _openRouteService.DirectionsCycling(geoCoordinateOriginStation, geoCoordinateDestinationStation);
+                _openRouteService.DirectionsCycling(originStationCoord, destinationStationCoord);
 
-            //var walkToDestinationItinerary = // todo
+            var walkToDestinationItinerary = _openRouteService.DirectionsWalking(destinationStationCoord, destinationCoord);
 
             // 2.2 compute the total itinerary
-            //var bikeAndWalkItinerary = // todo
+            // list of 3 itineraries
+            var bikeAndWalkItinerary = new List<OpenRouteServiceRoot>
+            {
+                walkToBikeItinerary,
+                bikeItinerary,
+                walkToDestinationItinerary
+            };
 
-            // 3. compare the itineraries and return the best one
-            // (Return the instructions to the client.)
-
-            //if (walkItinerary < bikeAndWalkItinerary)
-            if (walkItinerary.features[0].properties.summary.duration <
-                bikeItinerary.features[0].properties.summary.duration)
+            // compute duration of bike and walk itinerary using a stram 
+            var bikeAndWalkDuration = bikeAndWalkItinerary
+                .Select(itinerary => itinerary.features[0].properties.summary.duration)
+                .Sum();
+            
+            if (walkItinerary.features[0].properties.summary.duration < bikeAndWalkDuration)
                 return "Itinéraire à pied : " + Util.MyToString(walkItinerary);
-            //return "Itinéraire à vélo : " + bikeAndWalkItinerary;
-            return "Itinéraire à vélo : " + Util.MyToString(bikeItinerary);
+            return "Itinéraire à vélo : " + Util.MyToString(bikeAndWalkItinerary);
         }
 
         public bool areInSameContract(OpenStreetMapCoordInfo city1, OpenStreetMapCoordInfo city2)
         {
-            // si la clé existe dans le dictionnaire 
             Console.WriteLine($"City1 : {Util.MyToString(city1.address)} - City2 : {Util.MyToString(city2.address)}");
             if (!citiesContracts.ContainsKey(city1.address.GetCity()) ||
                 !citiesContracts.ContainsKey(city2.address.GetCity())) return false;
