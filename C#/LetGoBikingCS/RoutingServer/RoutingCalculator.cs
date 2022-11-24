@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Device.Location;
 using RoutingServer.ServiceReference1;
 
@@ -9,6 +10,30 @@ namespace RoutingServer
         private readonly Converter _converter = new Converter();
         private readonly APIJCDecauxProxyClient _proxy = new APIJCDecauxProxyClient();
 
+        private Dictionary<string, Contract> citiesContracts;  
+        
+        public RoutingCalculator()
+        {
+            var contracts = _proxy.Contracts();
+            citiesContracts = _converter.ListStringCitiesFromContracts(contracts);
+        }
+        
+        public bool areInSameContract(OpenStreetMapCoordInfo city1, OpenStreetMapCoordInfo city2)
+        {
+            // si la clé existe dans le dictionnaire 
+            Console.WriteLine($"City1 : {Util.ToString(city1.address)} - City2 : {Util.ToString(city2.address)}");
+            if (!citiesContracts.ContainsKey(city1.address.GetCity()) || !citiesContracts.ContainsKey(city2.address.GetCity()))
+            {
+                return false;
+            }
+
+            var contract1 = citiesContracts[city1.address.GetCity()];
+            var contract2 = citiesContracts[city2.address.GetCity()];
+            Console.WriteLine("Contract1 : " + contract1.name + " Contract2 : " + contract2.name);
+            
+            return contract1 == contract2;
+        }
+
         public string GetItinerary(string origin, string destination)
         {
             var preparedInputs = prepareInput(origin, destination);
@@ -16,10 +41,6 @@ namespace RoutingServer
             var destinationCoord = preparedInputs.Item2;
             var originAddressInfo = preparedInputs.Item3;
             var destinationAddressInfo = preparedInputs.Item4;
-
-            Console.WriteLine($"Origin address info : {Util.ToString(originAddressInfo.address)}");
-            Console.WriteLine($"Destination address info : {Util.ToString(destinationAddressInfo.address)}");
-
 
             /* Find the JC Decaux contract associated with the given origin/destination.
             Retrieve all stations of this/those contract(s).
@@ -29,15 +50,26 @@ namespace RoutingServer
             Compute itineraries by calling an external REST API.
             Return the instructions to the client.
             */
+            
+            // Find the JC Decaux contract associated with the given origin/destination.
+            
+            if (!areInSameContract(originAddressInfo, destinationAddressInfo))
+            {
+                return "Les deux villes ne sont pas dans le même contrat";
+            };
+            
+            // Retrieve all stations of this/those contract(s).
+            
+            var contract  = citiesContracts[originAddressInfo.address.GetCity()];
+            
+            // Compute the closest from the origin with available bikes.
+            
+            //var closestStationFromOrigin = closestStation(originCoord, contract);
+            
+            
 
 
             return "terminé";
-        }
-
-        private static GeoCoordinate ClosestContract(GeoCoordinate origin, GeoCoordinate destination,
-            Contract[] contracts)
-        {
-            return null;
         }
 
         private Tuple<GeoCoordinate, GeoCoordinate, OpenStreetMapCoordInfo, OpenStreetMapCoordInfo> prepareInput(

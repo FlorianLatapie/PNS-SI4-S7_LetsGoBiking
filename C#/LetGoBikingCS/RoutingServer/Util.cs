@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Device.Location;
 using System.Net.Http;
 using System.Text;
 using System.Text.Json;
+using RoutingServer.ServiceReference1;
 
 namespace RoutingServer
 {
@@ -92,6 +94,21 @@ namespace RoutingServer
             var longitude = double.Parse(coordValues[1].Replace(".", ","));
 
             return new GeoCoordinate(latitude, longitude);
+        }
+
+        public Dictionary<string,Contract> ListStringCitiesFromContracts(Contract[] contracts)
+        {
+            var dict = new Dictionary<string, Contract>();
+            
+            foreach (var contract in contracts)
+            {
+                foreach (var city in contract.cities)
+                {
+                    dict.Add(city, contract);
+                }
+            }
+            
+            return dict;
         }
     }
 }
