@@ -44,6 +44,10 @@ namespace RoutingServer
         public string version { get; set; }
         public DateTime build_date { get; set; }
         public DateTime graph_date { get; set; }
+        public override string ToString()
+        {
+            return Util.MyToString(this);
+        }
     }
 
     public class Feature
@@ -52,12 +56,21 @@ namespace RoutingServer
         public string type { get; set; }
         public Properties properties { get; set; }
         public Geometry geometry { get; set; }
+        
+        public override string ToString()
+        {
+            return Util.MyToString(this);
+        }
     }
 
     public class Geometry
     {
         public List<List<double>> coordinates { get; set; }
         public string type { get; set; }
+        public override string ToString()
+        {
+            return Util.MyToString(this);
+        }
     }
 
     public class Metadata
@@ -67,6 +80,10 @@ namespace RoutingServer
         public long timestamp { get; set; }
         public Query query { get; set; }
         public Engine engine { get; set; }
+        public override string ToString()
+        {
+            return Util.MyToString(this);
+        }
     }
 
     public class Properties
@@ -74,6 +91,10 @@ namespace RoutingServer
         public List<Segment> segments { get; set; }
         public Summary summary { get; set; }
         public List<int> way_points { get; set; }
+        public override string ToString()
+        {
+            return Util.MyToString(this);
+        }
     }
 
     public class Query
@@ -81,6 +102,10 @@ namespace RoutingServer
         public List<List<double>> coordinates { get; set; }
         public string profile { get; set; }
         public string format { get; set; }
+        public override string ToString()
+        {
+            return Util.MyToString(this);
+        }
     }
 
     public class OpenRouteServiceRoot
@@ -89,6 +114,10 @@ namespace RoutingServer
         public List<Feature> features { get; set; }
         public List<double> bbox { get; set; }
         public Metadata metadata { get; set; }
+        public override string ToString()
+        {
+            return Util.MyToString(this);
+        }
     }
 
     public class Segment
@@ -96,6 +125,10 @@ namespace RoutingServer
         public double distance { get; set; }
         public double duration { get; set; }
         public List<Step> steps { get; set; }
+        public override string ToString()
+        {
+            return Util.MyToString(this);
+        }
     }
 
     public class Step
@@ -106,11 +139,19 @@ namespace RoutingServer
         public string instruction { get; set; }
         public string name { get; set; }
         public List<int> way_points { get; set; }
+        public override string ToString()
+        {
+            return Util.MyToString(this);
+        }
     }
 
     public class Summary
     {
         public double distance { get; set; }
         public double duration { get; set; }
+        public override string ToString()
+        {
+            return Util.MyToString(this);
+        }
     }
 }

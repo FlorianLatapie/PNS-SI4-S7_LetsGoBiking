@@ -16,6 +16,10 @@ namespace RoutingServer
         public string category { get; set; }
         public string type { get; set; }
         public double importance { get; set; }
+        public override string ToString()
+        {
+            return Util.MyToString(this);
+        }
     }
 
     public class Address
@@ -34,6 +38,11 @@ namespace RoutingServer
         public string postcode { get; set; }
         public string country { get; set; }
         public string country_code { get; set; }
+        
+        public override string ToString()
+        {
+            return Util.MyToString(this);
+        }
 
         public string GetCity()
         {
@@ -64,5 +73,10 @@ namespace RoutingServer
         public string display_name { get; set; }
         public Address address { get; set; }
         public List<string> boundingbox { get; set; }
+        
+        public override string ToString()
+        {
+            return Util.MyToString(this);
+        }
     }
 }

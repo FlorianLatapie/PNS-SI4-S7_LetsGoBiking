@@ -1,6 +1,6 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Device.Location;
 using System.Globalization;
 using System.Net.Http;
@@ -12,30 +12,56 @@ namespace RoutingServer
 {
     public class Util
     {
-        public static string ToString(object myObject)
+        public static string MyToString(object myObject)
         {
-            var coll = TypeDescriptor.GetProperties(myObject);
-            var builder = new StringBuilder();
-            foreach (PropertyDescriptor pd in coll)
+            var result = new StringBuilder();
+            // if myObject is a list, then we need to iterate through the list and print each item
+            
+            if (myObject is IEnumerable enumerable)
             {
-                if (pd.GetValue(myObject) == null)
-                {
-                    builder.Append($"{pd.Name} : null");
-                }
-                else if (pd.GetValue(myObject).GetType().IsArray)
-                {
-                    builder.Append($"{pd.Name} : ");
-                    Array.ForEach((object[])pd.GetValue(myObject), item => builder.Append($"{item} "));
-                }
-                else
-                {
-                    builder.Append($"{pd.Name} : {pd.GetValue(myObject)}");
-                }
-
-                builder.Append(Environment.NewLine);
+                result.Append("[");
+                foreach (var item in enumerable) result.Append(MyToString(item)).Append(", ");
+                result.Append("]");
+                return result.ToString();
             }
 
-            return builder.ToString();
+            var propertyInfos = myObject.GetType().GetProperties();
+            foreach (var property in propertyInfos)
+            {
+                var value = property.GetValue(myObject);
+                if (value != null)
+                {
+                    if (value.GetType().IsArray)
+                    {
+                        var array = (object[])value;
+                        if (array.Length > 0)
+                        {
+                            result.Append($"{property.Name} : ");
+                            result.Append("[");
+                            Array.ForEach(array, item => result.Append($"{MyToString(item)}, "));
+                            result.Append("]");
+                        }
+                    }
+
+                    // if the property is a list (ex:'System.Collections.Generic.List`1[RoutingServer.Feature]'), we need to iterate over the list and print the values
+                    else if (value.GetType().IsGenericType &&
+                             value.GetType().GetGenericTypeDefinition() == typeof(List<>))
+                    {
+                        result.Append($"{property.Name} : ");
+                        result.Append("[");
+                        foreach (var item in (IList)value) result.Append($"{MyToString(item)}, ");
+                        result.Append("]");
+                    }
+                    else
+                    {
+                        result.Append($"{property.Name} : {value}").AppendLine();
+                    }
+
+                    //result.Append(Environment.NewLine);
+                }
+            }
+
+            return result.ToString();
         }
     }
 
@@ -57,19 +83,17 @@ namespace RoutingServer
             var requestUrl = $"https://nominatim.openstreetmap.org/search.php?q={address}&format=jsonv2";
             Console.WriteLine($"Api call to OpenStreetMap {requestUrl}");
 
-            var OpenStreetMapResponseBody = Client.GetStringAsync(requestUrl).Result;
-            return JsonSerializer.Deserialize<OpenStreetMapAdressInfo[]>(OpenStreetMapResponseBody)[0];
+            var openStreetMapResponseBody = Client.GetStringAsync(requestUrl).Result;
+            return JsonSerializer.Deserialize<OpenStreetMapAdressInfo[]>(openStreetMapResponseBody)[0];
         }
 
         public OpenStreetMapCoordInfo OpenStreetMapAddressCoordInfoFromCoord_api(GeoCoordinate coord)
         {
             // format : "coord:X.X;Y.Y" 
-
-            var latitude = coord.Latitude.ToString().Replace(",", ".");
-            var longitude = coord.Longitude.ToString().Replace(",", ".");
+            var strCoords = TupleStrFromGeoCoordinate(coord);
 
             var requestUrl =
-                $"https://nominatim.openstreetmap.org/reverse.php?lat={latitude}&lon={longitude}&format=jsonv2";
+                $"https://nominatim.openstreetmap.org/reverse.php?lat={strCoords.Item1}&lon={strCoords.Item2}&format=jsonv2";
 
             var OpenStreetMapResponseBody = Client.GetStringAsync(requestUrl).Result;
             return JsonSerializer.Deserialize<OpenStreetMapCoordInfo>(OpenStreetMapResponseBody);

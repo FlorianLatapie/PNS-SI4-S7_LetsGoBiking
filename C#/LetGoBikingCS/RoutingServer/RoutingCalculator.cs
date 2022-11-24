@@ -72,22 +72,15 @@ namespace RoutingServer
             //if (walkItinerary < bikeAndWalkItinerary)
             if (walkItinerary.features[0].properties.summary.duration <
                 bikeItinerary.features[0].properties.summary.duration)
-                return "Itinéraire à pied : " + walkItinerary;
+                return "Itinéraire à pied : " + Util.MyToString(walkItinerary);
             //return "Itinéraire à vélo : " + bikeAndWalkItinerary;
-            return "Itinéraire à vélo : " + bikeItinerary;
-
-            Console.WriteLine("Closest station from origin : " + Util.ToString(closestStationFromOrigin) +
-                              Environment.NewLine + Util.ToString(closestStationFromOrigin.position));
-            Console.WriteLine("Closest station from destination : " + Util.ToString(closestStationFromDestination) +
-                              Environment.NewLine + Util.ToString(closestStationFromDestination.position));
-
-            return "terminé";
+            return "Itinéraire à vélo : " + Util.MyToString(bikeItinerary);
         }
 
         public bool areInSameContract(OpenStreetMapCoordInfo city1, OpenStreetMapCoordInfo city2)
         {
             // si la clé existe dans le dictionnaire 
-            Console.WriteLine($"City1 : {Util.ToString(city1.address)} - City2 : {Util.ToString(city2.address)}");
+            Console.WriteLine($"City1 : {Util.MyToString(city1.address)} - City2 : {Util.MyToString(city2.address)}");
             if (!citiesContracts.ContainsKey(city1.address.GetCity()) ||
                 !citiesContracts.ContainsKey(city2.address.GetCity())) return false;
 
