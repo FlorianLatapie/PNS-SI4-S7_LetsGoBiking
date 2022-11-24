@@ -16,7 +16,7 @@ namespace ProxyServer
             _cache = new Dictionary<string, Tuple<T, DateTimeOffset>>();
 
 
-        public T Get(string cacheItemName, DateTimeOffset dt)
+        private T Get(string cacheItemName, DateTimeOffset dt)
         {
             UpdateCache();
 

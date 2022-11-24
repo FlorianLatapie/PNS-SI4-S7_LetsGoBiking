@@ -24,11 +24,8 @@ namespace RoutingServer
 
         public string GetItinerary(string origin, string destination)
         {
-            var preparedInputs = PrepareInput(origin, destination);
-            var originCoord = preparedInputs.Item1;
-            var destinationCoord = preparedInputs.Item2;
-            var originAddressInfo = preparedInputs.Item3;
-            var destinationAddressInfo = preparedInputs.Item4;
+            var (originCoord, destinationCoord, originAddressInfo, destinationAddressInfo) =
+                PrepareInput(origin, destination);
 
             // Find the JC Decaux contract associated with the given origin/destination.
             if (!AreInSameContract(originAddressInfo, destinationAddressInfo))
@@ -108,11 +105,9 @@ namespace RoutingServer
             {
                 var distance =
                     originCoord.GetDistanceTo(new GeoCoordinate(station.position.latitude, station.position.longitude));
-                if (distance < minDistance)
-                {
-                    minDistance = distance;
-                    closestStation = station;
-                }
+                if (!(distance < minDistance)) continue;
+                minDistance = distance;
+                closestStation = station;
             }
 
             return closestStation;
@@ -121,13 +116,9 @@ namespace RoutingServer
         private Tuple<GeoCoordinate, GeoCoordinate, OpenStreetMapCoordInfo, OpenStreetMapCoordInfo> PrepareInput(
             string origin, string destination)
         {
-            var tupleCoord = ProcessInput(origin, destination);
-            var originCoord = tupleCoord.Item1;
-            var destinationCoord = tupleCoord.Item2;
+            var (originCoord, destinationCoord) = ProcessInput(origin, destination);
 
-            var tupleOpenStreetMapAdressInfo = ProcessCoords(originCoord, destinationCoord);
-            var originAddressInfo = tupleOpenStreetMapAdressInfo.Item1;
-            var destinationAddressInfo = tupleOpenStreetMapAdressInfo.Item2;
+            var (originAddressInfo, destinationAddressInfo) = ProcessCoords(originCoord, destinationCoord);
 
             return new Tuple<GeoCoordinate, GeoCoordinate, OpenStreetMapCoordInfo, OpenStreetMapCoordInfo>(originCoord,
                 destinationCoord, originAddressInfo, destinationAddressInfo);
