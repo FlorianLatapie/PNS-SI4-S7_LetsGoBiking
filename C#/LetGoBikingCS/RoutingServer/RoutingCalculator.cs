@@ -34,6 +34,24 @@ namespace RoutingServer
             return contract1 == contract2;
         }
 
+        public Station ClosestStation(GeoCoordinate originCoord, Station[] stations)
+        {
+            var closestStation = stations[0];
+            var minDistance = originCoord.GetDistanceTo(new GeoCoordinate(closestStation.position.latitude, closestStation.position.longitude));
+
+            foreach (var station in stations)
+            {
+                var distance = originCoord.GetDistanceTo(new GeoCoordinate(station.position.latitude, station.position.longitude));
+                if (distance < minDistance)
+                {
+                    minDistance = distance;
+                    closestStation = station;
+                }
+            }
+
+            return closestStation;
+        }
+
         public string GetItinerary(string origin, string destination)
         {
             var preparedInputs = prepareInput(origin, destination);
@@ -62,13 +80,19 @@ namespace RoutingServer
             
             var contract  = citiesContracts[originAddressInfo.address.GetCity()];
             
-            // Compute the closest from the origin with available bikes.
-            
-            //var closestStationFromOrigin = closestStation(originCoord, contract);
-            
-            
+            // Compute the closest from the origin with available bike
 
-
+            var stations = _proxy.StationsOfContract(contract.name);
+            
+            var closestStationFromOrigin = ClosestStation(originCoord, stations);
+            
+            // Compute the closest from the destination with available spots to drop bikes.
+            
+            var closestStationFromDestination = ClosestStation(destinationCoord, stations);
+            
+            Console.WriteLine("Closest station from origin : " + Util.ToString(closestStationFromOrigin) + Environment.NewLine + Util.ToString(closestStationFromOrigin.position));
+            Console.WriteLine("Closest station from destination : " + Util.ToString(closestStationFromDestination) + Environment.NewLine + Util.ToString(closestStationFromDestination.position));
+            
             return "terminé";
         }
 
