@@ -100,8 +100,8 @@ namespace RoutingServer
             var requestUrl =
                 $"https://nominatim.openstreetmap.org/reverse.php?lat={strCoords.Item1}&lon={strCoords.Item2}&format=jsonv2";
 
-            var OpenStreetMapResponseBody = Client.GetStringAsync(requestUrl).Result;
-            return JsonSerializer.Deserialize<OpenStreetMapCoordInfo>(OpenStreetMapResponseBody);
+            var openStreetMapResponseBody = Client.GetStringAsync(requestUrl).Result;
+            return JsonSerializer.Deserialize<OpenStreetMapCoordInfo>(openStreetMapResponseBody);
         }
 
         public static GeoCoordinate OpenStreetMapAdressInfoToGeoCoordinate(

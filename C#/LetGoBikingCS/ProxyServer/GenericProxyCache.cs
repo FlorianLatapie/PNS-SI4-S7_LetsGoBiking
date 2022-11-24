@@ -9,7 +9,7 @@ namespace ProxyServer
 {
     public class GenericProxyCache<T> where T : class
     {
-        private static readonly HttpClient Client = new HttpClient();
+        private readonly HttpClient _client = new HttpClient();
         private readonly DateTimeOffset _dtDefaultDateTimeOffset = ObjectCache.InfiniteAbsoluteExpiration;
 
         private Dictionary<string, Tuple<T, DateTimeOffset>>
@@ -28,7 +28,7 @@ namespace ProxyServer
 
             Console.WriteLine($"requete vers serveur {cacheItemName}");
 
-            var jcDecauxResponseBody = Client.GetStringAsync(cacheItemName);
+            var jcDecauxResponseBody = _client.GetStringAsync(cacheItemName);
             var objectToAdd = JsonSerializer.Deserialize<T>(jcDecauxResponseBody.Result);
 
             _cache[cacheItemName] = Tuple.Create(objectToAdd, dt);

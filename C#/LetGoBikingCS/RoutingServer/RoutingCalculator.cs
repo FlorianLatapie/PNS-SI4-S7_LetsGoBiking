@@ -13,31 +13,30 @@ namespace RoutingServer
 
         private readonly APIJCDecauxProxyClient _proxy = new APIJCDecauxProxyClient();
 
-        private readonly Dictionary<string, Contract> citiesContracts;
+        private readonly Dictionary<string, Contract> _citiesContracts;
 
 
         public RoutingCalculator()
         {
             var contracts = _proxy.Contracts();
-            citiesContracts = Converter.ListStringCitiesFromContracts(contracts);
+            _citiesContracts = Converter.ListStringCitiesFromContracts(contracts);
         }
 
         public string GetItinerary(string origin, string destination)
         {
-            var preparedInputs = prepareInput(origin, destination);
+            var preparedInputs = PrepareInput(origin, destination);
             var originCoord = preparedInputs.Item1;
             var destinationCoord = preparedInputs.Item2;
             var originAddressInfo = preparedInputs.Item3;
             var destinationAddressInfo = preparedInputs.Item4;
 
             // Find the JC Decaux contract associated with the given origin/destination.
-            if (!areInSameContract(originAddressInfo, destinationAddressInfo))
+            if (!AreInSameContract(originAddressInfo, destinationAddressInfo))
                 return
                     "Les deux villes ne sont pas dans le même contrat ou l'une des villes n'est pas dans un contrat JC Decaux.";
-            ;
 
             // Retrieve all stations of this/those contract(s).
-            var contract = citiesContracts[originAddressInfo.address.GetCity()];
+            var contract = _citiesContracts[originAddressInfo.address.GetCity()];
             var stations = _proxy.StationsOfContract(contract.name);
 
             // Compute the closest from the origin with available bike
@@ -55,7 +54,6 @@ namespace RoutingServer
 
             // 2. try by bike + foot
             // 2.1 get all itineraries necessary 
-            var closestStationFromOriginCoord = Converter.CoordFromStation(closestStationFromOrigin);
             var walkToBikeItinerary = _openRouteService.DirectionsWalking(originCoord, originStationCoord); 
             
             var bikeItinerary =
@@ -79,23 +77,28 @@ namespace RoutingServer
             
             if (walkItinerary.features[0].properties.summary.duration < bikeAndWalkDuration)
                 return "Itinéraire à pied : " + Util.MyToString(walkItinerary);
-            return "Itinéraire à vélo : " + Util.MyToString(bikeAndWalkItinerary);
+            //return "Itinéraire à vélo : " + Util.MyToString(bikeAndWalkItinerary);
+            return "Coords : " + Environment.NewLine
+                               + "Origin : " + Environment.NewLine + originCoord + Environment.NewLine
+                               + "First station : " + Environment.NewLine + originStationCoord + Environment.NewLine
+                               + "last station : " + Environment.NewLine + destinationStationCoord + Environment.NewLine
+                               + "Destination : " + Environment.NewLine + destinationCoord + Environment.NewLine;
         }
 
-        public bool areInSameContract(OpenStreetMapCoordInfo city1, OpenStreetMapCoordInfo city2)
+        private bool AreInSameContract(OpenStreetMapCoordInfo city1, OpenStreetMapCoordInfo city2)
         {
             Console.WriteLine($"City1 : {Util.MyToString(city1.address)} - City2 : {Util.MyToString(city2.address)}");
-            if (!citiesContracts.ContainsKey(city1.address.GetCity()) ||
-                !citiesContracts.ContainsKey(city2.address.GetCity())) return false;
+            if (!_citiesContracts.ContainsKey(city1.address.GetCity()) ||
+                !_citiesContracts.ContainsKey(city2.address.GetCity())) return false;
 
-            var contract1 = citiesContracts[city1.address.GetCity()];
-            var contract2 = citiesContracts[city2.address.GetCity()];
+            var contract1 = _citiesContracts[city1.address.GetCity()];
+            var contract2 = _citiesContracts[city2.address.GetCity()];
             Console.WriteLine("Contract1 : " + contract1.name + " Contract2 : " + contract2.name);
 
             return contract1 == contract2;
         }
 
-        public Station ClosestStation(GeoCoordinate originCoord, Station[] stations)
+        private static Station ClosestStation(GeoCoordinate originCoord, Station[] stations)
         {
             var closestStation = stations[0];
             var minDistance = originCoord.GetDistanceTo(new GeoCoordinate(closestStation.position.latitude,
@@ -115,14 +118,14 @@ namespace RoutingServer
             return closestStation;
         }
 
-        private Tuple<GeoCoordinate, GeoCoordinate, OpenStreetMapCoordInfo, OpenStreetMapCoordInfo> prepareInput(
+        private Tuple<GeoCoordinate, GeoCoordinate, OpenStreetMapCoordInfo, OpenStreetMapCoordInfo> PrepareInput(
             string origin, string destination)
         {
-            var tupleCoord = processInput(origin, destination);
+            var tupleCoord = ProcessInput(origin, destination);
             var originCoord = tupleCoord.Item1;
             var destinationCoord = tupleCoord.Item2;
 
-            var tupleOpenStreetMapAdressInfo = processCoords(originCoord, destinationCoord);
+            var tupleOpenStreetMapAdressInfo = ProcessCoords(originCoord, destinationCoord);
             var originAddressInfo = tupleOpenStreetMapAdressInfo.Item1;
             var destinationAddressInfo = tupleOpenStreetMapAdressInfo.Item2;
 
@@ -130,7 +133,7 @@ namespace RoutingServer
                 destinationCoord, originAddressInfo, destinationAddressInfo);
         }
 
-        private Tuple<GeoCoordinate, GeoCoordinate> processInput(string origin, string destination)
+        private Tuple<GeoCoordinate, GeoCoordinate> ProcessInput(string origin, string destination)
         {
             GeoCoordinate originCoord;
             GeoCoordinate destinationCoord;
@@ -160,7 +163,7 @@ namespace RoutingServer
             return new Tuple<GeoCoordinate, GeoCoordinate>(originCoord, destinationCoord);
         }
 
-        private Tuple<OpenStreetMapCoordInfo, OpenStreetMapCoordInfo> processCoords(GeoCoordinate origin,
+        private Tuple<OpenStreetMapCoordInfo, OpenStreetMapCoordInfo> ProcessCoords(GeoCoordinate origin,
             GeoCoordinate destination)
         {
             // api call to OpenStreetMap
