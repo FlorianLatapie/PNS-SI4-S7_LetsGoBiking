@@ -14,6 +14,11 @@ namespace RoutingServer
     {
         public static string MyToString(object myObject)
         {
+            // if the object is primitive, just return it
+            if (myObject.GetType().IsPrimitive || myObject is string)
+            {
+                return myObject.ToString();
+            }
             var result = new StringBuilder();
             // if myObject is a list, then we need to iterate through the list and print each item
             
