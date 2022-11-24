@@ -8,9 +8,12 @@ namespace RoutingServer
     internal class RoutingCalculator : IRoutingCalculator
     {
         private readonly Converter _converter = new Converter();
+        private readonly OpenRouteService _openRouteService = new OpenRouteService();
+        
         private readonly APIJCDecauxProxyClient _proxy = new APIJCDecauxProxyClient();
 
         private Dictionary<string, Contract> citiesContracts;  
+        
         
         public RoutingCalculator()
         {
@@ -59,36 +62,54 @@ namespace RoutingServer
             var destinationCoord = preparedInputs.Item2;
             var originAddressInfo = preparedInputs.Item3;
             var destinationAddressInfo = preparedInputs.Item4;
-
-            /* Find the JC Decaux contract associated with the given origin/destination.
-            Retrieve all stations of this/those contract(s).
-            Compute the closest from the origin with available bikes.
-            Compute the closest from the destination with available spots to drop bikes.
-            Check if the closest available stations are close enough so that it is worth to use them compared to directly go on foot from the origin to the destination.
-            Compute itineraries by calling an external REST API.
-            Return the instructions to the client.
-            */
             
             // Find the JC Decaux contract associated with the given origin/destination.
-            
             if (!areInSameContract(originAddressInfo, destinationAddressInfo))
             {
-                return "Les deux villes ne sont pas dans le même contrat";
+                return "Les deux villes ne sont pas dans le même contrat ou l'une des villes n'est pas dans un contrat JC Decaux.";
             };
             
             // Retrieve all stations of this/those contract(s).
-            
             var contract  = citiesContracts[originAddressInfo.address.GetCity()];
-            
-            // Compute the closest from the origin with available bike
-
             var stations = _proxy.StationsOfContract(contract.name);
             
+            // Compute the closest from the origin with available bike
             var closestStationFromOrigin = ClosestStation(originCoord, stations);
             
             // Compute the closest from the destination with available spots to drop bikes.
-            
             var closestStationFromDestination = ClosestStation(destinationCoord, stations);
+            
+            // Compute itineraries by calling an external REST API.
+
+            // 1. try by foot
+            var walkItinerary = _openRouteService.DirectionsWalking(originCoord, destinationCoord);
+            
+            // 2. try by bike + foot
+            // 2.1 get all itineraries necessary 
+            //var walkToBikeItinerary = // todo
+            
+            var geoCoordinateOriginStation = new GeoCoordinate(closestStationFromOrigin.position.latitude , closestStationFromOrigin.position.longitude);
+            var geoCoordinateDestinationStation = new GeoCoordinate(closestStationFromDestination.position.latitude , closestStationFromDestination.position.longitude);
+            var bikeItinerary = _openRouteService.DirectionsCycling(geoCoordinateOriginStation, geoCoordinateDestinationStation);
+            
+            //var walkToDestinationItinerary = // todo
+            
+            // 2.2 compute the total itinerary
+            //var bikeAndWalkItinerary = // todo
+            
+            // 3. compare the itineraries and return the best one
+            // (Return the instructions to the client.)
+
+            //if (walkItinerary < bikeAndWalkItinerary)
+            if (walkItinerary.features[0].properties.summary.duration < bikeItinerary.features[0].properties.summary.duration)
+            {
+                return "Itinéraire à pied : " + walkItinerary;
+            }
+            else
+            {
+                //return "Itinéraire à vélo : " + bikeAndWalkItinerary;
+                return "Itinéraire à vélo : " + bikeItinerary;
+            }
             
             Console.WriteLine("Closest station from origin : " + Util.ToString(closestStationFromOrigin) + Environment.NewLine + Util.ToString(closestStationFromOrigin.position));
             Console.WriteLine("Closest station from destination : " + Util.ToString(closestStationFromDestination) + Environment.NewLine + Util.ToString(closestStationFromDestination.position));

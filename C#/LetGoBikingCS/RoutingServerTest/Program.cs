@@ -11,7 +11,7 @@ namespace RoutingServerTest
             var watch = Stopwatch.StartNew();
 
             var test = new RoutingCalculatorClient();
-            Console.WriteLine(test.GetItinerary("addr:place du général de gaulle rouen", "addr:place saint marc rouen"));
+            Console.WriteLine(test.GetItinerary("addr:place du général de gaulle rouen", "addr:rue du rem martainville rouen"));
 
             watch.Stop();
             Console.WriteLine($"Time elapsed: {watch.Elapsed}");
