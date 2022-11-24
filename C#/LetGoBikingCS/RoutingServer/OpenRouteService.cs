@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Device.Location;
-using System.Globalization;
 using System.Net.Http;
 using System.Text.Json;
 
@@ -9,35 +8,36 @@ namespace RoutingServer
 {
     public class OpenRouteService
     {
-        private static readonly HttpClient Client = new HttpClient();
         private const string ApiUrl = "https://api.openrouteservice.org/v2/directions/";
         private const string Cycling = "cycling-regular/";
         private const string Walking = "foot-walking/";
         private const string ApiKey = "?api_key=5b3ce3597851110001cf62485ee6e70b50c0487cbe89c8f67d924fd6";
-        
+        private static readonly HttpClient Client = new HttpClient();
+
         private OpenRouteServiceRoot Directions(string type, GeoCoordinate origin, GeoCoordinate destination)
         {
             var originStr = Converter.TupleStrFromGeoCoordinate(origin);
             var destinationStr = Converter.TupleStrFromGeoCoordinate(destination);
-            
-            var requestUrl = ApiUrl + type + ApiKey + "&start=" + originStr.Item2 + "," + originStr.Item1 + "&end=" + destinationStr.Item2 + "," + destinationStr.Item1;
+
+            var requestUrl = ApiUrl + type + ApiKey + "&start=" + originStr.Item2 + "," + originStr.Item1 + "&end=" +
+                             destinationStr.Item2 + "," + destinationStr.Item1;
             Console.WriteLine($"Api call to OpenRouteService {requestUrl}");
 
             var openRouteServiceResponseBody = Client.GetStringAsync(requestUrl).Result;
             return JsonSerializer.Deserialize<OpenRouteServiceRoot>(openRouteServiceResponseBody);
         }
-        
+
         public OpenRouteServiceRoot DirectionsWalking(GeoCoordinate originCoord, GeoCoordinate destinationCoord)
         {
-            return Directions(Walking, originCoord, destinationCoord); 
+            return Directions(Walking, originCoord, destinationCoord);
         }
-        
+
         public OpenRouteServiceRoot DirectionsCycling(GeoCoordinate originCoord, GeoCoordinate destinationCoord)
         {
-            return Directions(Cycling, originCoord, destinationCoord); 
+            return Directions(Cycling, originCoord, destinationCoord);
         }
     }
-    
+
     // OpenRouteServiceRoot myDeserializedClass = JsonConvert.DeserializeObject<OpenRouteServiceRoot>(myJsonResponse);
     public class Engine
     {

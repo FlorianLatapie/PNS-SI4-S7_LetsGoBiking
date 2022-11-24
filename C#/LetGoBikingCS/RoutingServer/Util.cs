@@ -97,21 +97,17 @@ namespace RoutingServer
             return new GeoCoordinate(latitude, longitude);
         }
 
-        public static Dictionary<string,Contract> ListStringCitiesFromContracts(Contract[] contracts)
+        public static Dictionary<string, Contract> ListStringCitiesFromContracts(Contract[] contracts)
         {
             var dict = new Dictionary<string, Contract>();
-            
+
             foreach (var contract in contracts)
-            {
-                foreach (var city in contract.cities)
-                {
-                    dict.Add(city, contract);
-                }
-            }
-            
+            foreach (var city in contract.cities)
+                dict.Add(city, contract);
+
             return dict;
         }
-        
+
         public static Tuple<string, string> TupleStrFromGeoCoordinate(GeoCoordinate geoCoordinate)
         {
             var latitude = geoCoordinate.Latitude.ToString(CultureInfo.InvariantCulture).Replace(",", ".");

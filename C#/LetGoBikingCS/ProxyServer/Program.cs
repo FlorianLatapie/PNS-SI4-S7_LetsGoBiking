@@ -2,6 +2,7 @@
 using System.Globalization;
 using System.ServiceModel;
 using System.ServiceModel.Description;
+
 // add the WCF ServiceModel namespace 
 
 namespace ProxyServer
