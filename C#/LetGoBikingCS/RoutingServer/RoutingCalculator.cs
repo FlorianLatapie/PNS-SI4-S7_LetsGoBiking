@@ -24,6 +24,12 @@ namespace RoutingServer
 
         public string GetItinerary(string origin, string destination)
         {
+            _proxy.StationsOfContract("rouen");
+            _proxy.StationsOfContract("rouen");
+            _proxy.StationsOfContract("rouen");
+            _proxy.StationsOfContract("lyon");
+
+
             var (originCoord, destinationCoord, originAddressInfo, destinationAddressInfo) =
                 PrepareInput(origin, destination);
 
@@ -34,6 +40,7 @@ namespace RoutingServer
 
             // Retrieve all stations of this/those contract(s).
             var contract = _citiesContracts[originAddressInfo.address.GetCity()];
+            Console.WriteLine("\""+contract.name+"\"");
             var stations = _proxy.StationsOfContract(contract.name);
 
             // Compute the closest from the origin with available bike
