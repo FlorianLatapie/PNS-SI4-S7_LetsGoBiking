@@ -1,0 +1,1 @@
+wt -d "%cd%" "Run\2.bat" ; split-pane -H -d "%cd%" "Run\1.bat"
