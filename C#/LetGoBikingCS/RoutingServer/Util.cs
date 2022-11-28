@@ -86,7 +86,6 @@ namespace RoutingServer
             Console.WriteLine($"Api call to OpenStreetMap {requestUrl}");
 
             var openStreetMapResponseBody = Client.GetStringAsync(requestUrl).Result;
-            Console.WriteLine(openStreetMapResponseBody);
             return JsonSerializer.Deserialize<OpenStreetMapAdressInfo[]>(openStreetMapResponseBody)[0];
         }
 
