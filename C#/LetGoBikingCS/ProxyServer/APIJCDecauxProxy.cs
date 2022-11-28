@@ -23,13 +23,13 @@ namespace ProxyServer
         public Station StationOfContract(string contractName, int stationNumber)
         {
             var reqString = BaseUri + "stations/" + stationNumber + "?contract=" + contractName + "&" + KeyUri;
-            return _stationCache.Get(reqString, 1 * 60);
+            return _stationCache.Get(reqString, 5 * 60);
         }
 
         public List<Station> StationsOfContract(string contractName)
         {
             var reqString = BaseUri + "stations?contract=" + contractName + "&" + KeyUri;
-            return _stationsCache.Get(reqString, 5 * 60);
+            return _stationsCache.Get(reqString, 1 * 60);
         }
     }
 }

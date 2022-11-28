@@ -8,12 +8,11 @@ namespace RoutingServer
 {
     internal class RoutingCalculator : IRoutingCalculator
     {
+        private readonly Dictionary<string, Contract> _citiesContracts;
         private readonly Converter _converter = new Converter();
         private readonly OpenRouteService _openRouteService = new OpenRouteService();
 
         private readonly APIJCDecauxProxyClient _proxy = new APIJCDecauxProxyClient();
-
-        private readonly Dictionary<string, Contract> _citiesContracts;
 
 
         public RoutingCalculator()
@@ -51,12 +50,13 @@ namespace RoutingServer
 
             // 2. try by bike + foot
             // 2.1 get all itineraries necessary 
-            var walkToBikeItinerary = _openRouteService.DirectionsWalking(originCoord, originStationCoord); 
-            
+            var walkToBikeItinerary = _openRouteService.DirectionsWalking(originCoord, originStationCoord);
+
             var bikeItinerary =
                 _openRouteService.DirectionsCycling(originStationCoord, destinationStationCoord);
 
-            var walkToDestinationItinerary = _openRouteService.DirectionsWalking(destinationStationCoord, destinationCoord);
+            var walkToDestinationItinerary =
+                _openRouteService.DirectionsWalking(destinationStationCoord, destinationCoord);
 
             // 2.2 compute the total itinerary
             // list of 3 itineraries
@@ -71,7 +71,7 @@ namespace RoutingServer
             var bikeAndWalkDuration = bikeAndWalkItinerary
                 .Select(itinerary => itinerary.features[0].properties.summary.duration)
                 .Sum();
-            
+
             if (walkItinerary.features[0].properties.summary.duration < bikeAndWalkDuration)
                 return "Itinéraire à pied : " + Util.MyToString(walkItinerary);
             //return "Itinéraire à vélo : " + Util.MyToString(bikeAndWalkItinerary);
@@ -103,6 +103,7 @@ namespace RoutingServer
 
             foreach (var station in stations)
             {
+                if (station.totalStands.availabilities.stands == 0) continue;
                 var distance =
                     originCoord.GetDistanceTo(new GeoCoordinate(station.position.latitude, station.position.longitude));
                 if (!(distance < minDistance)) continue;
