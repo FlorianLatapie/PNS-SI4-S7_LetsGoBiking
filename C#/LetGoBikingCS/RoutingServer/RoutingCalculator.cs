@@ -24,10 +24,11 @@ namespace RoutingServer
 
         public string GetItinerary(string origin, string destination)
         {
-            _proxy.StationsOfContract("rouen");
-            _proxy.StationsOfContract("rouen");
-            _proxy.StationsOfContract("rouen");
-            _proxy.StationsOfContract("lyon");
+            //_proxy.StationsOfContract("rouen");
+            //_proxy.StationsOfContract("rouen");
+            //_proxy.StationsOfContract("amiens");
+            //_proxy.StationsOfContract("lyon");
+            // does
 
 
             var (originCoord, destinationCoord, originAddressInfo, destinationAddressInfo) =
@@ -35,12 +36,13 @@ namespace RoutingServer
 
             // Find the JC Decaux contract associated with the given origin/destination.
             if (!AreInSameContract(originAddressInfo, destinationAddressInfo))
-                return
-                    "Les deux villes ne sont pas dans le même contrat ou l'une des villes n'est pas dans un contrat JC Decaux.";
+                return JsonSerializer.Serialize(new Converter.ReturnItem("Les deux villes ne sont pas dans le même contrat ou l'une des villes n'est pas dans un contrat JC Decaux."));
 
             // Retrieve all stations of this/those contract(s).
             var contract = _citiesContracts[originAddressInfo.address.GetCity()];
+            
             Console.WriteLine("\""+contract.name+"\"");
+            
             var stations = _proxy.StationsOfContract(contract.name);
 
             // Compute the closest from the origin with available bike
@@ -83,7 +85,12 @@ namespace RoutingServer
             if (walkItinerary.features[0].properties.summary.duration < bikeAndWalkDuration)
             {
                 // send walkItinerary in json
-                return JsonSerializer.Serialize(walkItinerary);
+                // list of 1 itinerary
+                return JsonSerializer.Serialize(
+                    new Converter.ReturnItem(
+                        new List<OpenRouteServiceRoot> { walkItinerary }
+                        )
+                    );
             }
                
             //return "Itinéraire à vélo : " + Util.MyToString(bikeAndWalkItinerary);
@@ -93,18 +100,16 @@ namespace RoutingServer
                                + "last station : " + Environment.NewLine + destinationStationCoord + Environment.NewLine
                                + "Destination : " + Environment.NewLine + destinationCoord + Environment.NewLine;
                                */
-            return JsonSerializer.Serialize(bikeAndWalkItinerary);
+            return JsonSerializer.Serialize(new Converter.ReturnItem(bikeAndWalkItinerary));
         }
 
         private bool AreInSameContract(OpenStreetMapCoordInfo city1, OpenStreetMapCoordInfo city2)
         {
-            Console.WriteLine($"City1 : {Util.MyToString(city1.address)} - City2 : {Util.MyToString(city2.address)}");
             if (!_citiesContracts.ContainsKey(city1.address.GetCity()) ||
                 !_citiesContracts.ContainsKey(city2.address.GetCity())) return false;
 
             var contract1 = _citiesContracts[city1.address.GetCity()];
             var contract2 = _citiesContracts[city2.address.GetCity()];
-            Console.WriteLine("Contract1 : " + contract1.name + " Contract2 : " + contract2.name);
 
             return contract1 == contract2;
         }

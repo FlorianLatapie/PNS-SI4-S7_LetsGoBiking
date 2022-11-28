@@ -15,13 +15,10 @@ namespace RoutingServer
         public static string MyToString(object myObject)
         {
             // if the object is primitive, just return it
-            if (myObject.GetType().IsPrimitive || myObject is string)
-            {
-                return myObject.ToString();
-            }
+            if (myObject.GetType().IsPrimitive || myObject is string) return myObject.ToString();
             var result = new StringBuilder();
             // if myObject is a list, then we need to iterate through the list and print each item
-            
+
             if (myObject is IEnumerable enumerable)
             {
                 result.Append("[");
@@ -89,6 +86,7 @@ namespace RoutingServer
             Console.WriteLine($"Api call to OpenStreetMap {requestUrl}");
 
             var openStreetMapResponseBody = Client.GetStringAsync(requestUrl).Result;
+            Console.WriteLine(openStreetMapResponseBody);
             return JsonSerializer.Deserialize<OpenStreetMapAdressInfo[]>(openStreetMapResponseBody)[0];
         }
 
@@ -147,6 +145,25 @@ namespace RoutingServer
         public static GeoCoordinate CoordFromStation(Station station)
         {
             return new GeoCoordinate(station.position.latitude, station.position.longitude);
+        }
+
+        public class ReturnItem
+        {
+            public bool success { get; set; }
+            public string errorMessage { get; set; }
+            public List<OpenRouteServiceRoot> itineraries { get; set; }
+            
+            public ReturnItem(string errorMessage)
+            {
+                this.success = false;
+                this.errorMessage = errorMessage;
+            }
+            
+            public ReturnItem(List<OpenRouteServiceRoot> itineraries)
+            {
+                this.success = true;
+                this.itineraries = itineraries;
+            }
         }
     }
 }
