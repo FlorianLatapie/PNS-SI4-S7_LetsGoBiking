@@ -17,14 +17,14 @@ namespace RoutingServer
             var httpUrl = new Uri("http://localhost:8090/MyService/RoutingCalculator");
 
             //Create ServiceHost
-            var host = new ServiceHost(typeof(RoutingCalculator), httpUrl);
+            //var host = new ServiceHost(typeof(RoutingCalculator), httpUrl);
 
             // Multiple end points can be added to the Service using AddServiceEndpoint() method.
             // Host.Open() will run the service, so that it can be used by any client.
 
             // Example adding :
-            // Uri tcpUrl = new Uri("net.tcp://localhost:8090/MyService/RoutingCalculator");
-            // ServiceHost host = new ServiceHost(typeof(MyCalculatorService.RoutingCalculator), httpUrl, tcpUrl);
+             Uri tcpUrl = new Uri("net.tcp://localhost:8090/MyService/RoutingCalculator");
+             ServiceHost host = new ServiceHost(typeof(RoutingServer.RoutingCalculator), httpUrl, tcpUrl);
 
             //Add a service endpoint
             host.AddServiceEndpoint(typeof(IRoutingCalculator), new WSHttpBinding(), "");
