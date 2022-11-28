@@ -118,6 +118,7 @@ namespace RoutingServer.ServiceReference1 {
     [System.Runtime.Serialization.KnownTypeAttribute(typeof(RoutingServer.ServiceReference1.Availabilities))]
     [System.Runtime.Serialization.KnownTypeAttribute(typeof(RoutingServer.ServiceReference1.Position))]
     [System.Runtime.Serialization.KnownTypeAttribute(typeof(RoutingServer.ServiceReference1.TotalStands))]
+    [System.Runtime.Serialization.KnownTypeAttribute(typeof(System.Device.Location.GeoCoordinate))]
     public partial class Station : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
         
         [System.NonSerializedAttribute()]
@@ -712,6 +713,12 @@ namespace RoutingServer.ServiceReference1 {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAPIJCDecauxProxy/StationOfContract", ReplyAction="http://tempuri.org/IAPIJCDecauxProxy/StationOfContractResponse")]
         System.Threading.Tasks.Task<RoutingServer.ServiceReference1.Station> StationOfContractAsync(string contractName, int stationNumber);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAPIJCDecauxProxy/ClosestStation", ReplyAction="http://tempuri.org/IAPIJCDecauxProxy/ClosestStationResponse")]
+        RoutingServer.ServiceReference1.Station ClosestStation(System.Device.Location.GeoCoordinate originCoord, string contractName);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAPIJCDecauxProxy/ClosestStation", ReplyAction="http://tempuri.org/IAPIJCDecauxProxy/ClosestStationResponse")]
+        System.Threading.Tasks.Task<RoutingServer.ServiceReference1.Station> ClosestStationAsync(System.Device.Location.GeoCoordinate originCoord, string contractName);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -763,6 +770,14 @@ namespace RoutingServer.ServiceReference1 {
         
         public System.Threading.Tasks.Task<RoutingServer.ServiceReference1.Station> StationOfContractAsync(string contractName, int stationNumber) {
             return base.Channel.StationOfContractAsync(contractName, stationNumber);
+        }
+        
+        public RoutingServer.ServiceReference1.Station ClosestStation(System.Device.Location.GeoCoordinate originCoord, string contractName) {
+            return base.Channel.ClosestStation(originCoord, contractName);
+        }
+        
+        public System.Threading.Tasks.Task<RoutingServer.ServiceReference1.Station> ClosestStationAsync(System.Device.Location.GeoCoordinate originCoord, string contractName) {
+            return base.Channel.ClosestStationAsync(originCoord, contractName);
         }
     }
 }

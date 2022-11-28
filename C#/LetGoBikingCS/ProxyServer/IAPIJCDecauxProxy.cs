@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Device.Location;
 using System.ServiceModel;
 
 namespace ProxyServer
@@ -14,5 +15,8 @@ namespace ProxyServer
 
         [OperationContract]
         Station StationOfContract(string contractName, int stationNumber);
+
+        [OperationContract]
+        Station ClosestStation(GeoCoordinate originCoord, string contractName);
     }
 }

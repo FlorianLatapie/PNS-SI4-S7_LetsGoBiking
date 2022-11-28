@@ -13,9 +13,9 @@ namespace RoutingServerTest
 
 
             var test = new RoutingCalculatorClient();
-            var res = test.GetItinerary("addr:place du général de gaulle rouen", "addr:rue du rem martainville rouen");
+            //var res = test.GetItinerary("addr:place du général de gaulle rouen", "addr:rue du rem martainville rouen");
             //var res = test.GetItinerary("addr:place du général de gaulle rouen", "addr:place de la mairie lyon");
-            //var res = test.GetItinerary("addr:rue pelisson villeurbanne", "addr:rue tronchet lyon");
+            var res = test.GetItinerary("addr:rue pelisson villeurbanne", "addr:rue tronchet lyon");
 
             Console.WriteLine(res);
 

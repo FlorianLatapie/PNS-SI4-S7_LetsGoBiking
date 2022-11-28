@@ -78,6 +78,9 @@
     <None Include="Connected Services\ServiceReference1\APIJCDecauxProxy3.xsd">
       <SubType>Designer</SubType>
     </None>
+    <None Include="Connected Services\ServiceReference1\APIJCDecauxProxy4.xsd">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Connected Services\ServiceReference1\RoutingServer.ServiceReference1.Contract.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>

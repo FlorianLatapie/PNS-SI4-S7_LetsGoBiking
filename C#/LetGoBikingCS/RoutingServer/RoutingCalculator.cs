@@ -23,14 +23,7 @@ namespace RoutingServer
         }
 
         public string GetItinerary(string origin, string destination)
-        {
-            //_proxy.StationsOfContract("rouen");
-            //_proxy.StationsOfContract("rouen");
-            //_proxy.StationsOfContract("amiens");
-            //_proxy.StationsOfContract("lyon");
-            // does
-
-
+        { 
             var (originCoord, destinationCoord, originAddressInfo, destinationAddressInfo) =
                 PrepareInput(origin, destination);
 
@@ -40,17 +33,14 @@ namespace RoutingServer
 
             // Retrieve all stations of this/those contract(s).
             var contract = _citiesContracts[originAddressInfo.address.GetCity()];
-            
-            Console.WriteLine("\""+contract.name+"\"");
-            
-            var stations = _proxy.StationsOfContract(contract.name);
+            var contractName = contract.name;
 
             // Compute the closest from the origin with available bike
-            var closestStationFromOrigin = ClosestStation(originCoord, stations);
+            var closestStationFromOrigin = ClosestStation(originCoord, contractName);
             var originStationCoord = Converter.CoordFromStation(closestStationFromOrigin);
 
             // Compute the closest from the destination with available spots to drop bikes.
-            var closestStationFromDestination = ClosestStation(destinationCoord, stations);
+            var closestStationFromDestination = ClosestStation(destinationCoord, contractName);
             var destinationStationCoord = Converter.CoordFromStation(closestStationFromDestination);
 
             // Compute itineraries by calling an external REST API.
@@ -114,23 +104,9 @@ namespace RoutingServer
             return contract1 == contract2;
         }
 
-        private static Station ClosestStation(GeoCoordinate originCoord, Station[] stations)
+        private Station ClosestStation(GeoCoordinate originCoord, string contractName)
         {
-            var closestStation = stations[0];
-            var minDistance = originCoord.GetDistanceTo(new GeoCoordinate(closestStation.position.latitude,
-                closestStation.position.longitude));
-
-            foreach (var station in stations)
-            {
-                if (station.totalStands.availabilities.stands == 0) continue;
-                var distance =
-                    originCoord.GetDistanceTo(new GeoCoordinate(station.position.latitude, station.position.longitude));
-                if (!(distance < minDistance)) continue;
-                minDistance = distance;
-                closestStation = station;
-            }
-
-            return closestStation;
+            return _proxy.ClosestStation(originCoord, contractName);
         }
 
         private Tuple<GeoCoordinate, GeoCoordinate, OpenStreetMapCoordInfo, OpenStreetMapCoordInfo> PrepareInput(

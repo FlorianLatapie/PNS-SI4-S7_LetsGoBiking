@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Device.Location;
 
 namespace ProxyServer
 {
@@ -24,6 +25,28 @@ namespace ProxyServer
         {
             var reqString = BaseUri + "stations/" + stationNumber + "?contract=" + contractName + "&" + KeyUri;
             return _stationCache.Get(reqString, 5 * 60);
+        }
+
+        public Station ClosestStation(GeoCoordinate originCoord, string contractName)
+        {
+            var stations = StationsOfContract(contractName);
+            var closestStation = stations[0];
+
+
+            var minDistance = originCoord.GetDistanceTo(new GeoCoordinate(closestStation.position.latitude,
+                closestStation.position.longitude));
+
+            foreach (var station in stations)
+            {
+                if (station.totalStands.availabilities.stands == 0) continue;
+                var distance =
+                    originCoord.GetDistanceTo(new GeoCoordinate(station.position.latitude, station.position.longitude));
+                if (!(distance < minDistance)) continue;
+                minDistance = distance;
+                closestStation = station;
+            }
+
+            return closestStation;
         }
 
         public List<Station> StationsOfContract(string contractName)
