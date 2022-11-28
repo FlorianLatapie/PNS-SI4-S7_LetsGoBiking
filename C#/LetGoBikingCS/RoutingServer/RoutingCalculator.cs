@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Device.Location;
 using System.Linq;
+using System.Text.Json;
 using RoutingServer.ServiceReference1;
 
 namespace RoutingServer
@@ -73,13 +74,19 @@ namespace RoutingServer
                 .Sum();
 
             if (walkItinerary.features[0].properties.summary.duration < bikeAndWalkDuration)
-                return "Itinéraire à pied : " + Util.MyToString(walkItinerary);
+            {
+                // send walkItinerary in json
+                return JsonSerializer.Serialize(walkItinerary);
+            }
+               
             //return "Itinéraire à vélo : " + Util.MyToString(bikeAndWalkItinerary);
-            return "Coords : " + Environment.NewLine
+            /*return "Coords : " + Environment.NewLine
                                + "Origin : " + Environment.NewLine + originCoord + Environment.NewLine
                                + "First station : " + Environment.NewLine + originStationCoord + Environment.NewLine
                                + "last station : " + Environment.NewLine + destinationStationCoord + Environment.NewLine
                                + "Destination : " + Environment.NewLine + destinationCoord + Environment.NewLine;
+                               */
+            return JsonSerializer.Serialize(bikeAndWalkItinerary);
         }
 
         private bool AreInSameContract(OpenStreetMapCoordInfo city1, OpenStreetMapCoordInfo city2)
