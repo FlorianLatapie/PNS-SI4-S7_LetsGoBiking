@@ -1,6 +1,5 @@
-﻿// add assembly System.ServiceModel  and using for the corresponding model
-
-using System.ServiceModel;
+﻿using System.ServiceModel;
+using static RoutingServer.Converter;
 
 namespace RoutingServer
 {
@@ -8,6 +7,6 @@ namespace RoutingServer
     public interface IRoutingCalculator
     {
         [OperationContract]
-        string GetItinerary(string origin, string destination);
+        ReturnItem GetItinerary(string origin, string destination);
     }
 }

@@ -151,7 +151,9 @@ namespace RoutingServer
             public bool success { get; set; }
             public string errorMessage { get; set; }
             public List<OpenRouteServiceRoot> itineraries { get; set; }
-            
+
+            public ReturnItem() { }
+
             public ReturnItem(string errorMessage)
             {
                 this.success = false;

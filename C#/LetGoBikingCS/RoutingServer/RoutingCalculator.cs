@@ -4,6 +4,7 @@ using System.Device.Location;
 using System.Linq;
 using System.Text.Json;
 using RoutingServer.ServiceReference1;
+using static RoutingServer.Converter;
 
 namespace RoutingServer
 {
@@ -22,14 +23,14 @@ namespace RoutingServer
             _citiesContracts = Converter.ListStringCitiesFromContracts(contracts);
         }
 
-        public string GetItinerary(string origin, string destination)
+        public ReturnItem GetItinerary(string origin, string destination)
         { 
             var (originCoord, destinationCoord, originAddressInfo, destinationAddressInfo) =
                 PrepareInput(origin, destination);
 
             // Find the JC Decaux contract associated with the given origin/destination.
             if (!AreInSameContract(originAddressInfo, destinationAddressInfo))
-                return JsonSerializer.Serialize(new Converter.ReturnItem("Les deux villes ne sont pas dans le même contrat ou l'une des villes n'est pas dans un contrat JC Decaux."));
+                return new ReturnItem("Les deux villes ne sont pas dans le même contrat ou l'une des villes n'est pas dans un contrat JC Decaux.");
 
             // Retrieve all stations of this/those contract(s).
             var contract = _citiesContracts[originAddressInfo.address.GetCity()];
@@ -76,11 +77,7 @@ namespace RoutingServer
             {
                 // send walkItinerary in json
                 // list of 1 itinerary
-                return JsonSerializer.Serialize(
-                    new Converter.ReturnItem(
-                        new List<OpenRouteServiceRoot> { walkItinerary }
-                        )
-                    );
+                new ReturnItem(new List<OpenRouteServiceRoot> { walkItinerary });
             }
                
             //return "Itinéraire à vélo : " + Util.MyToString(bikeAndWalkItinerary);
@@ -90,7 +87,7 @@ namespace RoutingServer
                                + "last station : " + Environment.NewLine + destinationStationCoord + Environment.NewLine
                                + "Destination : " + Environment.NewLine + destinationCoord + Environment.NewLine;
                                */
-            return JsonSerializer.Serialize(new Converter.ReturnItem(bikeAndWalkItinerary));
+            return new ReturnItem(bikeAndWalkItinerary);
         }
 
         private bool AreInSameContract(OpenStreetMapCoordInfo city1, OpenStreetMapCoordInfo city2)

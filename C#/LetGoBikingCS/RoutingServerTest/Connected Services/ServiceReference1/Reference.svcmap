@@ -22,8 +22,10 @@
     <MetadataSource Address="http://localhost:8090/MyService/RoutingCalculator?wsdl" Protocol="http" SourceId="1" />
   </MetadataSources>
   <Metadata>
-    <MetadataFile FileName="RoutingCalculator.xsd" MetadataType="Schema" ID="557d377f-1b71-46de-b430-634d9eefccec" SourceId="1" SourceUrl="http://localhost:8090/MyService/RoutingCalculator?xsd=xsd0" />
     <MetadataFile FileName="RoutingCalculator1.xsd" MetadataType="Schema" ID="d62ad5f1-850f-4d89-a284-0a0eec8351fe" SourceId="1" SourceUrl="http://localhost:8090/MyService/RoutingCalculator?xsd=xsd1" />
+    <MetadataFile FileName="RoutingCalculator2.xsd" MetadataType="Schema" ID="7154b4fc-6a95-4517-833f-b16f0cb68d70" SourceId="1" SourceUrl="http://localhost:8090/MyService/RoutingCalculator?xsd=xsd2" />
+    <MetadataFile FileName="RoutingCalculator21.xsd" MetadataType="Schema" ID="dfc65bb6-01bc-4ae5-9009-09e745edd545" SourceId="1" SourceUrl="http://localhost:8090/MyService/RoutingCalculator?xsd=xsd3" />
+    <MetadataFile FileName="RoutingCalculator.xsd" MetadataType="Schema" ID="557d377f-1b71-46de-b430-634d9eefccec" SourceId="1" SourceUrl="http://localhost:8090/MyService/RoutingCalculator?xsd=xsd0" />
     <MetadataFile FileName="RoutingCalculator.wsdl" MetadataType="Wsdl" ID="6dcc5d96-db2f-4454-9087-2faf7f3c8e32" SourceId="1" SourceUrl="http://localhost:8090/MyService/RoutingCalculator?wsdl" />
   </Metadata>
   <Extensions>
