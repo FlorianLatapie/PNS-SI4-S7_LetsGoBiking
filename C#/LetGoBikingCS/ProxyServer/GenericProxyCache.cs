@@ -22,11 +22,11 @@ namespace ProxyServer
 
             if (_cache.ContainsKey(cacheItemName) && _cache[cacheItemName].Item1 != null)
             {
-                Console.WriteLine($"Utilisation du cache {cacheItemName}");
+                Console.WriteLine($"Using cache      {cacheItemName}");
                 return _cache[cacheItemName].Item1;
             }
 
-            Console.WriteLine($"requete vers serveur {cacheItemName}");
+            Console.WriteLine($"Using JCD server {cacheItemName}");
 
             var jcDecauxResponseBody = _client.GetStringAsync(cacheItemName);
             var objectToAdd = JsonSerializer.Deserialize<T>(jcDecauxResponseBody.Result);
@@ -48,6 +48,9 @@ namespace ProxyServer
 
         private void UpdateCache()
         {
+            var nbItemsToRemove = _cache.Count(x => x.Value.Item2 < DateTimeOffset.Now);
+            if (nbItemsToRemove > 0) Console.WriteLine(Environment.NewLine + $"Removing {nbItemsToRemove} items from cache" + Environment.NewLine);
+            
             //remove all expired items from the cache
             _cache = _cache
                 .Where(x => x.Value.Item2 > DateTime.Now)

@@ -20,9 +20,9 @@ namespace RoutingServerTest
             for (var i = 0; i < res.itineraries.Length; i++)
             {
                 var openRouteServiceRoot = res.itineraries[i];
-                Console.WriteLine(i % 2 == 0
-                    ? $"à pied : {openRouteServiceRoot.features[0].properties.segments[0].duration / 60} minutes"
-                    : $"en vélo : {openRouteServiceRoot.features[0].properties.segments[0].duration / 60} minutes");
+                var duration = openRouteServiceRoot.features[0].properties.segments[0].duration;
+                Console.WriteLine((i % 2 == 0 ? $"Foot" : $"Bike") +  $": {duration / 60} minutes");
+                
                 foreach (var step in openRouteServiceRoot.features[0].properties.segments[0].steps)
                 {
                     Console.WriteLine($"- {step.instruction}");
