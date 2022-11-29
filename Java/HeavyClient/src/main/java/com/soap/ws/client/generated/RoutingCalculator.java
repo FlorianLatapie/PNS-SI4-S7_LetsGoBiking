@@ -67,9 +67,9 @@ public class RoutingCalculator
      * @return
      *     returns IRoutingCalculator
      */
-    @WebEndpoint(name = "WSHttpBinding_IRoutingCalculator")
-    public IRoutingCalculator getWSHttpBindingIRoutingCalculator() {
-        return super.getPort(new QName("http://tempuri.org/", "WSHttpBinding_IRoutingCalculator"), IRoutingCalculator.class);
+    @WebEndpoint(name = "BasicHttpBinding_IRoutingCalculator")
+    public IRoutingCalculator getBasicHttpBindingIRoutingCalculator() {
+        return super.getPort(new QName("http://tempuri.org/", "BasicHttpBinding_IRoutingCalculator"), IRoutingCalculator.class);
     }
 
     /**
@@ -79,9 +79,9 @@ public class RoutingCalculator
      * @return
      *     returns IRoutingCalculator
      */
-    @WebEndpoint(name = "WSHttpBinding_IRoutingCalculator")
-    public IRoutingCalculator getWSHttpBindingIRoutingCalculator(WebServiceFeature... features) {
-        return super.getPort(new QName("http://tempuri.org/", "WSHttpBinding_IRoutingCalculator"), IRoutingCalculator.class, features);
+    @WebEndpoint(name = "BasicHttpBinding_IRoutingCalculator")
+    public IRoutingCalculator getBasicHttpBindingIRoutingCalculator(WebServiceFeature... features) {
+        return super.getPort(new QName("http://tempuri.org/", "BasicHttpBinding_IRoutingCalculator"), IRoutingCalculator.class, features);
     }
 
     private static URL __getWsdlLocation() {

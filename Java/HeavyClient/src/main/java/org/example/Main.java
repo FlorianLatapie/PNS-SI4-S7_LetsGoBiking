@@ -1,21 +1,19 @@
 package test;
 
-import java.util.HashSet;
-import java.util.Set;
-import javax.swing.JOptionPane;
-import javax.swing.event.MouseInputListener;
-
 import org.example.waypoint.EventWaypoint;
 import org.example.waypoint.MyWaypoint;
 import org.example.waypoint.WaypointRender;
+import org.jxmapviewer.JXMapViewer;
 import org.jxmapviewer.OSMTileFactoryInfo;
 import org.jxmapviewer.VirtualEarthTileFactoryInfo;
 import org.jxmapviewer.input.PanMouseInputListener;
 import org.jxmapviewer.input.ZoomMouseWheelListenerCenter;
-import org.jxmapviewer.viewer.DefaultTileFactory;
-import org.jxmapviewer.viewer.GeoPosition;
-import org.jxmapviewer.viewer.TileFactoryInfo;
-import org.jxmapviewer.viewer.WaypointPainter;
+import org.jxmapviewer.viewer.*;
+
+import javax.swing.*;
+import javax.swing.event.MouseInputListener;
+import java.util.HashSet;
+import java.util.Set;
 
 public class Main extends javax.swing.JFrame {
 
@@ -77,6 +75,23 @@ public class Main extends javax.swing.JFrame {
         };
     }
 
+    /*MouseInputListener mouseInputListener = new PanMouseInputListener(this.jXMapViewer);
+    this.jXMapViewer.addMouseListener(mouseInputListener);
+    this.jXMapViewer.addMouseMotionListener(mouseInputListener);
+    this.jXMapViewer.addMouseWheelListener(new ZoomMouseWheelListenerCenter(this.jXMapViewer));
+    this.jXMapViewer.addMouseListener(new MouseInputListener() {
+        @Override
+        public void mouseClicked(java.awt.event.MouseEvent e) {
+            if (addingWaypoint){
+                Waypoint waypoint = new Waypoint(JXMapViewer.convertPointToGeoPosition(e.getPoint()));
+                waypoints.add(waypoint);
+                jXMapViewer.add(waypoints.waypoints().get(waypoint));
+                update(getGraphics());
+            }
+        }
+
+    }*/
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -88,7 +103,7 @@ public class Main extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        comboMapType.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Open Stree", "Virtual Earth", "Hybrid", "Satellite" }));
+        comboMapType.setModel(new javax.swing.DefaultComboBoxModel<>(new String[]{"Open Stree", "Virtual Earth", "Hybrid", "Satellite"}));
         comboMapType.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 comboMapTypeActionPerformed(evt);
@@ -171,8 +186,9 @@ public class Main extends javax.swing.JFrame {
     }//GEN-LAST:event_comboMapTypeActionPerformed
 
     private void cmdAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdAddActionPerformed
-        addWaypoint(new MyWaypoint("Test 001", event, new GeoPosition(11.525000, 104.929033)));
-        addWaypoint(new MyWaypoint("Test 002", event, new GeoPosition(11.634007, 104.750676)));
+        System.out.println("add waypoints");
+        //addWaypoint(new MyWaypoint("Test 001", event, new GeoPosition(11.525000, 104.929033)));
+        //addWaypoint(new MyWaypoint("Test 002", event, new GeoPosition(11.634007, 104.750676)));
     }//GEN-LAST:event_cmdAddActionPerformed
 
     private void cmdClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdClearActionPerformed
