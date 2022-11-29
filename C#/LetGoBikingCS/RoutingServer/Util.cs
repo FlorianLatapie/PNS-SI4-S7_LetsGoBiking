@@ -112,11 +112,11 @@ namespace RoutingServer
 
         public static GeoCoordinate GeoCoordinateFromStringCoord(string coord)
         {
-            // format : "coord:X.X;Y.Y" 
+            // format : "coord:X.X,Y.Y" 
 
             var coordSeparated = coord.Split(':');
-            var coordValues = coordSeparated[1].Split(';');
-
+            var coordValues = coordSeparated[1].Split(',');
+            
             var latitude = double.Parse(coordValues[0].Replace(".", ","));
             var longitude = double.Parse(coordValues[1].Replace(".", ","));
 

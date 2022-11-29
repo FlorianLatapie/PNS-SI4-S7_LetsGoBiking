@@ -73,6 +73,14 @@ namespace RoutingServer
                 .Sum();
 
             // Return the shortest itinerary
+            Console.WriteLine("========================================");
+            Console.WriteLine($"Origin     : in[{origin}] : {originCoord}, {originAddressInfo.address.display()}");
+            Console.WriteLine($"Destination: in[{destination}] : {destinationCoord}, {destinationAddressInfo.address.display()}");
+            Console.WriteLine($"{originCoord}");
+            Console.WriteLine($"{originStationCoord}");
+            Console.WriteLine($"{destinationStationCoord}");
+            Console.WriteLine($"{destinationCoord}");
+            Console.WriteLine($"========================================" + Environment.NewLine);
             return walkItinerary.features[0].properties.summary.duration < bikeAndWalkDuration ?
                 new ReturnItem(new List<OpenRouteServiceRoot> { walkItinerary }) : new ReturnItem(bikeAndWalkItinerary);
         }

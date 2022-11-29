@@ -38,7 +38,25 @@ namespace RoutingServer
         public string postcode { get; set; }
         public string country { get; set; }
         public string country_code { get; set; }
-        
+
+        public string display()
+        {
+            return $"" +
+                $"{road} " +
+                $"{hamlet} " +
+                $"{suburb} " +
+                $"{city} " +
+                $"{village} " +
+                $"{municipality} " +
+                $"{county} " +
+                $"{ISO31662lvl6} " +
+                $"{state} " +
+                $"{ISO31662lvl4} " +
+                $"{region} " +
+                $"{postcode} " +
+                $"{country} " +
+                $"{country_code} ";
+        }
         public override string ToString()
         {
             return Util.MyToString(this);

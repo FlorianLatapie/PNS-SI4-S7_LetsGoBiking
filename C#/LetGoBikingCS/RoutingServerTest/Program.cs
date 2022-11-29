@@ -15,13 +15,22 @@ namespace RoutingServerTest
             var test = new RoutingCalculatorClient();
             //var res = test.GetItinerary("addr:place du général de gaulle rouen", "addr:rue du rem martainville rouen");
             //var res = test.GetItinerary("addr:place du général de gaulle rouen", "addr:place de la mairie lyon");
-            var res = test.GetItinerary("addr:rue pelisson villeurbanne", "addr:rue tronchet lyon");
-            
+            //var res = test.GetItinerary("addr:rue pelisson villeurbanne", "addr:rue tronchet lyon");
+
+            var origin = "addr:rue pelisson villeurbanne";
+            var destination = "addr:rue tronchet lyon";
+
+            Console.WriteLine($"Origin: {origin}");
+            Console.WriteLine($"Destination: {destination}");
+
+            var res = test.GetItinerary(origin, destination);
+
             for (var i = 0; i < res.itineraries.Length; i++)
             {
                 var openRouteServiceRoot = res.itineraries[i];
                 var duration = openRouteServiceRoot.features[0].properties.segments[0].duration;
-                Console.WriteLine((i % 2 == 0 ? $"Foot" : $"Bike") +  $": {duration / 60} minutes");
+                Console.WriteLine((i % 2 == 0 ? $"Foot" : $"Bike") +  $": {(int)(duration / 60)} minutes");
+                
                 
                 foreach (var step in openRouteServiceRoot.features[0].properties.segments[0].steps)
                 {
