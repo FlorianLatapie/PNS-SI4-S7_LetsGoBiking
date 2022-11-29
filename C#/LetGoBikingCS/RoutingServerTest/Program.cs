@@ -4,7 +4,7 @@ using RoutingServerTest.ServiceReference1;
 
 namespace RoutingServerTest
 {
-    internal class Program
+    internal static class Program
     {
         private static void Main(string[] args)
         {

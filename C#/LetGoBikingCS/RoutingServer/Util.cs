@@ -10,7 +10,7 @@ using RoutingServer.ServiceReference1;
 
 namespace RoutingServer
 {
-    public class Util
+    public static class Util
     {
         public static string MyToString(object myObject)
         {
@@ -101,11 +101,11 @@ namespace RoutingServer
             return JsonSerializer.Deserialize<OpenStreetMapCoordInfo>(openStreetMapResponseBody);
         }
 
-        public static GeoCoordinate OpenStreetMapAdressInfoToGeoCoordinate(
-            OpenStreetMapAdressInfo openStreetMapAdressInfo)
+        public static GeoCoordinate OpenStreetMapAddressInfoToGeoCoordinate(
+            OpenStreetMapAdressInfo openStreetMapAddressInfo)
         {
-            var latitude = double.Parse(openStreetMapAdressInfo.lat.Replace(".", ","));
-            var longitude = double.Parse(openStreetMapAdressInfo.lon.Replace(".", ","));
+            var latitude = double.Parse(openStreetMapAddressInfo.lat.Replace(".", ","));
+            var longitude = double.Parse(openStreetMapAddressInfo.lon.Replace(".", ","));
 
             return new GeoCoordinate(latitude, longitude);
         }
@@ -114,8 +114,8 @@ namespace RoutingServer
         {
             // format : "coord:X.X;Y.Y" 
 
-            var coordSplitted = coord.Split(':');
-            var coordValues = coordSplitted[1].Split(';');
+            var coordSeparated = coord.Split(':');
+            var coordValues = coordSeparated[1].Split(';');
 
             var latitude = double.Parse(coordValues[0].Replace(".", ","));
             var longitude = double.Parse(coordValues[1].Replace(".", ","));

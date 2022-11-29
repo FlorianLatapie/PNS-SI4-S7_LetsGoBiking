@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Device.Location;
 using System.Linq;
-using System.Text.Json;
 using RoutingServer.ServiceReference1;
 using static RoutingServer.Converter;
 
@@ -30,7 +29,7 @@ namespace RoutingServer
 
             // Find the JC Decaux contract associated with the given origin/destination.
             if (!AreInSameContract(originAddressInfo, destinationAddressInfo))
-                return new ReturnItem("Les deux villes ne sont pas dans le même contrat ou l'une des villes n'est pas dans un contrat JC Decaux.");
+                return new ReturnItem("The two cities are not in the same contract or one of the cities is not in a JC Decaux contract.");
 
             // Retrieve all stations of this/those contract(s).
             var contract = _citiesContracts[originAddressInfo.address.GetCity()];
@@ -68,26 +67,14 @@ namespace RoutingServer
                 walkToDestinationItinerary
             };
 
-            // compute duration of bike and walk itinerary using a stram 
+            // compute duration of bike and walk itinerary using a stream 
             var bikeAndWalkDuration = bikeAndWalkItinerary
                 .Select(itinerary => itinerary.features[0].properties.summary.duration)
                 .Sum();
 
-            if (walkItinerary.features[0].properties.summary.duration < bikeAndWalkDuration)
-            {
-                // send walkItinerary in json
-                // list of 1 itinerary
-                new ReturnItem(new List<OpenRouteServiceRoot> { walkItinerary });
-            }
-               
-            //return "Itinéraire à vélo : " + Util.MyToString(bikeAndWalkItinerary);
-            /*return "Coords : " + Environment.NewLine
-                               + "Origin : " + Environment.NewLine + originCoord + Environment.NewLine
-                               + "First station : " + Environment.NewLine + originStationCoord + Environment.NewLine
-                               + "last station : " + Environment.NewLine + destinationStationCoord + Environment.NewLine
-                               + "Destination : " + Environment.NewLine + destinationCoord + Environment.NewLine;
-                               */
-            return new ReturnItem(bikeAndWalkItinerary);
+            // Return the shortest itinerary
+            return walkItinerary.features[0].properties.summary.duration < bikeAndWalkDuration ?
+                new ReturnItem(new List<OpenRouteServiceRoot> { walkItinerary }) : new ReturnItem(bikeAndWalkItinerary);
         }
 
         private bool AreInSameContract(OpenStreetMapCoordInfo city1, OpenStreetMapCoordInfo city2)
@@ -125,7 +112,7 @@ namespace RoutingServer
             if (origin.StartsWith("addr:"))
                 // api call to OpenStreetMap
                 originCoord =
-                    Converter.OpenStreetMapAdressInfoToGeoCoordinate(
+                    Converter.OpenStreetMapAddressInfoToGeoCoordinate(
                         _converter.OpenStreetMapAddressInfoFromAddress_api(origin));
             else if (origin.StartsWith("coord:"))
                 originCoord = Converter.GeoCoordinateFromStringCoord(origin);
@@ -136,7 +123,7 @@ namespace RoutingServer
             if (destination.StartsWith("addr:"))
                 // api call to OpenStreetMap
                 destinationCoord =
-                    Converter.OpenStreetMapAdressInfoToGeoCoordinate(
+                    Converter.OpenStreetMapAddressInfoToGeoCoordinate(
                         _converter.OpenStreetMapAddressInfoFromAddress_api(destination));
             else if (destination.StartsWith("coord:"))
                 destinationCoord = Converter.GeoCoordinateFromStringCoord(destination);
