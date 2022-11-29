@@ -1,3 +1,3 @@
 @ECHO off
-C#\LetGoBikingCS\ProxyServer\bin\Debug\ProxyServer.exe
+C#\LetGoBikingCS\RoutingServer\bin\Debug\RoutingServer.exe
 pause
