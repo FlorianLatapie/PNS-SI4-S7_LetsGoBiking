@@ -1,0 +1,1 @@
+wt -d "%cd%" "Run\java.bat"
