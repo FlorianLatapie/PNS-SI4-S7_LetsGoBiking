@@ -9,14 +9,14 @@ namespace ProxyServer
         private const string BaseUri = "https://api.jcdecaux.com/vls/v3/";
         private static readonly string KeyUri = $"apiKey={ApiKey}";
 
-        private readonly GenericProxyCache<List<Contract>> _contractsCache = new GenericProxyCache<List<Contract>>();
-        private readonly GenericProxyCache<Station> _stationCache = new GenericProxyCache<Station>();
-        private readonly GenericProxyCache<List<Station>> _stationsCache = new GenericProxyCache<List<Station>>();
+        private static readonly GenericProxyCache<List<Contract>> ContractsCache = new GenericProxyCache<List<Contract>>();
+        private static readonly GenericProxyCache<Station> StationCache = new GenericProxyCache<Station>();
+        private static readonly GenericProxyCache<List<Station>> StationsCache = new GenericProxyCache<List<Station>>();
 
         public List<Contract> Contracts()
         {
             var reqString = BaseUri + "contracts" + "?" + KeyUri;
-            var res = _contractsCache.Get(reqString);
+            var res = ContractsCache.Get(reqString);
             res.RemoveAll(x => x.cities == null);
             return res;
         }
@@ -24,7 +24,7 @@ namespace ProxyServer
         public Station StationOfContract(string contractName, int stationNumber)
         {
             var reqString = BaseUri + "stations/" + stationNumber + "?contract=" + contractName + "&" + KeyUri;
-            return _stationCache.Get(reqString, 5 * 60);
+            return StationCache.Get(reqString, 5 * 60);
         }
 
         public Station ClosestStation(GeoCoordinate originCoord, string contractName)
@@ -52,7 +52,7 @@ namespace ProxyServer
         public List<Station> StationsOfContract(string contractName)
         {
             var reqString = BaseUri + "stations?contract=" + contractName + "&" + KeyUri;
-            return _stationsCache.Get(reqString, 1 * 60);
+            return StationsCache.Get(reqString, 1 * 60);
         }
     }
 }
