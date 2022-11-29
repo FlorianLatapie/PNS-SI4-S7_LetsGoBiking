@@ -27,17 +27,23 @@ public class App {
         //var res = routingCalculator.getItinerary("addr:rue pelisson villeurbanne", "addr:rue tronchet lyon");
 
         //var origin = "addr:rue pelisson villeurbanne";
-        var origin = "coord:45.7737023, 4.8868265";
+        //var origin = "coord:45.7737023, 4.8868265";
+        var origin = "addr:place du général de gaulle rouen";
         //var destination = "addr:rue tronchet lyon";
         var destination = "coord:45.7708222, 4.8578873";
 
-        System.out.println("Origin: " + origin + " Destination: " + destination + System.lineSeparator());
+        System.out.println("Origin: " + origin + System.lineSeparator() + "Destination: " + destination + System.lineSeparator());
 
         ConverterReturnItem res;
         try {
             res = routingCalculator.getItinerary(origin, destination);
         } catch (Exception e) {
             System.err.println("Make sure that the origin and destination are valid");
+            return;
+        }
+
+        if (!res.isSuccess()) {
+            System.err.println(res.getErrorMessage().getValue());
             return;
         }
         for (var i = 0; i < res.getItineraries().getValue().getOpenRouteServiceRoot().size(); i++) {
