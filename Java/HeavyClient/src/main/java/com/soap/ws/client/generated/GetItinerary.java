@@ -34,7 +34,7 @@ import javax.xml.bind.annotation.XmlType;
     "origin",
     "destination"
 })
-@XmlRootElement(name = "GetItinerary")
+@XmlRootElement(name = "GetItinerary", namespace = "http://tempuri.org/")
 public class GetItinerary {
 
     @XmlElementRef(name = "origin", namespace = "http://tempuri.org/", type = JAXBElement.class, required = false)

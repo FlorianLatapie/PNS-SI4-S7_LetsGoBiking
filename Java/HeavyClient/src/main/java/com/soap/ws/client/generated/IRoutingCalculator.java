@@ -28,13 +28,13 @@ public interface IRoutingCalculator {
      * @param origin
      * @param destination
      * @return
-     *     returns java.lang.String
+     *     returns com.soap.ws.client.generated.ConverterReturnItem
      */
     @WebMethod(operationName = "GetItinerary", action = "http://tempuri.org/IRoutingCalculator/GetItinerary")
     @WebResult(name = "GetItineraryResult", targetNamespace = "http://tempuri.org/")
     @RequestWrapper(localName = "GetItinerary", targetNamespace = "http://tempuri.org/", className = "com.soap.ws.client.generated.GetItinerary")
     @ResponseWrapper(localName = "GetItineraryResponse", targetNamespace = "http://tempuri.org/", className = "com.soap.ws.client.generated.GetItineraryResponse")
-    public String getItinerary(
+    public ConverterReturnItem getItinerary(
         @WebParam(name = "origin", targetNamespace = "http://tempuri.org/")
         String origin,
         @WebParam(name = "destination", targetNamespace = "http://tempuri.org/")

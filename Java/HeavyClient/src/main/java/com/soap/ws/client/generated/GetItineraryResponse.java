@@ -19,7 +19,7 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;complexContent&gt;
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
  *       &lt;sequence&gt;
- *         &lt;element name="GetItineraryResult" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/&gt;
+ *         &lt;element name="GetItineraryResult" type="{http://schemas.datacontract.org/2004/07/RoutingServer}Converter.ReturnItem" minOccurs="0"/&gt;
  *       &lt;/sequence&gt;
  *     &lt;/restriction&gt;
  *   &lt;/complexContent&gt;
@@ -32,21 +32,21 @@ import javax.xml.bind.annotation.XmlType;
 @XmlType(name = "", propOrder = {
     "getItineraryResult"
 })
-@XmlRootElement(name = "GetItineraryResponse")
+@XmlRootElement(name = "GetItineraryResponse", namespace = "http://tempuri.org/")
 public class GetItineraryResponse {
 
     @XmlElementRef(name = "GetItineraryResult", namespace = "http://tempuri.org/", type = JAXBElement.class, required = false)
-    protected JAXBElement<String> getItineraryResult;
+    protected JAXBElement<ConverterReturnItem> getItineraryResult;
 
     /**
      * Obtient la valeur de la propriété getItineraryResult.
      * 
      * @return
      *     possible object is
-     *     {@link JAXBElement }{@code <}{@link String }{@code >}
+     *     {@link JAXBElement }{@code <}{@link ConverterReturnItem }{@code >}
      *     
      */
-    public JAXBElement<String> getGetItineraryResult() {
+    public JAXBElement<ConverterReturnItem> getGetItineraryResult() {
         return getItineraryResult;
     }
 
@@ -55,10 +55,10 @@ public class GetItineraryResponse {
      * 
      * @param value
      *     allowed object is
-     *     {@link JAXBElement }{@code <}{@link String }{@code >}
+     *     {@link JAXBElement }{@code <}{@link ConverterReturnItem }{@code >}
      *     
      */
-    public void setGetItineraryResult(JAXBElement<String> value) {
+    public void setGetItineraryResult(JAXBElement<ConverterReturnItem> value) {
         this.getItineraryResult = value;
     }
 
