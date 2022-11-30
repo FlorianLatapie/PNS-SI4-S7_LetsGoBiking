@@ -38,11 +38,10 @@ public class InstructionsConsumer implements ExceptionListener {
                     TextMessage textMessage = (TextMessage) message;
                     String text = textMessage.getText();
                     var step = Util.deserializeStep(text);
-                    //System.out.println(Util.StepToString(step));
+                    System.out.println(step);
                 } else {
-                    System.out.println("lol");
                     var step = Util.deserializeStep(message.toString());
-                    //System.out.println(Util.StepToString(step));
+                    System.out.println(step);
                 }
             }
 
