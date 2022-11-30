@@ -17,6 +17,6 @@ namespace ProxyServer
         Station StationOfContract(string contractName, int stationNumber);
 
         [OperationContract]
-        Station ClosestStation(GeoCoordinate originCoord, string contractName);
+        Station ClosestStation(GeoCoordinate originCoord, string contractName, bool lookingForABike);
     }
 }

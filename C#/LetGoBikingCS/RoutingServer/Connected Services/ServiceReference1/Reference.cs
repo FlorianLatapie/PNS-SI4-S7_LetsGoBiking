@@ -715,10 +715,10 @@ namespace RoutingServer.ServiceReference1 {
         System.Threading.Tasks.Task<RoutingServer.ServiceReference1.Station> StationOfContractAsync(string contractName, int stationNumber);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAPIJCDecauxProxy/ClosestStation", ReplyAction="http://tempuri.org/IAPIJCDecauxProxy/ClosestStationResponse")]
-        RoutingServer.ServiceReference1.Station ClosestStation(System.Device.Location.GeoCoordinate originCoord, string contractName);
+        RoutingServer.ServiceReference1.Station ClosestStation(System.Device.Location.GeoCoordinate originCoord, string contractName, bool lookingForABike);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAPIJCDecauxProxy/ClosestStation", ReplyAction="http://tempuri.org/IAPIJCDecauxProxy/ClosestStationResponse")]
-        System.Threading.Tasks.Task<RoutingServer.ServiceReference1.Station> ClosestStationAsync(System.Device.Location.GeoCoordinate originCoord, string contractName);
+        System.Threading.Tasks.Task<RoutingServer.ServiceReference1.Station> ClosestStationAsync(System.Device.Location.GeoCoordinate originCoord, string contractName, bool lookingForABike);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -772,12 +772,12 @@ namespace RoutingServer.ServiceReference1 {
             return base.Channel.StationOfContractAsync(contractName, stationNumber);
         }
         
-        public RoutingServer.ServiceReference1.Station ClosestStation(System.Device.Location.GeoCoordinate originCoord, string contractName) {
-            return base.Channel.ClosestStation(originCoord, contractName);
+        public RoutingServer.ServiceReference1.Station ClosestStation(System.Device.Location.GeoCoordinate originCoord, string contractName, bool lookingForABike) {
+            return base.Channel.ClosestStation(originCoord, contractName, lookingForABike);
         }
         
-        public System.Threading.Tasks.Task<RoutingServer.ServiceReference1.Station> ClosestStationAsync(System.Device.Location.GeoCoordinate originCoord, string contractName) {
-            return base.Channel.ClosestStationAsync(originCoord, contractName);
+        public System.Threading.Tasks.Task<RoutingServer.ServiceReference1.Station> ClosestStationAsync(System.Device.Location.GeoCoordinate originCoord, string contractName, bool lookingForABike) {
+            return base.Channel.ClosestStationAsync(originCoord, contractName, lookingForABike);
         }
     }
 }

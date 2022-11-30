@@ -35,7 +35,7 @@ namespace ProxyServer
         }
 
         // this method is here to avoid sending a huge list of all stations of a contract to a client 
-        public Station ClosestStation(GeoCoordinate originCoord, string contractName)
+        public Station ClosestStation(GeoCoordinate originCoord, string contractName, bool lookingForABike)
         {   
             var stations = StationsOfContract(contractName);
             if (stations == null || stations.Count == 0)
@@ -51,13 +51,13 @@ namespace ProxyServer
             foreach (var station in stations)
             {
                 // dont take into account stations with 0 available bikes
-                if (station.totalStands.availabilities.stands == 0) continue;
-
-                // dont take into account stations with 0 available stands
-                if (station.totalStands.availabilities.bikes == 0) continue;
-
+                if (lookingForABike && station.totalStands.availabilities.bikes == 0) continue;
+                if (!lookingForABike && station.totalStands.availabilities.stands == 0) continue;
+                
                 var distance =
-                    originCoord.GetDistanceTo(new GeoCoordinate(station.position.latitude, station.position.longitude));
+                    originCoord.GetDistanceTo(
+                        new GeoCoordinate(station.position.latitude, station.position.longitude));
+                
                 if (!(distance < minDistance)) continue;
                 minDistance = distance;
                 closestStation = station;

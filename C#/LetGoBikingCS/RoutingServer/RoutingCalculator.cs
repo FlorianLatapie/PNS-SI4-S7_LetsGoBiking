@@ -38,14 +38,14 @@ namespace RoutingServer
             var walkItinerary = _openRouteService.DirectionsWalking(originCoord, destinationCoord);
 
             // Compute the closest from the origin with available bike
-            var closestStationFromOrigin = ClosestStation(originCoord, contractName);
+            var closestStationFromOrigin = ClosestStation(originCoord, contractName, true);
             if (closestStationFromOrigin == null)
                 return new ReturnItem(new List<OpenRouteServiceRoot> { walkItinerary });
             
             var originStationCoord = CoordFromStation(closestStationFromOrigin);
 
             // Compute the closest from the destination with available spots to drop bikes.
-            var closestStationFromDestination = ClosestStation(destinationCoord, contractName);
+            var closestStationFromDestination = ClosestStation(destinationCoord, contractName, false);
             var destinationStationCoord = CoordFromStation(closestStationFromDestination);
 
             // Compute itineraries by calling an external REST API.
@@ -101,9 +101,9 @@ namespace RoutingServer
             return contract1 == contract2;
         }
 
-        private Station ClosestStation(GeoCoordinate originCoord, string contractName)
+        private Station ClosestStation(GeoCoordinate originCoord, string contractName, bool lookingForABike)
         {
-            return _proxy.ClosestStation(originCoord, contractName);
+            return _proxy.ClosestStation(originCoord, contractName, lookingForABike);
         }
 
         private Tuple<GeoCoordinate, GeoCoordinate, OpenStreetMapCoordInfo, OpenStreetMapCoordInfo> PrepareInput(
