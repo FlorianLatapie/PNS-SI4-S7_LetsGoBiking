@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using Apache.NMS;
 using Apache.NMS.ActiveMQ;
 
@@ -22,29 +24,50 @@ namespace RoutingServer
             connection.Start();
         }
 
+        /*
         public void Send(string queueName, string serializedMessage)
         {
+            var session = PrepareSend(queueName, out var producer);
+
+            // Finally, to send messages:
+            var message = session.CreateTextMessage(serializedMessage);
+            producer.Send(message);
+
+            FinalizeSend(session);
+        }*/
+
+        public void Send(string queueName, List<string> serializedMessages)
+        {
+            var session = PrepareSend(queueName, out var producer);
+
+            // Finally, to send messages:
+            foreach (var message in serializedMessages.Select(serializedMessage => session.CreateTextMessage(serializedMessage)))
+                producer.Send(message);
+
+            FinalizeSend(session);
+        }
+
+        private void FinalizeSend(ISession session)
+        {
+            // Don't forget to close your session and connection when finished.
+            session.Close();
+            connection.Close();
+        }
+
+        private ISession PrepareSend(string queueName, out IMessageProducer producer)
+        {
             // Create a session from the Connection.
-            ISession session = connection.CreateSession();
+            var session = connection.CreateSession();
 
             // Use the session to target a queue.
             IDestination destination = session.GetQueue(queueName);
 
             // Create a Producer targetting the selected queue.
-            IMessageProducer producer = session.CreateProducer(destination);
+            producer = session.CreateProducer(destination);
 
             // You may configure everything to your needs, for instance:
             producer.DeliveryMode = MsgDeliveryMode.NonPersistent;
-
-            // Finally, to send messages:
-            ITextMessage message = session.CreateTextMessage(serializedMessage);
-            producer.Send(message);
-
-            Console.WriteLine("Message sent, check ActiveMQ web interface to confirm.");
-
-            // Don't forget to close your session and connection when finished.
-            session.Close();
-            connection.Close();
+            return session;
         }
     }
 }

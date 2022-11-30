@@ -41,24 +41,19 @@ namespace RoutingServer
             var walkItinerary = _openRouteService.DirectionsWalking(originCoord, destinationCoord);
 
             // Compute the closest from the origin with available bike
-            var closestStationFromOrigin = ClosestStation(originCoord, contractName, true);
+            var closestStationFromOrigin = _proxy.ClosestStation(originCoord, contractName, true);
             if (closestStationFromOrigin == null)
             {
-                var queueName = Guid.NewGuid().ToString();
-                _queue.Send(queueName, JsonSerializer.Serialize(new List<OpenRouteServiceRoot> { walkItinerary }));
-
-                return new ReturnItem(queueName, new List<OpenRouteServiceRoot> { walkItinerary });
+                return CreateReturnItem(new List<OpenRouteServiceRoot> { walkItinerary });
             }
-
             var originStationCoord = CoordFromStation(closestStationFromOrigin);
 
             // Compute the closest from the destination with available spots to drop bikes.
-            var closestStationFromDestination = ClosestStation(destinationCoord, contractName, false);
+            var closestStationFromDestination = _proxy.ClosestStation(destinationCoord, contractName, false);
             var destinationStationCoord = CoordFromStation(closestStationFromDestination);
 
             // Compute itineraries by calling an external REST API.
-
-
+            
             // try by bike + foot
             // 1 get all itineraries necessary 
             var walkToBikeItinerary = _openRouteService.DirectionsWalking(originCoord, originStationCoord);
@@ -93,31 +88,31 @@ namespace RoutingServer
             Console.WriteLine($"{destinationStationCoord}");
             Console.WriteLine($"{destinationCoord}");
             Console.WriteLine("========================================" + Environment.NewLine);
-            //return walkItinerary.features[0].properties.summary.duration < bikeAndWalkDuration ?
-            //    new ReturnItem(new List<OpenRouteServiceRoot> { walkItinerary }) : new ReturnItem(bikeAndWalkItinerary);
-            // as an if else 
-            if (walkItinerary.features[0].properties.summary.duration < bikeAndWalkDuration)
-            {
-                var queueName = Guid.NewGuid().ToString();
-                _queue.Send(queueName, JsonSerializer.Serialize(new List<OpenRouteServiceRoot> { walkItinerary }));
-                return new ReturnItem(queueName, new List<OpenRouteServiceRoot> { walkItinerary });
-            }
-            else
-            {
-                var queueName = Guid.NewGuid().ToString();
-                _queue.Send(queueName, JsonSerializer.Serialize(bikeAndWalkItinerary));
-                return new ReturnItem(queueName, bikeAndWalkItinerary);
-            }
+
+            return CreateReturnItem(walkItinerary.features[0].properties.summary.duration < bikeAndWalkDuration ? new List<OpenRouteServiceRoot> { walkItinerary } : bikeAndWalkItinerary);
+        }
+
+        private ReturnItem CreateReturnItem(List<OpenRouteServiceRoot> itineraryList)
+        {
+            var queueName = Guid.NewGuid().ToString();
+            var queueMessages = new List<Step>();
+            foreach (var steps in itineraryList
+                         .Select(
+                             itinerary => itinerary.features[0].properties.segments
+                                 .SelectMany(segment => segment.steps
+                                 )
+                             )
+                     ) queueMessages.AddRange(steps);
+
+            var queueMessagesSerialized = queueMessages.Select(step => JsonSerializer.Serialize(step)).ToList();
+            _queue.Send(queueName, queueMessagesSerialized);
+            
+            return new ReturnItem(queueName, itineraryList);
         }
 
         private bool IsInJcdContracts(OpenStreetMapCoordInfo city)
         {
             return _citiesContracts.ContainsKey(city.address.GetCity());
-        }
-
-        private Station ClosestStation(GeoCoordinate originCoord, string contractName, bool lookingForABike)
-        {
-            return _proxy.ClosestStation(originCoord, contractName, lookingForABike);
         }
 
         private Tuple<GeoCoordinate, GeoCoordinate, OpenStreetMapCoordInfo, OpenStreetMapCoordInfo> PrepareInput(
