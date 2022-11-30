@@ -31,7 +31,7 @@ namespace RoutingServer
                 return new ReturnItem($"Origin city is not in JC Decaux contracts: {originAddressInfo.address.GetCity()}");
    
             // Retrieve all stations of this/those contract(s).
-            var contract = _citiesContracts[asciiStrFromStr(originAddressInfo.address.GetCity())];
+            var contract = _citiesContracts[originAddressInfo.address.GetCity()];
             var contractName = contract.name;
 
             // Try by foot 
@@ -91,14 +91,6 @@ namespace RoutingServer
         private bool IsInJCDContracts(OpenStreetMapCoordInfo city)
         {
             return _citiesContracts.ContainsKey(city.address.GetCity());
-        }
-
-        private bool AreInSameContract(string city1Contract, string city2Contract) 
-        { 
-            var contract1 = _citiesContracts[city1Contract];
-            var contract2 = _citiesContracts[city2Contract];
-
-            return contract1 == contract2;
         }
 
         private Station ClosestStation(GeoCoordinate originCoord, string contractName, bool lookingForABike)

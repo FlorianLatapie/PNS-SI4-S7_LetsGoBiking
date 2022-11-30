@@ -146,51 +146,7 @@ namespace RoutingServer
             return new GeoCoordinate(station.position.latitude, station.position.longitude);
         }
         
-        public static string asciiStrFromStr(string str)
-        {
-            return str;
-            /*var asciiStr = new StringBuilder();
-            foreach (var c in str)
-            {
-                if (c < 128)
-                {
-                    asciiStr.Append(c);
-                }
-                else
-                {
-                    // vowels
-                    if (c == 'à' || c == 'â' || c == 'ä')
-                    {
-                        asciiStr.Append('a');
-                    }
-                    if (c == 'é' || c == 'è' || c == 'ê' || c == 'ë')
-                    {
-                        asciiStr.Append('e');
-                    }
-                    if (c == 'î' || c == 'ï')
-                    {
-                        asciiStr.Append('i');
-                    }
-                    if (c == 'ô' || c == 'ö' || c == 'ø') 
-                    {
-                        asciiStr.Append('o');
-                    }
-                    if (c == 'ù' || c == 'û' || c == 'ü')
-                    {
-                        asciiStr.Append('u');
-                    }
-                    
-                    // consonants 
-                    
-                    if (c == 'ç')
-                    {
-                        asciiStr.Append('c');
-                    }
-                }
-            }
-
-            return asciiStr.ToString();*/
-        }
+        
 
         public class ReturnItem
         {
