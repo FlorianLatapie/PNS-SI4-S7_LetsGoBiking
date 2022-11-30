@@ -22,7 +22,9 @@ namespace RoutingServer
         }
 
         public ReturnItem GetItinerary(string origin, string destination)
-        { 
+        {
+            ActiveMQ.run();
+
             var (originCoord, destinationCoord, originAddressInfo, destinationAddressInfo) =
                 PrepareInput(origin, destination);
             
