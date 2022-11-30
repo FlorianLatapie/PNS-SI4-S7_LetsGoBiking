@@ -51,6 +51,8 @@ public class App {
         }
 
         System.out.println(res.getQueueName().getValue());
+        var consumer = new InstructionsConsumer(res.getQueueName().getValue());
+        consumer.run();
 
         // we are sure that the itinerary is valid
         for (var i = 0; i < res.getItineraries().getValue().getOpenRouteServiceRoot().size(); i++) {
