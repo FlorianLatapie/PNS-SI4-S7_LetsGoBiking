@@ -27,16 +27,26 @@ namespace RoutingServer
             var (originCoord, destinationCoord, originAddressInfo, destinationAddressInfo) =
                 PrepareInput(origin, destination);
 
+
             // Find the JC Decaux contract associated with the given origin/destination.
-            if (!AreInSameContract(originAddressInfo, destinationAddressInfo))
-                return new ReturnItem("The two cities are not in the same contract or one of the cities is not in a JC Decaux contract.");
+            if (!IsInJCDContracts(originAddressInfo)) 
+                return new ReturnItem($"Origin city is not in JC Decaux contracts: {originAddressInfo.address.GetCity()}");
+            //if (!IsInJCDContracts(destinationAddressInfo)) 
+            //    return new ReturnItem($"Destination city is not in JC Decaux contracts: {destinationAddressInfo.address.GetCity()}");
+
+            //if (!AreInSameContract(originAddressInfo.address.GetCity(), destinationAddressInfo.address.GetCity()))
+            //    return new ReturnItem("The two cities are not in the same contract or one of the cities is not in a JC Decaux contract.");
 
             // Retrieve all stations of this/those contract(s).
-            var contract = _citiesContracts[asciiStrFromStr(destinationAddressInfo.address.GetCity())];
+            var contract = _citiesContracts[asciiStrFromStr(originAddressInfo.address.GetCity())];
             var contractName = contract.name;
 
             // Compute the closest from the origin with available bike
             var closestStationFromOrigin = ClosestStation(originCoord, contractName);
+            if (closestStationFromOrigin == null)
+            {
+                return new ReturnItem(new List<OpenRouteServiceRoot> { _openRouteService.DirectionsWalking(originCoord, destinationCoord) });
+            }
             var originStationCoord = Converter.CoordFromStation(closestStationFromOrigin);
 
             // Compute the closest from the destination with available spots to drop bikes.
@@ -85,14 +95,13 @@ namespace RoutingServer
                 new ReturnItem(new List<OpenRouteServiceRoot> { walkItinerary }) : new ReturnItem(bikeAndWalkItinerary);
         }
 
-        private bool AreInSameContract(OpenStreetMapCoordInfo city1, OpenStreetMapCoordInfo city2)
+        private bool IsInJCDContracts(OpenStreetMapCoordInfo city)
         {
-            var city1Contract = asciiStrFromStr(city1.address.GetCity());
-            var city2Contract = asciiStrFromStr(city2.address.GetCity());
+            return _citiesContracts.ContainsKey(city.address.GetCity());
+        }
 
-            if (!_citiesContracts.ContainsKey(city1Contract) ||
-                !_citiesContracts.ContainsKey(city2Contract)) return false;
-
+        private bool AreInSameContract(string city1Contract, string city2Contract) 
+        { 
             var contract1 = _citiesContracts[city1Contract];
             var contract2 = _citiesContracts[city2Contract];
 

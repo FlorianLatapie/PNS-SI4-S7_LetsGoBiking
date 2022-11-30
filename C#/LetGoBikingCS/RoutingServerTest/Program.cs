@@ -20,11 +20,13 @@ namespace RoutingServerTest
             //var origin = "addr:rue pelisson villeurbanne";
             //var destination = "addr:rue tronchet lyon";
 
-            //var origin = "addr:Rue du repos besancon";
-            //var destination = "addr:Rue charles nodier besancon";
-            
-            var origin = "addr:allée parmentier créteil";
-            var destination = "addr:Impasse des noyers créteil";
+            //var origin = "addr:Rue du repos besancon";var destination = "addr:Rue charles nodier besancon";
+
+            //var origin = "addr:allée parmentier créteil";var destination = "addr:Impasse des noyers créteil";
+
+            //var origin = "addr:kammakargatan";var destination = "addr:kammakargatan";
+
+            var origin = "addr:1 Rue Pierre Scheringa, 95000 Cergy"; var destination = "addr:Boulevard d'Erkrath 22, 95650 Puiseux-Pontoise";
 
             Console.WriteLine($"Origin: {origin}");
             Console.WriteLine($"Destination: {destination}");

@@ -19,9 +19,9 @@ namespace ProxyServer
         {
             var reqString = BaseUri + "contracts" + "?" + KeyUri;
             var res = ContractsCache.Get(reqString);
-            res.RemoveAll(x => x.cities == null);
-            //res.ForEach(c => c.cities = c.cities ?? new List<string> { c.name.First().ToString().ToUpper() + c.name.Substring(1) });
-            //res.RemoveAll(x => x.name == "jcdecauxbike");
+            //res.RemoveAll(x => x.cities == null);
+            res.ForEach(c => c.cities = c.cities ?? new List<string> { c.name.First().ToString().ToUpper() + c.name.Substring(1) });
+            res.RemoveAll(x => x.name == "jcdecauxbike");
             return res;
         }
 
@@ -32,8 +32,12 @@ namespace ProxyServer
         }
 
         public Station ClosestStation(GeoCoordinate originCoord, string contractName)
-        {
+        {   
             var stations = StationsOfContract(contractName);
+            if (stations == null || stations.Count == 0)
+            {
+                return null;
+            }
             var closestStation = stations[0];
 
 
