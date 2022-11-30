@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Device.Location;
+using System.Linq;
 
 namespace ProxyServer
 {
@@ -18,6 +20,8 @@ namespace ProxyServer
             var reqString = BaseUri + "contracts" + "?" + KeyUri;
             var res = ContractsCache.Get(reqString);
             res.RemoveAll(x => x.cities == null);
+            //res.ForEach(c => c.cities = c.cities ?? new List<string> { c.name.First().ToString().ToUpper() + c.name.Substring(1) });
+            //res.RemoveAll(x => x.name == "jcdecauxbike");
             return res;
         }
 

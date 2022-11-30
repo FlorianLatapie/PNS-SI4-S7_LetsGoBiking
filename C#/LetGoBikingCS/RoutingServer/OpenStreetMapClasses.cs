@@ -68,7 +68,9 @@ namespace RoutingServer
                 return city;
             if (!string.IsNullOrEmpty(village))
                 return village;
-            return null;
+            if (!string.IsNullOrEmpty(municipality))
+                return municipality;
+            return "get city error";
         }
     }
 

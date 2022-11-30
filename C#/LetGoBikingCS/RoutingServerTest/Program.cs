@@ -17,13 +17,25 @@ namespace RoutingServerTest
             //var res = test.GetItinerary("addr:place du général de gaulle rouen", "addr:place de la mairie lyon");
             //var res = test.GetItinerary("addr:rue pelisson villeurbanne", "addr:rue tronchet lyon");
 
-            var origin = "addr:rue pelisson villeurbanne";
-            var destination = "addr:rue tronchet lyon";
+            //var origin = "addr:rue pelisson villeurbanne";
+            //var destination = "addr:rue tronchet lyon";
+
+            //var origin = "addr:Rue du repos besancon";
+            //var destination = "addr:Rue charles nodier besancon";
+            
+            var origin = "addr:allée parmentier créteil";
+            var destination = "addr:Impasse des noyers créteil";
 
             Console.WriteLine($"Origin: {origin}");
             Console.WriteLine($"Destination: {destination}");
 
             var res = test.GetItinerary(origin, destination);
+
+            if (!res.success)
+            {
+                Console.WriteLine(res.errorMessage);
+                Console.ReadLine();
+            }
 
             for (var i = 0; i < res.itineraries.Length; i++)
             {

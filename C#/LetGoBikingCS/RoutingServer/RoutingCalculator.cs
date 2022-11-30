@@ -32,7 +32,7 @@ namespace RoutingServer
                 return new ReturnItem("The two cities are not in the same contract or one of the cities is not in a JC Decaux contract.");
 
             // Retrieve all stations of this/those contract(s).
-            var contract = _citiesContracts[originAddressInfo.address.GetCity()];
+            var contract = _citiesContracts[asciiStrFromStr(destinationAddressInfo.address.GetCity())];
             var contractName = contract.name;
 
             // Compute the closest from the origin with available bike
@@ -87,11 +87,14 @@ namespace RoutingServer
 
         private bool AreInSameContract(OpenStreetMapCoordInfo city1, OpenStreetMapCoordInfo city2)
         {
-            if (!_citiesContracts.ContainsKey(city1.address.GetCity()) ||
-                !_citiesContracts.ContainsKey(city2.address.GetCity())) return false;
+            var city1Contract = asciiStrFromStr(city1.address.GetCity());
+            var city2Contract = asciiStrFromStr(city2.address.GetCity());
 
-            var contract1 = _citiesContracts[city1.address.GetCity()];
-            var contract2 = _citiesContracts[city2.address.GetCity()];
+            if (!_citiesContracts.ContainsKey(city1Contract) ||
+                !_citiesContracts.ContainsKey(city2Contract)) return false;
+
+            var contract1 = _citiesContracts[city1Contract];
+            var contract2 = _citiesContracts[city2Contract];
 
             return contract1 == contract2;
         }
