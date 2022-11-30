@@ -14,8 +14,7 @@ namespace RoutingServer
         private readonly OpenRouteService _openRouteService = new OpenRouteService();
 
         private readonly APIJCDecauxProxyClient _proxy = new APIJCDecauxProxyClient();
-
-
+        
         public RoutingCalculator()
         {
             var contracts = _proxy.Contracts();
@@ -26,40 +25,34 @@ namespace RoutingServer
         { 
             var (originCoord, destinationCoord, originAddressInfo, destinationAddressInfo) =
                 PrepareInput(origin, destination);
-
-
+            
             // Find the JC Decaux contract associated with the given origin/destination.
             if (!IsInJCDContracts(originAddressInfo)) 
                 return new ReturnItem($"Origin city is not in JC Decaux contracts: {originAddressInfo.address.GetCity()}");
-            //if (!IsInJCDContracts(destinationAddressInfo)) 
-            //    return new ReturnItem($"Destination city is not in JC Decaux contracts: {destinationAddressInfo.address.GetCity()}");
-
-            //if (!AreInSameContract(originAddressInfo.address.GetCity(), destinationAddressInfo.address.GetCity()))
-            //    return new ReturnItem("The two cities are not in the same contract or one of the cities is not in a JC Decaux contract.");
-
+   
             // Retrieve all stations of this/those contract(s).
             var contract = _citiesContracts[asciiStrFromStr(originAddressInfo.address.GetCity())];
             var contractName = contract.name;
 
+            // Try by foot 
+            var walkItinerary = _openRouteService.DirectionsWalking(originCoord, destinationCoord);
+
             // Compute the closest from the origin with available bike
             var closestStationFromOrigin = ClosestStation(originCoord, contractName);
             if (closestStationFromOrigin == null)
-            {
-                return new ReturnItem(new List<OpenRouteServiceRoot> { _openRouteService.DirectionsWalking(originCoord, destinationCoord) });
-            }
-            var originStationCoord = Converter.CoordFromStation(closestStationFromOrigin);
+                return new ReturnItem(new List<OpenRouteServiceRoot> { walkItinerary });
+            
+            var originStationCoord = CoordFromStation(closestStationFromOrigin);
 
             // Compute the closest from the destination with available spots to drop bikes.
             var closestStationFromDestination = ClosestStation(destinationCoord, contractName);
-            var destinationStationCoord = Converter.CoordFromStation(closestStationFromDestination);
+            var destinationStationCoord = CoordFromStation(closestStationFromDestination);
 
             // Compute itineraries by calling an external REST API.
 
-            // 1. try by foot
-            var walkItinerary = _openRouteService.DirectionsWalking(originCoord, destinationCoord);
 
-            // 2. try by bike + foot
-            // 2.1 get all itineraries necessary 
+            // try by bike + foot
+            // 1 get all itineraries necessary 
             var walkToBikeItinerary = _openRouteService.DirectionsWalking(originCoord, originStationCoord);
 
             var bikeItinerary =
@@ -68,7 +61,7 @@ namespace RoutingServer
             var walkToDestinationItinerary =
                 _openRouteService.DirectionsWalking(destinationStationCoord, destinationCoord);
 
-            // 2.2 compute the total itinerary
+            // 2 compute the total itinerary
             // list of 3 itineraries
             var bikeAndWalkItinerary = new List<OpenRouteServiceRoot>
             {

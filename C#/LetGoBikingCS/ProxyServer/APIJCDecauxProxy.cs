@@ -11,6 +11,7 @@ namespace ProxyServer
         private const string BaseUri = "https://api.jcdecaux.com/vls/v3/";
         private static readonly string KeyUri = $"apiKey={ApiKey}";
 
+        // we need them to be static because we don't want to create a new instance of HttpClient for each request
         private static readonly GenericProxyCache<List<Contract>> ContractsCache = new GenericProxyCache<List<Contract>>();
         private static readonly GenericProxyCache<Station> StationCache = new GenericProxyCache<Station>();
         private static readonly GenericProxyCache<List<Station>> StationsCache = new GenericProxyCache<List<Station>>();
@@ -18,10 +19,12 @@ namespace ProxyServer
         public List<Contract> Contracts()
         {
             var reqString = BaseUri + "contracts" + "?" + KeyUri;
+            
             var res = ContractsCache.Get(reqString);
-            //res.RemoveAll(x => x.cities == null);
-            res.ForEach(c => c.cities = c.cities ?? new List<string> { c.name.First().ToString().ToUpper() + c.name.Substring(1) });
-            res.RemoveAll(x => x.name == "jcdecauxbike");
+           
+            // remove all broken contracts
+            res.RemoveAll(x => x.cities == null);
+           
             return res;
         }
 
@@ -31,22 +34,28 @@ namespace ProxyServer
             return StationCache.Get(reqString, 5 * 60);
         }
 
+        // this method is here to avoid sending a huge list of all stations of a contract to a client 
         public Station ClosestStation(GeoCoordinate originCoord, string contractName)
         {   
             var stations = StationsOfContract(contractName);
             if (stations == null || stations.Count == 0)
             {
-                return null;
+                return null; // avoid server crash
             }
+            
             var closestStation = stations[0];
-
 
             var minDistance = originCoord.GetDistanceTo(new GeoCoordinate(closestStation.position.latitude,
                 closestStation.position.longitude));
 
             foreach (var station in stations)
             {
+                // dont take into account stations with 0 available bikes
                 if (station.totalStands.availabilities.stands == 0) continue;
+
+                // dont take into account stations with 0 available stands
+                if (station.totalStands.availabilities.bikes == 0) continue;
+
                 var distance =
                     originCoord.GetDistanceTo(new GeoCoordinate(station.position.latitude, station.position.longitude));
                 if (!(distance < minDistance)) continue;
