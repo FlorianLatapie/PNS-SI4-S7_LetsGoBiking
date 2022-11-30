@@ -50,8 +50,9 @@ public class App {
             return;
         }
 
-        // we are sure that the itinerary is valid
+        System.out.println(res.getQueueName().getValue());
 
+        // we are sure that the itinerary is valid
         for (var i = 0; i < res.getItineraries().getValue().getOpenRouteServiceRoot().size(); i++) {
 
             var openRouteServiceRoot = res.getItineraries().getValue().getOpenRouteServiceRoot().get(i);

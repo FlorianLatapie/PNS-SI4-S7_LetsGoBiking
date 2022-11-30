@@ -20,6 +20,7 @@ import javax.xml.bind.annotation.XmlType;
  *       &lt;sequence&gt;
  *         &lt;element name="errorMessage" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/&gt;
  *         &lt;element name="itineraries" type="{http://schemas.datacontract.org/2004/07/RoutingServer}ArrayOfOpenRouteServiceRoot" minOccurs="0"/&gt;
+ *         &lt;element name="queueName" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/&gt;
  *         &lt;element name="success" type="{http://www.w3.org/2001/XMLSchema}boolean" minOccurs="0"/&gt;
  *       &lt;/sequence&gt;
  *     &lt;/restriction&gt;
@@ -33,6 +34,7 @@ import javax.xml.bind.annotation.XmlType;
 @XmlType(name = "Converter.ReturnItem", propOrder = {
     "errorMessage",
     "itineraries",
+    "queueName",
     "success"
 })
 public class ConverterReturnItem {
@@ -41,6 +43,8 @@ public class ConverterReturnItem {
     protected JAXBElement<String> errorMessage;
     @XmlElementRef(name = "itineraries", namespace = "http://schemas.datacontract.org/2004/07/RoutingServer", type = JAXBElement.class, required = false)
     protected JAXBElement<ArrayOfOpenRouteServiceRoot> itineraries;
+    @XmlElementRef(name = "queueName", namespace = "http://schemas.datacontract.org/2004/07/RoutingServer", type = JAXBElement.class, required = false)
+    protected JAXBElement<String> queueName;
     protected Boolean success;
 
     /**
@@ -89,6 +93,30 @@ public class ConverterReturnItem {
      */
     public void setItineraries(JAXBElement<ArrayOfOpenRouteServiceRoot> value) {
         this.itineraries = value;
+    }
+
+    /**
+     * Obtient la valeur de la propriété queueName.
+     * 
+     * @return
+     *     possible object is
+     *     {@link JAXBElement }{@code <}{@link String }{@code >}
+     *     
+     */
+    public JAXBElement<String> getQueueName() {
+        return queueName;
+    }
+
+    /**
+     * Définit la valeur de la propriété queueName.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link JAXBElement }{@code <}{@link String }{@code >}
+     *     
+     */
+    public void setQueueName(JAXBElement<String> value) {
+        this.queueName = value;
     }
 
     /**

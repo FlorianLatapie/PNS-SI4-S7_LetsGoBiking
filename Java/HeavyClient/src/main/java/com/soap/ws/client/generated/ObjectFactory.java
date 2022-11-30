@@ -92,6 +92,7 @@ public class ObjectFactory {
     private final static QName _OpenRouteServiceRootMetadata_QNAME = new QName("http://schemas.datacontract.org/2004/07/RoutingServer", "metadata");
     private final static QName _ConverterReturnItemErrorMessage_QNAME = new QName("http://schemas.datacontract.org/2004/07/RoutingServer", "errorMessage");
     private final static QName _ConverterReturnItemItineraries_QNAME = new QName("http://schemas.datacontract.org/2004/07/RoutingServer", "itineraries");
+    private final static QName _ConverterReturnItemQueueName_QNAME = new QName("http://schemas.datacontract.org/2004/07/RoutingServer", "queueName");
 
     /**
      * Create a new ObjectFactory that can be used to create new instances of schema derived classes for package: com.soap.ws.client.generated
@@ -1155,6 +1156,19 @@ public class ObjectFactory {
     @XmlElementDecl(namespace = "http://schemas.datacontract.org/2004/07/RoutingServer", name = "itineraries", scope = ConverterReturnItem.class)
     public JAXBElement<ArrayOfOpenRouteServiceRoot> createConverterReturnItemItineraries(ArrayOfOpenRouteServiceRoot value) {
         return new JAXBElement<ArrayOfOpenRouteServiceRoot>(_ConverterReturnItemItineraries_QNAME, ArrayOfOpenRouteServiceRoot.class, ConverterReturnItem.class, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}
+     * 
+     * @param value
+     *     Java instance representing xml element's value.
+     * @return
+     *     the new instance of {@link JAXBElement }{@code <}{@link String }{@code >}
+     */
+    @XmlElementDecl(namespace = "http://schemas.datacontract.org/2004/07/RoutingServer", name = "queueName", scope = ConverterReturnItem.class)
+    public JAXBElement<String> createConverterReturnItemQueueName(String value) {
+        return new JAXBElement<String>(_ConverterReturnItemQueueName_QNAME, String.class, ConverterReturnItem.class, value);
     }
 
 }
