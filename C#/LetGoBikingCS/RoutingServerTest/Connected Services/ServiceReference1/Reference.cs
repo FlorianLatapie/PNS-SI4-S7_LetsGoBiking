@@ -29,6 +29,9 @@ namespace RoutingServerTest.ServiceReference1 {
         private RoutingServerTest.ServiceReference1.OpenRouteServiceRoot[] itinerariesField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string queueNameField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
         private bool successField;
         
         [global::System.ComponentModel.BrowsableAttribute(false)]
@@ -63,6 +66,19 @@ namespace RoutingServerTest.ServiceReference1 {
                 if ((object.ReferenceEquals(this.itinerariesField, value) != true)) {
                     this.itinerariesField = value;
                     this.RaisePropertyChanged("itineraries");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string queueName {
+            get {
+                return this.queueNameField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.queueNameField, value) != true)) {
+                    this.queueNameField = value;
+                    this.RaisePropertyChanged("queueName");
                 }
             }
         }

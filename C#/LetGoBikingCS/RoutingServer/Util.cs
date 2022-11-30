@@ -151,6 +151,7 @@ namespace RoutingServer
         public class ReturnItem
         {
             public bool success { get; set; }
+            public string queueName { get; set; }
             public string errorMessage { get; set; }
             public List<OpenRouteServiceRoot> itineraries { get; set; }
 
@@ -162,9 +163,10 @@ namespace RoutingServer
                 this.errorMessage = errorMessage;
             }
             
-            public ReturnItem(List<OpenRouteServiceRoot> itineraries)
+            public ReturnItem(string queueName, List<OpenRouteServiceRoot> itineraries)
             {
                 this.success = true;
+                this.queueName = queueName;
                 this.itineraries = itineraries;
             }
         }

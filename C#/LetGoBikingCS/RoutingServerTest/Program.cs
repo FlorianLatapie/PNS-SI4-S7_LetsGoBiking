@@ -11,7 +11,6 @@ namespace RoutingServerTest
             var watch = Stopwatch.StartNew();
             Console.WriteLine($"Start !");
 
-
             var test = new RoutingCalculatorClient();
             //var res = test.GetItinerary("addr:place du général de gaulle rouen", "addr:rue du rem martainville rouen");
             //var res = test.GetItinerary("addr:place du général de gaulle rouen", "addr:place de la mairie lyon");
@@ -38,6 +37,8 @@ namespace RoutingServerTest
                 Console.WriteLine(res.errorMessage);
                 Console.ReadLine();
             }
+
+            Console.WriteLine(res.queueName);
 
             for (var i = 0; i < res.itineraries.Length; i++)
             {

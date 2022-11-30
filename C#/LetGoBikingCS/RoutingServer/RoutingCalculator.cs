@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Device.Location;
 using System.Linq;
+using System.Text.Json;
 using RoutingServer.ServiceReference1;
 using static RoutingServer.Converter;
 
@@ -14,24 +15,24 @@ namespace RoutingServer
         private readonly OpenRouteService _openRouteService = new OpenRouteService();
 
         private readonly APIJCDecauxProxyClient _proxy = new APIJCDecauxProxyClient();
-        
+        private readonly ActiveMQ _queue = new ActiveMQ();
+
         public RoutingCalculator()
         {
             var contracts = _proxy.Contracts();
-            _citiesContracts = Converter.ListStringCitiesFromContracts(contracts);
+            _citiesContracts = ListStringCitiesFromContracts(contracts);
         }
 
         public ReturnItem GetItinerary(string origin, string destination)
         {
-            ActiveMQ.run();
-
             var (originCoord, destinationCoord, originAddressInfo, destinationAddressInfo) =
                 PrepareInput(origin, destination);
-            
+
             // Find the JC Decaux contract associated with the given origin/destination.
-            if (!IsInJCDContracts(originAddressInfo)) 
-                return new ReturnItem($"Origin city is not in JC Decaux contracts: {originAddressInfo.address.GetCity()}");
-   
+            if (!IsInJcdContracts(originAddressInfo))
+                return new ReturnItem(
+                    $"Origin city is not in JC Decaux contracts: {originAddressInfo.address.GetCity()}");
+
             // Retrieve all stations of this/those contract(s).
             var contract = _citiesContracts[originAddressInfo.address.GetCity()];
             var contractName = contract.name;
@@ -42,8 +43,13 @@ namespace RoutingServer
             // Compute the closest from the origin with available bike
             var closestStationFromOrigin = ClosestStation(originCoord, contractName, true);
             if (closestStationFromOrigin == null)
-                return new ReturnItem(new List<OpenRouteServiceRoot> { walkItinerary });
-            
+            {
+                var queueName = Guid.NewGuid().ToString();
+                _queue.Send(queueName, JsonSerializer.Serialize(new List<OpenRouteServiceRoot> { walkItinerary }));
+
+                return new ReturnItem(queueName, new List<OpenRouteServiceRoot> { walkItinerary });
+            }
+
             var originStationCoord = CoordFromStation(closestStationFromOrigin);
 
             // Compute the closest from the destination with available spots to drop bikes.
@@ -80,17 +86,31 @@ namespace RoutingServer
             // Return the shortest itinerary
             Console.WriteLine("========================================");
             Console.WriteLine($"Origin     : in[{origin}] : {originCoord}, {originAddressInfo.address.display()}");
-            Console.WriteLine($"Destination: in[{destination}] : {destinationCoord}, {destinationAddressInfo.address.display()}");
+            Console.WriteLine(
+                $"Destination: in[{destination}] : {destinationCoord}, {destinationAddressInfo.address.display()}");
             Console.WriteLine($"{originCoord}");
             Console.WriteLine($"{originStationCoord}");
             Console.WriteLine($"{destinationStationCoord}");
             Console.WriteLine($"{destinationCoord}");
-            Console.WriteLine($"========================================" + Environment.NewLine);
-            return walkItinerary.features[0].properties.summary.duration < bikeAndWalkDuration ?
-                new ReturnItem(new List<OpenRouteServiceRoot> { walkItinerary }) : new ReturnItem(bikeAndWalkItinerary);
+            Console.WriteLine("========================================" + Environment.NewLine);
+            //return walkItinerary.features[0].properties.summary.duration < bikeAndWalkDuration ?
+            //    new ReturnItem(new List<OpenRouteServiceRoot> { walkItinerary }) : new ReturnItem(bikeAndWalkItinerary);
+            // as an if else 
+            if (walkItinerary.features[0].properties.summary.duration < bikeAndWalkDuration)
+            {
+                var queueName = Guid.NewGuid().ToString();
+                _queue.Send(queueName, JsonSerializer.Serialize(new List<OpenRouteServiceRoot> { walkItinerary }));
+                return new ReturnItem(queueName, new List<OpenRouteServiceRoot> { walkItinerary });
+            }
+            else
+            {
+                var queueName = Guid.NewGuid().ToString();
+                _queue.Send(queueName, JsonSerializer.Serialize(bikeAndWalkItinerary));
+                return new ReturnItem(queueName, bikeAndWalkItinerary);
+            }
         }
 
-        private bool IsInJCDContracts(OpenStreetMapCoordInfo city)
+        private bool IsInJcdContracts(OpenStreetMapCoordInfo city)
         {
             return _citiesContracts.ContainsKey(city.address.GetCity());
         }
@@ -119,10 +139,10 @@ namespace RoutingServer
             if (origin.StartsWith("addr:"))
                 // api call to OpenStreetMap
                 originCoord =
-                    Converter.OpenStreetMapAddressInfoToGeoCoordinate(
+                    OpenStreetMapAddressInfoToGeoCoordinate(
                         _converter.OpenStreetMapAddressInfoFromAddress_api(origin));
             else if (origin.StartsWith("coord:"))
-                originCoord = Converter.GeoCoordinateFromStringCoord(origin);
+                originCoord = GeoCoordinateFromStringCoord(origin);
             else
                 throw new Exception($"Unknown origin format : {origin}" + Environment.NewLine +
                                     "Please use either 'addr:<address>' or 'coord:<X.X>,<Y.Y>'");
@@ -130,10 +150,10 @@ namespace RoutingServer
             if (destination.StartsWith("addr:"))
                 // api call to OpenStreetMap
                 destinationCoord =
-                    Converter.OpenStreetMapAddressInfoToGeoCoordinate(
+                    OpenStreetMapAddressInfoToGeoCoordinate(
                         _converter.OpenStreetMapAddressInfoFromAddress_api(destination));
             else if (destination.StartsWith("coord:"))
-                destinationCoord = Converter.GeoCoordinateFromStringCoord(destination);
+                destinationCoord = GeoCoordinateFromStringCoord(destination);
             else
                 throw new Exception($"Unknown destination format : {destination}" + Environment.NewLine +
                                     "Please use either 'addr:<address>' or 'coord:<X.X>,<Y.Y>'");

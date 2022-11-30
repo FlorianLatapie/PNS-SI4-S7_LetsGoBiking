@@ -5,6 +5,7 @@
     <xs:sequence>
       <xs:element minOccurs="0" name="errorMessage" nillable="true" type="xs:string" />
       <xs:element minOccurs="0" name="itineraries" nillable="true" type="tns:ArrayOfOpenRouteServiceRoot" />
+      <xs:element minOccurs="0" name="queueName" nillable="true" type="xs:string" />
       <xs:element minOccurs="0" name="success" type="xs:boolean" />
     </xs:sequence>
   </xs:complexType>
