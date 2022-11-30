@@ -5,15 +5,9 @@ import org.apache.activemq.ActiveMQConnectionFactory;
 import javax.jms.*;
 import java.beans.ExceptionListener;
 
-public class InstructionsConsumer implements Runnable, ExceptionListener {
-    private String queueName;
-
-    public InstructionsConsumer(String queueName) {
-        this.queueName = queueName;
-    }
-    public void run() {
+public class InstructionsConsumer implements ExceptionListener {
+    public void run(String queueName) {
         try {
-
             // Create a ConnectionFactory
             ActiveMQConnectionFactory connectionFactory = new ActiveMQConnectionFactory("tcp://localhost:61616");
 
@@ -33,15 +27,25 @@ public class InstructionsConsumer implements Runnable, ExceptionListener {
             MessageConsumer consumer = session.createConsumer(destination);
 
             // Wait for a message
-            Message message = consumer.receive(1000);
 
-            if (message instanceof TextMessage) {
-                TextMessage textMessage = (TextMessage) message;
-                String text = textMessage.getText();
-                System.out.println("Received: " + text);
-            } else {
-                System.out.println("Received: " + message);
+            Message message;
+            for(;;) {
+                message = consumer.receive(1000);
+                if (message == null) {
+                    break;
+                }
+                if (message instanceof TextMessage) {
+                    TextMessage textMessage = (TextMessage) message;
+                    String text = textMessage.getText();
+                    var step = Util.deserializeStep(text);
+                    //System.out.println(Util.StepToString(step));
+                } else {
+                    System.out.println("lol");
+                    var step = Util.deserializeStep(message.toString());
+                    //System.out.println(Util.StepToString(step));
+                }
             }
+
 
             consumer.close();
             session.close();
