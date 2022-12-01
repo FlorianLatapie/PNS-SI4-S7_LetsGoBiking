@@ -1,1 +1,1 @@
-wt -d "%cd%" "Run\activemq.bat" ; split-pane -H -d "%cd%" "Run\proxy.bat" ; split-pane -H -d "%cd%" "Run\routing.bat"
+split-pane -H -d "%cd%" "Run\proxy.bat" ; split-pane -H -d "%cd%" "Run\routing.bat"
