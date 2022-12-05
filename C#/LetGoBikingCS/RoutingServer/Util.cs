@@ -86,6 +86,7 @@ namespace RoutingServer
             Console.WriteLine($"Api call to OpenStreetMap {requestUrl}");
 
             var openStreetMapResponseBody = Client.GetStringAsync(requestUrl).Result;
+            if (openStreetMapResponseBody == null || openStreetMapResponseBody == "[]") return null;
             return JsonSerializer.Deserialize<OpenStreetMapAdressInfo[]>(openStreetMapResponseBody)[0];
         }
 
@@ -104,6 +105,8 @@ namespace RoutingServer
         public static GeoCoordinate OpenStreetMapAddressInfoToGeoCoordinate(
             OpenStreetMapAdressInfo openStreetMapAddressInfo)
         {
+            if (openStreetMapAddressInfo == null) return null;
+            
             var latitude = double.Parse(openStreetMapAddressInfo.lat.Replace(".", ","));
             var longitude = double.Parse(openStreetMapAddressInfo.lon.Replace(".", ","));
 

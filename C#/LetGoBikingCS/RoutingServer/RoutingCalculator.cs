@@ -25,9 +25,20 @@ namespace RoutingServer
 
         public ReturnItem GetItinerary(string origin, string destination)
         {
-            var (originCoord, destinationCoord, originAddressInfo, destinationAddressInfo) =
-                PrepareInput(origin, destination);
-
+            GeoCoordinate originCoord;
+            GeoCoordinate destinationCoord;
+            OpenStreetMapCoordInfo originAddressInfo;
+            OpenStreetMapCoordInfo destinationAddressInfo;
+            
+            try
+            {
+                (originCoord, destinationCoord, originAddressInfo, destinationAddressInfo) =
+                    PrepareInput(origin, destination);
+            } catch (Exception e)
+            {
+                return new ReturnItem ($"Could not parse address or coordinate, please check your inputs"+ Environment.NewLine +$"{e.Message}");
+            }
+            
             // Find the JC Decaux contract associated with the given origin/destination.
             if (!IsInJcdContracts(originAddressInfo))
                 return new ReturnItem(
@@ -118,12 +129,20 @@ namespace RoutingServer
         private Tuple<GeoCoordinate, GeoCoordinate, OpenStreetMapCoordInfo, OpenStreetMapCoordInfo> PrepareInput(
             string origin, string destination)
         {
-            var (originCoord, destinationCoord) = ProcessInput(origin, destination);
+            try
+            {
+                var (originCoord, destinationCoord) = ProcessInput(origin, destination);
 
-            var (originAddressInfo, destinationAddressInfo) = ProcessCoords(originCoord, destinationCoord);
+                var (originAddressInfo, destinationAddressInfo) = ProcessCoords(originCoord, destinationCoord);
 
-            return new Tuple<GeoCoordinate, GeoCoordinate, OpenStreetMapCoordInfo, OpenStreetMapCoordInfo>(originCoord,
-                destinationCoord, originAddressInfo, destinationAddressInfo);
+                return new Tuple<GeoCoordinate, GeoCoordinate, OpenStreetMapCoordInfo, OpenStreetMapCoordInfo>(
+                    originCoord,
+                    destinationCoord, originAddressInfo, destinationAddressInfo);
+            }
+            catch (Exception e)
+            {
+                throw new Exception($"Error while preparing input : {e.Message}");
+            }
         }
 
         private Tuple<GeoCoordinate, GeoCoordinate> ProcessInput(string origin, string destination)
@@ -142,6 +161,9 @@ namespace RoutingServer
                 throw new Exception($"Unknown origin format : {origin}" + Environment.NewLine +
                                     "Please use either 'addr:<address>' or 'coord:<X.X>,<Y.Y>'");
 
+            if (originCoord == null)
+                throw new Exception($"Unknown origin address : {origin}");
+            
             if (destination.StartsWith("addr:"))
                 // api call to OpenStreetMap
                 destinationCoord =
@@ -152,6 +174,9 @@ namespace RoutingServer
             else
                 throw new Exception($"Unknown destination format : {destination}" + Environment.NewLine +
                                     "Please use either 'addr:<address>' or 'coord:<X.X>,<Y.Y>'");
+            
+            if (destinationCoord == null)
+                throw new Exception($"Unknown destination address : {destination}");
 
             return new Tuple<GeoCoordinate, GeoCoordinate>(originCoord, destinationCoord);
         }
