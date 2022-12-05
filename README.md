@@ -43,6 +43,13 @@ coord:45.7737023,4.8868265
 coord:45.7708222,4.8578873
 ```
 
+et même :
+
+```txt
+addr:rue pelisson villeurbanne
+coord:45.7708222,4.8578873
+```
+
 - Si vous possédez Windows Terminal
   - lancez depuis un Windows PowerShell administrateur le fichier  
   `wt run java client.bat` à la racine du projet
