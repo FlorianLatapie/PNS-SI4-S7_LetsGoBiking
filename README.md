@@ -2,7 +2,7 @@
 
 ## Comment lancer
 
-Avant tout, il est supposé que vous ayez lancé le serveur ActiveMQ depuis son dossier `apache-activemq-5.17.2\bin\win64` l'exécutable `wraper.exe` en tant qu'administrateur.
+Avant tout, lancez le serveur ActiveMQ (`apache-activemq-5.17.2\bin\win64`) avec l'exécutable `wraper.exe`.
 
 ### Serveurs `C#`
 
@@ -10,12 +10,12 @@ Une fois les exécutables `debug` générés avec Visual Studio
 
 - Si vous possédez Windows Terminal
   - lancez depuis un Windows PowerShell administrateur le fichier  
-  `wt run servers.bat` à la racine du projet, une copie des fichiers ActiveMQ est aussi contenu dans le dossier `lib`, il permet a ce script de tourner sur nimporte quelle machine Windows les 2 serveurs et ActiveMQ en une ligne de commande
+  `wt run servers.bat`
 - Sinon
   - Lancez les exécutables  
+  `.\C#\LetGoBikingCS\ProxyServer\bin\Debug\ProxyServer.exe`  
+  puis  
   `.\C#\LetGoBikingCS\RoutingServer\bin\Debug\RoutingServer.exe`  
-  et  
-  `.\C#\LetGoBikingCS\ProxyServer\bin\Debug\ProxyServer.exe`
 
 ### Client `Java`
 
@@ -27,7 +27,7 @@ Les données d'entrée du client (adresse/coordonnée de départ, adresse/coordo
 
 2 lignes : la première ligne est l'adresse de départ, la seconde est l'adresse d'arrivée.
 
-le format pour chaque entrée est le suivant : `addr:<adresse>` ou `coord:<latitude>,<longitude>`, il est possible de mélanger les deux formats dans le fichier.
+Le format pour chaque entrée est le suivant : `addr:<adresse>` ou `coord:<latitude>,<longitude>`, il est possible de mélanger les deux formats dans le fichier.
 
 exemple :
 
